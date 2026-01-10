@@ -13,18 +13,6 @@ The focus is on:
 - Clear presentation of work
 - Long-term scalability
 
-## Featured Work
-
-- **Portfolio Platform** — Modern Next.js App Router website with MDX-based content
-- **BI / Data Analytics** — ETL pipelines, star schema modeling, and dashboards
-- **Data Mining** — Practical analysis using clustering and association rules
-
-## Tech Stack
-
-- Next.js (App Router)
-- TypeScript
-- Tailwind CSS
-- MDX / Markdown
 
 ## Local development
 
