@@ -9,7 +9,7 @@ type Options = {
 };
 
 export function useNavbarScrollMorph(
-  pillRef: RefObject<HTMLElement>,
+  pillRef: RefObject<HTMLElement | null>,
   { threshold = 24 }: Options = {},
 ) {
   useLayoutEffect(() => {
