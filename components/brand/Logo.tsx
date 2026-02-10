@@ -10,7 +10,7 @@ export function Logo({ className = "" }: LogoProps) {
     <Link href="/" className={`inline-flex items-center ${className}`}>
       <div className="relative">
         <Image
-          src="/brand/logo.svg"
+          src="/brand/wejan.png"
           alt="Mohamed Ouijjane logo"
           width={120}
           height={32}

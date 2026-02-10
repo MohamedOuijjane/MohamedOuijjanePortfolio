@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     siteName: "Mohamed Ouijjane",
     type: "website",
     images: [{
-      url: "/brand/logo.svg",
+      url: "/brand/wejan.png",
       width: 120,
       height: 32,
       alt: "Mohamed Ouijjane logo",
