@@ -27,8 +27,14 @@ export const metadata: Metadata = {
     description:
       "Distributed systems and full-stack engineering portfolio.",
     url: "https://your-domain.com",
-    siteName: "Mohamed Ouijjane Portfolio",
+    siteName: "Mohamed Ouijjane",
     type: "website",
+    images: [{
+      url: "/brand/logo.svg",
+      width: 120,
+      height: 32,
+      alt: "Mohamed Ouijjane logo",
+    }],
   },
 };
 

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { Logo } from "./brand/Logo";
 import { CloseIcon, DownloadIcon, HamburgerIcon } from "./icons";
 
 interface NavLink {
@@ -48,13 +49,7 @@ export function TopNav() {
         aria-label="Main navigation"
       >
         {/* Logo */}
-        <Link
-          href="/"
-          className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#0B0F14] text-xl font-semibold text-white transition-transform hover:scale-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2FAE8A] focus-visible:ring-offset-2"
-          aria-label="Home"
-        >
-          M
-        </Link>
+        <Logo />
 
         {/* Desktop Nav Links */}
         <ul className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-9 lg:flex">
