@@ -10,7 +10,7 @@ export default function Home() {
   const personJsonLd = {
     "@context": "https://schema.org",
     "@type": "Person",
-    name: "Mohamed Ouijjane",
+    name: "WeJan",
     jobTitle: "Software Engineer",
     url: "https://your-domain.com",
     sameAs: [

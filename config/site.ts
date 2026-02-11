@@ -1,7 +1,7 @@
 // config/site.ts
 
 export const siteConfig = {
-  name: "Mohamed Ouijjane",
+  name: "WeJan",
   title: "Software Engineer",
   description:
     "Software engineer building reliable, scalable web applications with modern TypeScript and cloud-first practices.",

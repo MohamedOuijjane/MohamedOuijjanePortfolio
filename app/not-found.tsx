@@ -14,7 +14,7 @@ export default function NotFound() {
         </p>
         <Link
           href="/projects"
-          className="mt-6 inline-block font-medium text-[#2FAE8A] underline hover:text-[#258a6e]"
+          className="mt-6 inline-block font-medium text-teal-700 underline hover:text-teal-800"
         >
           Back to projects
         </Link>

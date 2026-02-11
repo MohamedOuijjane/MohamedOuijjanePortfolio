@@ -16,25 +16,26 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://your-domain.com"),
   title: {
-    default: "Mohamed Ouijjane | Software Engineer",
-    template: "%s | Mohamed Ouijjane",
+    default: "WeJan | Software Engineer",
+    template: "%s | WeJan",
   },
   description:
     "Software engineer portfolio focused on distributed systems, backend architecture, and modern web apps.",
+  icons: {
+    icon: [
+      { url: "/favicon.ico?v=3" },
+      { url: "/icon.png?v=3", type: "image/png" },
+    ],
+    shortcut: ["/favicon.ico?v=3"],
+    apple: [{ url: "/apple-icon.png?v=3" }],
+  },
   alternates: { canonical: "/" },
   openGraph: {
-    title: "Mohamed Ouijjane | Software Engineer",
-    description:
-      "Distributed systems and full-stack engineering portfolio.",
+    title: "WeJan | Software Engineer",
+    description: "Distributed systems and full-stack engineering portfolio.",
     url: "https://your-domain.com",
-    siteName: "Mohamed Ouijjane",
+    siteName: "WeJan Portfolio",
     type: "website",
-    images: [{
-      url: "/brand/wejan.png",
-      width: 120,
-      height: 32,
-      alt: "Mohamed Ouijjane logo",
-    }],
   },
 };
 
