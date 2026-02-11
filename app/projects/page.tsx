@@ -14,7 +14,7 @@ export default function ProjectsPage() {
           {projects.map((project) => (
             <article
               key={project.slug}
-              className="rounded-2xl border border-gray-100 bg-white p-5 shadow-sm transition hover:border-[#2FAE8A]/50 hover:shadow-md"
+              className="rounded-2xl border border-gray-100 bg-white p-5 shadow-sm transition hover:border-teal-700/50 hover:shadow-md"
             >
               <h2 className="text-xl font-semibold text-[#0B0F14]">
                 {project.title}
@@ -38,7 +38,7 @@ export default function ProjectsPage() {
 
               <Link
                 href={`/projects/${project.slug}`}
-                className="mt-4 inline-block text-sm font-medium text-[#2FAE8A] underline hover:text-[#258a6e]"
+                className="mt-4 inline-block text-sm font-medium text-teal-700 underline hover:text-teal-800"
               >
                 View case study →
               </Link>

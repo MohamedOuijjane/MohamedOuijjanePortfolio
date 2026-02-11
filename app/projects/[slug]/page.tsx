@@ -19,14 +19,29 @@ export default async function ProjectDetailPage({ params }: Props) {
 
   if (!project) notFound();
 
+  const projectJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareSourceCode",
+    name: project.title,
+    description: project.summary,
+    programmingLanguage: project.stack ?? [],
+    url: `https://your-domain.com/projects/${project.slug}`,
+  };
+
   return (
     <div className="min-h-screen bg-white">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(projectJsonLd).replace(/</g, "\\u003c"),
+        }}
+      />
       <TopNav />
       <SocialRail />
       <main className="mx-auto max-w-4xl px-6 py-12">
         <h1 className="text-3xl font-bold text-[#0B0F14]">{project.title}</h1>
         <p className="mt-3 text-lg text-gray-700">{project.summary}</p>
-        
+
         <section className="mt-8 space-y-3 text-gray-700">
           <p>
             <span className="font-semibold text-[#0B0F14]">Role:</span>{" "}
@@ -72,7 +87,7 @@ export default async function ProjectDetailPage({ params }: Props) {
         <section className="mt-8 flex gap-6">
           {project.links.demo && (
             <a
-              className="font-medium text-[#2FAE8A] underline hover:text-[#258a6e]"
+              className="font-medium text-teal-700 underline hover:text-teal-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700"
               href={project.links.demo}
               target="_blank"
               rel="noreferrer"
@@ -82,7 +97,7 @@ export default async function ProjectDetailPage({ params }: Props) {
           )}
           {project.links.repo && (
             <a
-              className="font-medium text-[#2FAE8A] underline hover:text-[#258a6e]"
+              className="font-medium text-teal-700 underline hover:text-teal-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700"
               href={project.links.repo}
               target="_blank"
               rel="noreferrer"

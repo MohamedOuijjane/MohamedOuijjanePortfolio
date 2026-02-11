@@ -8,7 +8,7 @@ interface ProjectCardProps {
 
 export function ProjectCard({ project }: ProjectCardProps) {
   return (
-    <div className="group relative flex flex-col overflow-hidden rounded-xl border border-gray-200 bg-white transition-all hover:border-[#2FAE8A]/50 hover:shadow-lg">
+    <div className="group relative flex flex-col overflow-hidden rounded-xl border border-gray-200 bg-white transition-all hover:border-teal-700/50 hover:shadow-lg">
       <div className="relative aspect-video w-full overflow-hidden bg-gray-100">
         {/* Placeholder for image if it fails to load or during dev */}
         <div className="absolute inset-0 flex items-center justify-center text-gray-400">
@@ -48,7 +48,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
           ))}
         </div>
 
-        <h3 className="mb-2 text-xl font-bold text-gray-900 group-hover:text-[#2FAE8A]">
+        <h3 className="mb-2 text-xl font-bold text-gray-900 group-hover:text-teal-700">
           <Link href={`/projects/${project.slug}`}>
             <span className="absolute inset-0" />
             {project.title}
@@ -59,7 +59,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
           {project.summary}
         </p>
 
-        <div className="mt-auto flex items-center gap-2 text-sm font-semibold text-[#2FAE8A]">
+        <div className="mt-auto flex items-center gap-2 text-sm font-semibold text-teal-700">
           View Case Study
           <ArrowRightIcon className="h-4 w-4 transition-transform group-hover:translate-x-1" />
         </div>

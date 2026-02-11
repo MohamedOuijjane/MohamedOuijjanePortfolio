@@ -48,7 +48,7 @@ export function SocialRail() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label={link.label}
-            className="text-[#0B0F14] transition-all duration-200 hover:scale-105 hover:text-[#2FAE8A] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2FAE8A] focus-visible:ring-offset-2"
+            className="text-[#0B0F14] transition-all duration-200 hover:scale-105 hover:text-teal-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-700 focus-visible:ring-offset-2"
           >
             <Icon className="h-6 w-6" />
           </Link>

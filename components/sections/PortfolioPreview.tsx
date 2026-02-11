@@ -20,7 +20,7 @@ export function PortfolioPreview() {
         </div>
         <Link
           href="/projects"
-          className="group inline-flex items-center gap-2 font-semibold text-[#2FAE8A] hover:text-[#258a6e]"
+          className="group inline-flex items-center gap-2 font-semibold text-teal-700 hover:text-teal-800"
         >
           View All Projects
           <ArrowRightIcon className="h-4 w-4 transition-transform group-hover:translate-x-1" />

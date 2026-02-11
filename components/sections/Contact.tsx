@@ -58,7 +58,7 @@ export function Contact() {
             </p>
             <button
               onClick={() => setFormStatus("idle")}
-              className="mt-6 font-medium text-[#2FAE8A] hover:underline"
+              className="mt-6 font-medium text-teal-700 hover:underline"
             >
               Send another message
             </button>
@@ -78,7 +78,7 @@ export function Contact() {
                   id="name"
                   name="name"
                   required
-                  className="w-full rounded-lg border border-gray-200 px-4 py-3 text-sm outline-none transition-all focus:border-[#2FAE8A] focus:ring-1 focus:ring-[#2FAE8A]"
+                  className="w-full rounded-lg border border-gray-300 px-4 py-3 text-sm text-gray-900 placeholder:text-gray-500 outline-none transition-all focus:border-teal-700 focus:ring-1 focus:ring-teal-700"
                   placeholder="John Doe"
                 />
               </div>
@@ -94,7 +94,7 @@ export function Contact() {
                   id="email"
                   name="email"
                   required
-                  className="w-full rounded-lg border border-gray-200 px-4 py-3 text-sm outline-none transition-all focus:border-[#2FAE8A] focus:ring-1 focus:ring-[#2FAE8A]"
+                  className="w-full rounded-lg border border-gray-300 px-4 py-3 text-sm text-gray-900 placeholder:text-gray-500 outline-none transition-all focus:border-teal-700 focus:ring-1 focus:ring-teal-700"
                   placeholder="john@example.com"
                 />
               </div>
@@ -111,7 +111,7 @@ export function Contact() {
                 name="message"
                 required
                 rows={5}
-                className="w-full resize-none rounded-lg border border-gray-200 px-4 py-3 text-sm outline-none transition-all focus:border-[#2FAE8A] focus:ring-1 focus:ring-[#2FAE8A]"
+                className="w-full resize-none rounded-lg border border-gray-300 px-4 py-3 text-sm text-gray-900 placeholder:text-gray-500 outline-none transition-all focus:border-teal-700 focus:ring-1 focus:ring-teal-700"
                 placeholder="Hello! I'd like to discuss a project..."
               />
             </div>

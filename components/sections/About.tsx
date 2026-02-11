@@ -53,26 +53,26 @@ export function About() {
             </p>
             <ul className="mt-4 grid grid-cols-2 gap-2 text-sm font-medium">
               <li className="flex items-center gap-2">
-                <span className="h-1.5 w-1.5 rounded-full bg-[#2FAE8A]" />{" "}
+                <span className="h-1.5 w-1.5 rounded-full bg-teal-700" />{" "}
                 JavaScript (ES6+)
               </li>
               <li className="flex items-center gap-2">
-                <span className="h-1.5 w-1.5 rounded-full bg-[#2FAE8A]" />{" "}
+                <span className="h-1.5 w-1.5 rounded-full bg-teal-700" />{" "}
                 TypeScript
               </li>
               <li className="flex items-center gap-2">
-                <span className="h-1.5 w-1.5 rounded-full bg-[#2FAE8A]" /> React
+                <span className="h-1.5 w-1.5 rounded-full bg-teal-700" /> React
               </li>
               <li className="flex items-center gap-2">
-                <span className="h-1.5 w-1.5 rounded-full bg-[#2FAE8A]" />{" "}
+                <span className="h-1.5 w-1.5 rounded-full bg-teal-700" />{" "}
                 Next.js
               </li>
               <li className="flex items-center gap-2">
-                <span className="h-1.5 w-1.5 rounded-full bg-[#2FAE8A]" />{" "}
+                <span className="h-1.5 w-1.5 rounded-full bg-teal-700" />{" "}
                 Node.js
               </li>
               <li className="flex items-center gap-2">
-                <span className="h-1.5 w-1.5 rounded-full bg-[#2FAE8A]" />{" "}
+                <span className="h-1.5 w-1.5 rounded-full bg-teal-700" />{" "}
                 Tailwind CSS
               </li>
             </ul>

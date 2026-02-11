@@ -42,15 +42,17 @@ export function Hero() {
           </div>
         </div>
 
-        <div className="relative">
-          <Image
-            src="/images/hero.png"
-            alt="Screenshot of my distributed systems dashboard"
-            width={1600}
-            height={900}
-            priority
-            className="h-auto w-full rounded-2xl shadow-2xl"
-          />
+        <div className="relative flex justify-center lg:justify-end">
+          <div className="w-full max-w-[75%] lg:max-w-[65%]">
+            <Image
+              src="/images/hero.png"
+              alt="Screenshot of my distributed systems dashboard"
+              width={1600}
+              height={900}
+              priority
+              className="h-auto w-full rounded-2xl shadow-2xl transition-transform duration-500 hover:scale-[1.02]"
+            />
+          </div>
         </div>
       </div>
     </section>
