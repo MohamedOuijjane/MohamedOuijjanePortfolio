@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { GithubIcon, LinkedinIcon, GmailIcon } from "./icons";
+import { GitHubIcon, LinkedInIcon, GmailIcon } from "./icons";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -11,7 +11,10 @@ export function Footer() {
         <div className="grid grid-cols-1 gap-12 md:grid-cols-3 lg:gap-24">
           {/* Brand Column */}
           <div className="space-y-6">
-            <Link href="/" className="inline-block focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-teal-700">
+            <Link
+              href="/"
+              className="inline-block focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-teal-700"
+            >
               <Image
                 src="/brand/Wejan.png"
                 alt="WeJan Logo"
@@ -21,7 +24,9 @@ export function Footer() {
               />
             </Link>
             <p className="max-w-xs text-base leading-relaxed text-gray-600">
-              Software engineer specializing in building exceptional digital experiences that are accessible, human-centered, and high-performing.
+              Software engineer specializing in building exceptional digital
+              experiences that are accessible, human-centered, and
+              high-performing.
             </p>
           </div>
 
@@ -82,7 +87,7 @@ export function Footer() {
                 className="flex h-10 w-10 items-center justify-center rounded-lg border border-gray-200 text-gray-600 transition-all hover:border-teal-700/50 hover:bg-teal-700/5 hover:text-teal-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700"
                 aria-label="GitHub"
               >
-                <GithubIcon className="h-5 w-5" />
+                <GitHubIcon className="h-5 w-5" />
               </a>
               <a
                 href="https://linkedin.com/in/MohamedOuijjane"
@@ -91,7 +96,7 @@ export function Footer() {
                 className="flex h-10 w-10 items-center justify-center rounded-lg border border-gray-200 text-gray-600 transition-all hover:border-teal-700/50 hover:bg-teal-700/5 hover:text-teal-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700"
                 aria-label="LinkedIn"
               >
-                <LinkedinIcon className="h-5 w-5" />
+                <LinkedInIcon className="h-5 w-5" />
               </a>
               <a
                 href="mailto:contact@wejan.dev"

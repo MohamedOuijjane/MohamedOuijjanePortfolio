@@ -20,7 +20,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen scroll-smooth bg-white">
+    <div className="scroll-smooth bg-white">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -29,13 +29,13 @@ export default function Home() {
       />
       <TopNav />
       <SocialRail />
-      <main className="mx-auto max-w-[1200px] px-6">
+      <div className="mx-auto max-w-[1200px] px-6">
         <Hero />
         <Services />
         <PortfolioPreview />
         <About />
         <Contact />
-      </main>
+      </div>
     </div>
   );
 }
