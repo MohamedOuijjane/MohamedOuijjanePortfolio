@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import React from "react";
 import { GitHubIcon, GmailIcon, LinkedInIcon, WhatsAppIcon } from "./icons";
 
@@ -12,48 +11,53 @@ interface SocialLink {
 
 const socialLinks: SocialLink[] = [
   {
-    label: "LinkedIn",
-    href: "https://linkedin.com",
-    icon: LinkedInIcon,
-  },
-  {
     label: "GitHub",
-    href: "https://github.com",
+    href: "https://github.com/MohamedOuijjane",
     icon: GitHubIcon,
   },
   {
-    label: "Gmail",
-    href: "mailto:example@gmail.com",
-    icon: GmailIcon,
+    label: "LinkedIn",
+    href: "https://linkedin.com/in/MohamedOuijjane",
+    icon: LinkedInIcon,
   },
   {
     label: "WhatsApp",
-    href: "https://wa.me/1234567890",
+    href: "https://wa.me/212628463584",
     icon: WhatsAppIcon,
+  },
+  {
+    label: "Email",
+    href: "mailto:contact@wejan.dev",
+    icon: GmailIcon,
   },
 ];
 
 export function SocialRail() {
   return (
     <aside
-      className="fixed left-10 top-1/2 z-40 hidden -translate-y-1/2 flex-col gap-7 md:flex lg:left-16"
+      className="fixed left-6 bottom-0 z-40 hidden lg:flex flex-col items-center"
       aria-label="Social media links"
     >
-      {socialLinks.map((link) => {
-        const Icon = link.icon;
-        return (
-          <Link
-            key={link.label}
-            href={link.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={link.label}
-            className="text-[#0B0F14] transition-all duration-200 hover:scale-105 hover:text-teal-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-700 focus-visible:ring-offset-2"
-          >
-            <Icon className="h-6 w-6" />
-          </Link>
-        );
-      })}
+      <div className="flex flex-col gap-5 mb-6">
+        {socialLinks.map((link) => {
+          const Icon = link.icon;
+          return (
+            <a
+              key={link.label}
+              href={link.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={link.label}
+              className="group flex h-11 w-11 items-center justify-center rounded-full text-slate-500 transition-all duration-300 hover:-translate-y-1 hover:text-[#0B0F14] hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0B0F14]"
+            >
+              <Icon className="h-6 w-6 transition-transform duration-300 group-hover:scale-110" />
+            </a>
+          );
+        })}
+      </div>
+
+      {/* Wider vertical line below icons */}
+      <div className="h-24 w-[2px] bg-slate-300 rounded-t-full" />
     </aside>
   );
 }
