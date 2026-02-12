@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { GithubIcon, LinkedinIcon, ArrowRightIcon } from "@/components/icons";
+import { ArrowRightIcon } from "@/components/icons";
 
 export function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -125,27 +125,6 @@ export function Contact() {
             </button>
           </form>
         )}
-      </div>
-
-      <div className="mt-16 flex justify-center gap-8">
-        <a
-          href="https://github.com"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-gray-400 transition-colors hover:text-[#0B0F14]"
-        >
-          <GithubIcon className="h-6 w-6" />
-          <span className="sr-only">GitHub</span>
-        </a>
-        <a
-          href="https://linkedin.com"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-gray-400 transition-colors hover:text-[#0077b5]"
-        >
-          <LinkedinIcon className="h-6 w-6" />
-          <span className="sr-only">LinkedIn</span>
-        </a>
       </div>
     </section>
   );

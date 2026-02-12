@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { GitHubIcon, LinkedInIcon, GmailIcon } from "./icons";
@@ -84,7 +86,7 @@ export function Footer() {
                 href="https://github.com/MohamedOuijjane"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex h-10 w-10 items-center justify-center rounded-lg border border-gray-200 text-gray-600 transition-all hover:border-teal-700/50 hover:bg-teal-700/5 hover:text-teal-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700"
+                className="flex h-10 w-10 items-center justify-center rounded-lg border border-gray-200 text-gray-600 transition-all hover:border-gray-900 hover:bg-gray-100 hover:text-[#0B0F14] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700"
                 aria-label="GitHub"
               >
                 <GitHubIcon className="h-5 w-5" />
@@ -93,14 +95,14 @@ export function Footer() {
                 href="https://linkedin.com/in/MohamedOuijjane"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex h-10 w-10 items-center justify-center rounded-lg border border-gray-200 text-gray-600 transition-all hover:border-teal-700/50 hover:bg-teal-700/5 hover:text-teal-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700"
+                className="flex h-10 w-10 items-center justify-center rounded-lg border border-gray-200 text-gray-600 transition-all hover:border-gray-900 hover:bg-gray-100 hover:text-[#0B0F14] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700"
                 aria-label="LinkedIn"
               >
                 <LinkedInIcon className="h-5 w-5" />
               </a>
               <a
                 href="mailto:contact@wejan.dev"
-                className="flex h-10 w-10 items-center justify-center rounded-lg border border-gray-200 text-gray-600 transition-all hover:border-teal-700/50 hover:bg-teal-700/5 hover:text-teal-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700"
+                className="flex h-10 w-10 items-center justify-center rounded-lg border border-gray-200 text-gray-600 transition-all hover:border-gray-900 hover:bg-gray-100 hover:text-[#0B0F14] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700"
                 aria-label="Email"
               >
                 <GmailIcon className="h-5 w-5" />
@@ -127,6 +129,20 @@ export function Footer() {
             >
               Contact
             </Link>
+            <button
+              onClick={() => {
+                const prefersReducedMotion = window.matchMedia(
+                  "(prefers-reduced-motion: reduce)",
+                ).matches;
+                window.scrollTo({
+                  top: 0,
+                  behavior: prefersReducedMotion ? "auto" : "smooth",
+                });
+              }}
+              className="text-sm text-gray-500 transition-colors hover:text-teal-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700"
+            >
+              Back to top ↑
+            </button>
           </div>
         </div>
       </div>

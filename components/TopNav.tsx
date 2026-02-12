@@ -42,8 +42,8 @@ export function TopNav() {
 
       // Morph var mapping
       gsap.to(islandRef.current, {
-        "--nav-w": "92%",
-        "--nav-mt": "4px",
+        "--nav-w": "95%",
+        "--nav-mt": "2px",
         "--nav-radius": "9999px",
         "--nav-border-w": "1px",
         "--nav-border": "rgba(255, 255, 255, 0.4)",
