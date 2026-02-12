@@ -1,19 +1,16 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRightIcon } from "@/components/icons";
+import { ScrollCue } from "@/components/ScrollCue";
 
 export function Hero() {
   return (
     <section
       id="home"
-      className="flex min-h-[calc(100vh-80px)] flex-col justify-center py-20 lg:py-0"
+      className="relative flex min-h-[calc(100vh-80px)] flex-col justify-center py-20 lg:py-0"
     >
       <div className="grid gap-12 lg:grid-cols-2 lg:gap-8 items-center">
         <div className="space-y-6">
-          <div className="inline-flex items-center rounded-full border border-teal-700/30 bg-teal-700/5 px-3 py-1 text-sm font-medium text-teal-700">
-            Available for freelance work
-          </div>
-
           <h1 className="text-5xl font-bold leading-tight tracking-tight text-[#0B0F14] md:text-6xl lg:text-7xl">
             Building digital <br />
             <span className="text-teal-700">products</span> that matter.
@@ -55,6 +52,7 @@ export function Hero() {
           </div>
         </div>
       </div>
+      <ScrollCue />
     </section>
   );
 }
