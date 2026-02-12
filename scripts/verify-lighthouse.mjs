@@ -96,7 +96,7 @@ async function runLighthouse(mode) {
     console.log(`- LCP: ${lcp}`);
     console.log(`- CLS: ${cls}`);
     console.log(`- TBT: ${tbt}\n`);
-  } catch (error) {
+  } catch {
     console.error(`\n[FAIL] Lighthouse ${mode} failed.`);
     process.exit(1);
   } finally {
@@ -109,7 +109,7 @@ async function main() {
     await runLighthouse("mobile");
     await runLighthouse("desktop");
     console.log("[SUCCESS] All Lighthouse checks completed.");
-  } catch (error) {
+  } catch {
     console.error("[ERROR] Lighthouse verification failed.");
     process.exit(1);
   }

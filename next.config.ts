@@ -32,7 +32,6 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
-  // @ts-ignore
   turbopack: {
     root: process.cwd(),
   },

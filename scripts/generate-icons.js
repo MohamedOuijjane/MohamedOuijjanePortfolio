@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 const fs = require("fs");
 const path = require("path");
 const pngToIco = require("png-to-ico").default || require("png-to-ico");
+/* eslint-enable @typescript-eslint/no-require-imports */
 
 const source = path.join(process.cwd(), "public", "images", "w.png");
 const targetPublic = path.join(process.cwd(), "public", "favicon.ico");
