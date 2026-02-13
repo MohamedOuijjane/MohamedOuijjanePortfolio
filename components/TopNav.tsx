@@ -20,7 +20,7 @@ const navLinks: NavLink[] = [
 export function TopNav() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeHash, setActiveHash] = useState("");
-  const [atTop, setAtTop] = useState(true);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
     const updateHash = () => setActiveHash(window.location.hash);
@@ -35,7 +35,7 @@ export function TopNav() {
     const handleScroll = () => {
       if (!ticking) {
         window.requestAnimationFrame(() => {
-          setAtTop(window.scrollY <= 8);
+          setIsScrolled(window.scrollY > 8);
           ticking = false;
         });
         ticking = true;
@@ -66,21 +66,21 @@ export function TopNav() {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-out ${
-        atTop
+        !isScrolled
           ? "w-full rounded-none border-b border-black/5 bg-white/85 backdrop-blur-md pointer-events-auto"
           : "pointer-events-none"
       }`}
     >
       <div
         className={`mx-auto transition-all duration-300 ease-out ${
-          atTop
+          !isScrolled
             ? "max-w-full w-full mt-0 shadow-none border-transparent bg-transparent backdrop-blur-none"
-            : "pointer-events-auto mt-2 max-w-[1200px] w-[95%] rounded-full border border-white/40 bg-[#F2F0E9]/80 backdrop-blur-xl shadow-[0_10px_30px_-10px_rgba(0,0,0,0.1)]"
+            : "pointer-events-auto mt-3 max-w-[1200px] w-[calc(100%-1.5rem)] rounded-full border border-slate-200/70 bg-white/90 backdrop-blur-xl ring-1 ring-black/5 shadow-[0_10px_30px_-12px_rgba(2,6,23,0.28),0_2px_8px_-2px_rgba(2,6,23,0.14)]"
         }`}
       >
         <nav
           className={`relative flex items-center justify-between py-2.5 transition-all duration-300 ease-out ${
-            atTop ? "px-[4cm] max-xl:px-10 max-md:px-6" : "px-6"
+            !isScrolled ? "px-[4cm] max-xl:px-10 max-md:px-4" : "px-6"
           }`}
           aria-label="Main navigation"
         >
