@@ -20,7 +20,7 @@ const navLinks: NavLink[] = [
 export function TopNav() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeHash, setActiveHash] = useState("");
-  const [isScrolled, setIsScrolled] = useState(false);
+  const [atTop, setAtTop] = useState(true);
 
   useEffect(() => {
     const updateHash = () => setActiveHash(window.location.hash);
@@ -35,7 +35,7 @@ export function TopNav() {
     const handleScroll = () => {
       if (!ticking) {
         window.requestAnimationFrame(() => {
-          setIsScrolled(window.scrollY > 8);
+          setAtTop(window.scrollY <= 8);
           ticking = false;
         });
         ticking = true;
@@ -66,21 +66,21 @@ export function TopNav() {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-out ${
-        !isScrolled
+        atTop
           ? "w-full rounded-none border-b border-black/5 bg-white/85 backdrop-blur-md pointer-events-auto"
           : "pointer-events-none"
       }`}
     >
       <div
         className={`mx-auto transition-all duration-300 ease-out ${
-          !isScrolled
+          atTop
             ? "max-w-full w-full mt-0 shadow-none border-transparent bg-transparent backdrop-blur-none"
-            : "pointer-events-auto mt-3 max-w-[1200px] w-[calc(100%-1.5rem)] rounded-full border border-slate-200/70 bg-white/90 backdrop-blur-xl ring-1 ring-black/5 shadow-[0_10px_30px_-12px_rgba(2,6,23,0.28),0_2px_8px_-2px_rgba(2,6,23,0.14)]"
+            : "pointer-events-auto mt-2 max-w-[1200px] w-[95%] rounded-full border border-black/10 ring-1 ring-white/60 bg-white/95 supports-[backdrop-filter]:bg-white/70 backdrop-blur-xl backdrop-saturate-150 shadow-[0_12px_40px_-16px_rgba(15,23,42,0.28)]"
         }`}
       >
         <nav
           className={`relative flex items-center justify-between py-2.5 transition-all duration-300 ease-out ${
-            !isScrolled ? "px-[4cm] max-xl:px-10 max-md:px-4" : "px-6"
+            atTop ? "px-[4cm] max-xl:px-10 max-md:px-6" : "px-6"
           }`}
           aria-label="Main navigation"
         >
