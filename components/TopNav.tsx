@@ -1,14 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Logo } from "./brand/Logo";
 import { CloseIcon, DownloadIcon, HamburgerIcon } from "./icons";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-// Register ScrollTrigger plugin
-gsap.registerPlugin(ScrollTrigger);
 
 interface NavLink {
   label: string;
@@ -25,8 +20,7 @@ const navLinks: NavLink[] = [
 export function TopNav() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeHash, setActiveHash] = useState("");
-  // Ref for the Floating Island wrapper
-  const islandRef = useRef<HTMLDivElement>(null);
+  const [atTop, setAtTop] = useState(true);
 
   useEffect(() => {
     const updateHash = () => setActiveHash(window.location.hash);
@@ -35,49 +29,24 @@ export function TopNav() {
     return () => window.removeEventListener("hashchange", updateHash);
   }, []);
 
-  useLayoutEffect(() => {
-    // GSAP context for scoped animation and easy cleanup
-    const ctx = gsap.context(() => {
-      if (!islandRef.current) return;
+  useEffect(() => {
+    let ticking = false;
 
-      // Morph var mapping
-      gsap.to(islandRef.current, {
-        "--nav-w": "95%",
-        "--nav-mt": "2px",
-        "--nav-radius": "9999px",
-        "--nav-border-w": "1px",
-        "--nav-border": "rgba(255, 255, 255, 0.4)",
-        "--nav-bg": "rgba(242, 240, 233, 0.8)",
-        "--nav-blur": "24px",
-        "--nav-shadow": "0 10px 30px -10px rgba(0, 0, 0, 0.1)",
-        ease: "none",
-        scrollTrigger: {
-          start: 0,
-          end: 220,
-          scrub: 0.6,
-          invalidateOnRefresh: true,
-          fastScrollEnd: true,
-          onUpdate: (self) => {
-            // Hard reset at top: if scroll position is 0 or 1, force top state
-            if (self.scroll() <= 1 && islandRef.current) {
-              gsap.set(islandRef.current, {
-                "--nav-w": "100%",
-                "--nav-mt": "0px",
-                "--nav-radius": "0px",
-                "--nav-border-w": "0px",
-                "--nav-border": "transparent",
-                "--nav-bg": "transparent",
-                "--nav-blur": "0px",
-                "--nav-shadow": "none",
-              });
-            }
-          },
-        },
-      });
-    }, islandRef);
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setAtTop(window.scrollY <= 8);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
 
-    // GSAP cleanup: ctx.revert() removes all animations and ScrollTriggers
-    return () => ctx.revert();
+    // Initial check
+    handleScroll();
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const handleLinkClick = (href: string) => (event: React.MouseEvent) => {
@@ -95,37 +64,30 @@ export function TopNav() {
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 w-full pointer-events-none">
-      {/* 
-          Floating Island Wrapper.
-          mx-auto ensures centering.
-          pointer-events-auto restores clicks for the island itself.
-          Movement/morph is applied only on this OUTER wrapper.
-      */}
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-out ${
+        atTop
+          ? "w-full rounded-none border-b border-black/5 bg-white/85 backdrop-blur-md pointer-events-auto"
+          : "pointer-events-none"
+      }`}
+    >
       <div
-        ref={islandRef}
-        style={
-          {
-            width: "var(--nav-w, 100%)",
-            marginTop: "var(--nav-mt, 0px)",
-            backgroundColor: "var(--nav-bg, transparent)",
-            backdropFilter: "blur(var(--nav-blur, 0px))",
-            borderColor: "var(--nav-border, transparent)",
-            borderWidth: "var(--nav-border-w, 0px)",
-            boxShadow: "var(--nav-shadow, none)",
-            borderRadius: "var(--nav-radius, 0px)",
-          } as React.CSSProperties
-        }
-        className="mx-auto pointer-events-auto border transition-shadow duration-300 max-w-[1200px] w-[var(--nav-w)] [--nav-w:100%]"
+        className={`mx-auto transition-all duration-300 ease-out ${
+          atTop
+            ? "max-w-full w-full mt-0 shadow-none border-transparent bg-transparent backdrop-blur-none"
+            : "pointer-events-auto mt-2 max-w-[1200px] w-[95%] rounded-full border border-white/40 bg-[#F2F0E9]/80 backdrop-blur-xl shadow-[0_10px_30px_-10px_rgba(0,0,0,0.1)]"
+        }`}
       >
         <nav
-          className="relative flex items-center justify-between px-6 py-2.5"
+          className={`relative flex items-center justify-between py-2.5 transition-all duration-300 ease-out ${
+            atTop ? "px-[4cm] max-xl:px-10 max-md:px-6" : "px-6"
+          }`}
           aria-label="Main navigation"
         >
-          {/* Logo - Colors preserved */}
+          {/* Logo */}
           <Logo />
 
-          {/* Desktop Nav Links - Colors preserved */}
+          {/* Desktop Nav Links */}
           <ul className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-9 lg:flex">
             {navLinks.map((link) => (
               <li key={link.label}>
@@ -144,7 +106,7 @@ export function TopNav() {
             ))}
           </ul>
 
-          {/* Desktop CTA + Mobile Menu Button - Colors preserved */}
+          {/* Desktop CTA + Mobile Menu Button */}
           <div className="flex items-center gap-4">
             <a
               href="/cv.pdf"
@@ -155,7 +117,7 @@ export function TopNav() {
               <DownloadIcon className="h-4 w-4" aria-hidden="true" />
             </a>
 
-            {/* Mobile Hamburger - Colors preserved */}
+            {/* Mobile Hamburger */}
             <button
               type="button"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -173,7 +135,7 @@ export function TopNav() {
           </div>
         </nav>
 
-        {/* Mobile Menu Dropdown - Colors preserved */}
+        {/* Mobile Menu Dropdown */}
         {isMenuOpen && (
           <div
             id="mobile-menu"
