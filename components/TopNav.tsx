@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Logo } from "./brand/Logo";
 import { CloseIcon, DownloadIcon, HamburgerIcon } from "./icons";
 
@@ -67,15 +67,15 @@ export function TopNav() {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-out ${
         atTop
-          ? "w-full rounded-none border-b border-black/5 bg-white/85 backdrop-blur-md pointer-events-auto"
-          : "pointer-events-none"
+          ? "w-full bg-transparent border-none shadow-none backdrop-blur-0 pointer-events-auto"
+          : "pointer-events-none border-none"
       }`}
     >
       <div
-        className={`mx-auto transition-all duration-300 ease-out ${
+        className={`mx-auto transition-all duration-300 ease-out overflow-hidden ${
           atTop
             ? "max-w-full w-full mt-0 shadow-none border-transparent bg-transparent backdrop-blur-none"
-            : "pointer-events-auto mt-2 max-w-[1200px] w-[95%] rounded-full border border-black/10 ring-1 ring-white/60 bg-white/95 supports-[backdrop-filter]:bg-white/70 backdrop-blur-xl backdrop-saturate-150 shadow-[0_12px_40px_-16px_rgba(15,23,42,0.28)]"
+            : "pointer-events-auto mt-2 max-w-[1200px] w-[95%] rounded-full border border-black/10 bg-white/95 supports-[backdrop-filter]:bg-white/70 backdrop-blur-xl backdrop-saturate-150 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_4px_6px_-2px_rgba(0,0,0,0.05)]"
         }`}
       >
         <nav
