@@ -1,56 +1,54 @@
-import Image from "next/image";
-import Link from "next/link";
-import { ArrowRightIcon } from "@/components/icons";
+"use client";
+
+import { useState, useEffect } from "react";
 import { ScrollCue } from "@/components/ScrollCue";
 
 export function Hero() {
+  const [text, setText] = useState("");
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [loopNum, setLoopNum] = useState(0);
+  const [typingSpeed, setTypingSpeed] = useState(150);
+
+  const phrases = ["< Hello world />"];
+
+  useEffect(() => {
+    const handleTyping = () => {
+      const i = loopNum % phrases.length;
+      const currentFullText = phrases[i];
+
+      setText(
+        isDeleting
+          ? currentFullText.substring(0, text.length - 1)
+          : currentFullText.substring(0, text.length + 1),
+      );
+
+      setTypingSpeed(isDeleting ? 40 : 100);
+
+      if (!isDeleting && text === currentFullText) {
+        setTimeout(() => setIsDeleting(true), 2000);
+      } else if (isDeleting && text === "") {
+        setIsDeleting(false);
+        setLoopNum(loopNum + 1);
+      }
+    };
+
+    const timer = setTimeout(handleTyping, typingSpeed);
+
+    return () => clearTimeout(timer);
+  }, [text, isDeleting, loopNum, typingSpeed, phrases]);
+
   return (
     <section
       id="home"
-      className="relative flex min-h-[calc(100vh-80px)] flex-col justify-center py-20 lg:py-0"
+      className="relative flex min-h-[calc(100vh-80px)] flex-col items-center justify-center py-20 font-mono"
     >
-      <div className="grid gap-12 lg:grid-cols-2 lg:gap-8 items-center">
-        <div className="space-y-6">
-          <h1 className="text-5xl font-bold leading-tight tracking-tight text-[#0B0F14] md:text-6xl lg:text-7xl">
-            Building digital <br />
-            <span className="text-teal-700">products</span> that matter.
-          </h1>
-
-          <p className="max-w-xl text-lg text-gray-600 md:text-xl">
-            I&apos;m a software engineer specializing in building (and
-            occasionally designing) exceptional digital experiences. Currently,
-            I&apos;m focused on building accessible, human-centered products.
-          </p>
-
-          <div className="flex flex-col gap-4 sm:flex-row pt-4">
-            <Link
-              href="#portfolio"
-              className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#0B0F14] px-8 py-4 text-base font-semibold text-white transition-all hover:bg-[#1a2030] hover:scale-[1.02]"
-            >
-              View My Work
-              <ArrowRightIcon className="h-4 w-4" />
-            </Link>
-            <Link
-              href="#contact"
-              className="inline-flex items-center justify-center rounded-lg border border-gray-200 px-8 py-4 text-base font-semibold text-[#0B0F14] transition-all hover:border-gray-400 hover:bg-gray-50"
-            >
-              Contact Me
-            </Link>
-          </div>
-        </div>
-
-        <div className="relative flex justify-center lg:justify-end">
-          <div className="w-full max-w-[75%] lg:max-w-[65%]">
-            <Image
-              src="/images/hero.png"
-              alt="Screenshot of my distributed systems dashboard"
-              width={1600}
-              height={900}
-              priority
-              className="h-auto w-full rounded-2xl shadow-2xl transition-transform duration-500 hover:scale-[1.02]"
-            />
-          </div>
-        </div>
+      <div className="w-full max-w-[95vw] px-4 text-center">
+        <h1 className="text-4xl font-bold tracking-tight text-[#0B0F14] sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl">
+          <span className="inline-block min-h-[1.2em] whitespace-nowrap">
+            {text}
+            <span className="inline-block w-2 h-[0.8em] ml-2 bg-teal-700 animate-pulse align-middle" />
+          </span>
+        </h1>
       </div>
       <ScrollCue />
     </section>

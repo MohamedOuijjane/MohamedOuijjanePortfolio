@@ -5,6 +5,7 @@ import { Services } from "@/components/sections/Services";
 import { PortfolioPreview } from "@/components/sections/PortfolioPreview";
 import { About } from "@/components/sections/About";
 import { Contact } from "@/components/sections/Contact";
+import { AnimatedLines } from "@/components/AnimatedLines";
 
 export default function Home() {
   const personJsonLd = {
@@ -20,7 +21,8 @@ export default function Home() {
   };
 
   return (
-    <div className="scroll-smooth bg-white">
+    <div className="scroll-smooth bg-white relative">
+      <AnimatedLines />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -31,9 +33,9 @@ export default function Home() {
       <SocialRail />
       <div className="mx-auto max-w-[1200px] px-6">
         <Hero />
+        <About />
         <Services />
         <PortfolioPreview />
-        <About />
         <Contact />
       </div>
     </div>

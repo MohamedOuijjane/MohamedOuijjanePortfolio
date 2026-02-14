@@ -86,7 +86,7 @@ export function Footer() {
                 href="https://github.com/MohamedOuijjane"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex h-10 w-10 items-center justify-center rounded-lg border border-gray-200 text-gray-600 transition-all hover:border-gray-900 hover:bg-gray-100 hover:text-[#0B0F14] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700"
+                className="flex h-10 w-10 items-center justify-center rounded-lg border border-gray-200 text-[#0B0F14] transition-all hover:border-gray-900 hover:bg-gray-100 hover:text-[#0B0F14] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700"
                 aria-label="GitHub"
               >
                 <GitHubIcon className="h-5 w-5" />
@@ -95,14 +95,14 @@ export function Footer() {
                 href="https://linkedin.com/in/MohamedOuijjane"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex h-10 w-10 items-center justify-center rounded-lg border border-gray-200 text-gray-600 transition-all hover:border-gray-900 hover:bg-gray-100 hover:text-[#0B0F14] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700"
+                className="flex h-10 w-10 items-center justify-center rounded-lg border border-gray-200 text-[#0B0F14] transition-all hover:border-gray-900 hover:bg-gray-100 hover:text-[#0B0F14] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700"
                 aria-label="LinkedIn"
               >
                 <LinkedInIcon className="h-5 w-5" />
               </a>
               <a
                 href="mailto:contact@wejan.dev"
-                className="flex h-10 w-10 items-center justify-center rounded-lg border border-gray-200 text-gray-600 transition-all hover:border-gray-900 hover:bg-gray-100 hover:text-[#0B0F14] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700"
+                className="flex h-10 w-10 items-center justify-center rounded-lg border border-gray-200 text-[#0B0F14] transition-all hover:border-gray-900 hover:bg-gray-100 hover:text-[#0B0F14] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700"
                 aria-label="Email"
               >
                 <GmailIcon className="h-5 w-5" />

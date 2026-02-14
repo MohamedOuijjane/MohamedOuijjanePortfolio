@@ -23,9 +23,11 @@ export function ScrollCue() {
   const handleClick = () => {
     const servicesSection = document.getElementById("services");
     if (servicesSection) {
-      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      servicesSection.scrollIntoView({ 
-        behavior: prefersReducedMotion ? "auto" : "smooth" 
+      const prefersReducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
+      servicesSection.scrollIntoView({
+        behavior: prefersReducedMotion ? "auto" : "smooth",
       });
     }
   };
@@ -34,8 +36,10 @@ export function ScrollCue() {
     <button
       onClick={handleClick}
       aria-label="Scroll to services section"
-      className={`absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 transition-all duration-500 ease-in-out focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-teal-700 ${
-        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"
+      className={`absolute bottom-[-4.5rem] left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 transition-all duration-500 ease-in-out focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-teal-700 ${
+        isVisible
+          ? "opacity-100 translate-y-0"
+          : "opacity-0 translate-y-4 pointer-events-none"
       }`}
     >
       {/* Desktop Mouse Icon */}

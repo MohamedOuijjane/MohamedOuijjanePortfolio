@@ -94,7 +94,7 @@ export function TopNav() {
                 <Link
                   href={link.href}
                   onClick={handleLinkClick(link.href)}
-                  className={`relative text-sm font-medium transition-colors duration-200 hover:text-[#0B0F14] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2FAE8A] focus-visible:ring-offset-2 ${
+                  className={`relative font-mono text-sm font-medium transition-colors duration-200 hover:text-[#0B0F14] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2FAE8A] focus-visible:ring-offset-2 ${
                     activeHash === link.href
                       ? "text-[#0B0F14] after:absolute after:-bottom-1 after:left-0 after:h-0.5 after:w-full after:bg-[#2FAE8A]"
                       : "text-[#0B0F14]/70"
@@ -111,7 +111,7 @@ export function TopNav() {
             <a
               href="/cv.pdf"
               download
-              className="hidden items-center gap-2 rounded-full bg-[#0B0F14] px-4 py-2 text-sm font-medium text-white transition-all duration-200 hover:scale-[1.02] hover:bg-[#1a2030] hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2FAE8A] focus-visible:ring-offset-2 lg:flex"
+              className="hidden items-center gap-2 rounded-full bg-[#0B0F14] px-4 py-2 font-mono text-sm font-medium text-white transition-all duration-200 hover:scale-[1.02] hover:bg-[#1a2030] hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2FAE8A] focus-visible:ring-offset-2 lg:flex"
             >
               Download CV
               <DownloadIcon className="h-4 w-4" aria-hidden="true" />
@@ -147,7 +147,7 @@ export function TopNav() {
                   <Link
                     href={link.href}
                     onClick={handleLinkClick(link.href)}
-                    className={`block rounded-lg px-4 py-3 text-sm font-medium transition-colors duration-200 hover:bg-[#E6E8EC] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2FAE8A] ${
+                    className={`block rounded-lg px-4 py-3 font-mono text-sm font-medium transition-colors duration-200 hover:bg-[#E6E8EC] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2FAE8A] ${
                       activeHash === link.href
                         ? "bg-[#2FAE8A]/10 text-[#2FAE8A]"
                         : "text-[#0B0F14]"
@@ -162,7 +162,7 @@ export function TopNav() {
               <a
                 href="/cv.pdf"
                 download
-                className="flex w-full items-center justify-center gap-2 rounded-full bg-[#0B0F14] px-5 py-3 text-sm font-medium text-white transition-all duration-200 hover:bg-[#1a2030] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2FAE8A]"
+                className="flex w-full items-center justify-center gap-2 rounded-full bg-[#0B0F14] px-5 py-3 font-mono text-sm font-medium text-white transition-all duration-200 hover:bg-[#1a2030] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2FAE8A]"
               >
                 Download CV
                 <DownloadIcon className="h-4 w-4" aria-hidden="true" />
