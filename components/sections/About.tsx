@@ -1,32 +1,33 @@
-// import Image from "next/image";
+import Image from "next/image";
 
 export function About() {
   return (
     <section id="about" className="scroll-mt-24 py-20">
       <div className="grid gap-12 lg:grid-cols-2 lg:gap-20">
-        <div className="relative aspect-square w-full max-w-md overflow-hidden rounded-2xl bg-gray-100 lg:order-2">
-          <div className="absolute inset-0 flex items-center justify-center text-gray-400">
-            <span className="sr-only">Profile Image</span>
-            <svg
-              className="h-32 w-32"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={1}
-                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-              />
-            </svg>
+        <div className="group relative aspect-square w-full max-w-md lg:order-2">
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 translate-x-4 translate-y-4 rounded-2xl border-2 border-teal-700/40 transition-all duration-150 ease-out group-hover:translate-x-5 group-hover:translate-y-5 group-hover:border-teal-800/55"
+          />
+          <div className="relative h-full w-full overflow-hidden rounded-2xl bg-gray-100 ring-1 ring-black/10 transition-all duration-150 ease-out group-hover:-translate-x-0.5 group-hover:-translate-y-0.5 group-hover:shadow-lg">
+            <Image
+              src="/images/about_me_pic.jpeg"
+              alt="Portrait of Mohamed Ouijjane"
+              fill
+              className="object-cover transition-all duration-150 ease-out will-change-transform will-change-opacity group-hover:opacity-0 group-hover:scale-[1.02] group-hover:-translate-x-0.5 group-hover:-translate-y-0.5"
+              sizes="(max-width: 768px) 100vw, 400px"
+              priority
+            />
+            <Image
+              src="/images/about_me_pic_2.jpeg"
+              alt=""
+              aria-hidden="true"
+              fill
+              className="object-cover opacity-0 transition-all duration-150 ease-out will-change-transform will-change-opacity group-hover:opacity-100 group-hover:scale-[1.02] group-hover:-translate-x-0.5 group-hover:-translate-y-0.5"
+              sizes="(max-width: 768px) 100vw, 400px"
+              priority
+            />
           </div>
-          {/* <Image
-            src="/me.jpg"
-            alt="Portrait"
-            fill
-            className="object-cover"
-          /> */}
         </div>
 
         <div className="flex flex-col justify-center lg:order-1">

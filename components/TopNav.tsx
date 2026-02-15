@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Logo } from "./brand/Logo";
-import { CloseIcon, DownloadIcon, HamburgerIcon } from "./icons";
+import { CloseIcon, HamburgerIcon, MoonIcon, SunIcon } from "./icons";
 
 interface NavLink {
   label: string;
@@ -21,6 +21,7 @@ export function TopNav() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeHash, setActiveHash] = useState("");
   const [atTop, setAtTop] = useState(true);
+  const [showMoon, setShowMoon] = useState(true);
 
   useEffect(() => {
     const updateHash = () => setActiveHash(window.location.hash);
@@ -108,14 +109,18 @@ export function TopNav() {
 
           {/* Desktop CTA + Mobile Menu Button */}
           <div className="flex items-center gap-4">
-            <a
-              href="/cv.pdf"
-              download
-              className="hidden items-center gap-2 rounded-full bg-[#0B0F14] px-4 py-2 font-mono text-sm font-medium text-white transition-all duration-200 hover:scale-[1.02] hover:bg-[#1a2030] hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2FAE8A] focus-visible:ring-offset-2 lg:flex"
+            <button
+              type="button"
+              aria-label="Toggle icon"
+              onClick={() => setShowMoon(!showMoon)}
+              className="hidden lg:flex items-center justify-center text-[#0B0F14] hover:text-[#0B0F14] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2FAE8A]"
             >
-              Download CV
-              <DownloadIcon className="h-4 w-4" aria-hidden="true" />
-            </a>
+              {showMoon ? (
+                <MoonIcon className="h-6 w-6" aria-hidden="true" />
+              ) : (
+                <SunIcon className="h-6 w-6" aria-hidden="true" />
+              )}
+            </button>
 
             {/* Mobile Hamburger */}
             <button
@@ -159,14 +164,18 @@ export function TopNav() {
               ))}
             </ul>
             <div className="mt-3 border-t border-[#E6E8EC] pt-3">
-              <a
-                href="/cv.pdf"
-                download
-                className="flex w-full items-center justify-center gap-2 rounded-full bg-[#0B0F14] px-5 py-3 font-mono text-sm font-medium text-white transition-all duration-200 hover:bg-[#1a2030] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2FAE8A]"
+              <button
+                type="button"
+                aria-label="Toggle icon"
+                onClick={() => setShowMoon(!showMoon)}
+                className="flex w-full items-center justify-center py-3 text-[#0B0F14] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2FAE8A]"
               >
-                Download CV
-                <DownloadIcon className="h-4 w-4" aria-hidden="true" />
-              </a>
+                {showMoon ? (
+                  <MoonIcon className="h-6 w-6" aria-hidden="true" />
+                ) : (
+                  <SunIcon className="h-6 w-6" aria-hidden="true" />
+                )}
+              </button>
             </div>
           </div>
         )}
