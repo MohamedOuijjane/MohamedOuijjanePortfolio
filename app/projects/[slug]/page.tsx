@@ -1,10 +1,12 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getProjectBySlug, projects } from "@/data/projects";
 import { TopNav } from "@/components/TopNav";
 import { SocialRail } from "@/components/SocialRail";
+import { siteConfig } from "@/config/site";
 
 type Props = {
-  params: Promise<{ slug: string }>;
+  params: { slug: string };
 };
 
 export async function generateStaticParams() {
@@ -13,11 +15,90 @@ export async function generateStaticParams() {
   }));
 }
 
+function resolveSiteUrl() {
+  if (process.env.NEXT_PUBLIC_SITE_URL) {
+    return process.env.NEXT_PUBLIC_SITE_URL;
+  }
+
+  if (siteConfig.url) {
+    return siteConfig.url;
+  }
+
+  if (process.env.NODE_ENV === "development") {
+    return "http://localhost:3000";
+  }
+
+  return "https://wejan.dev";
+}
+
+function truncateDescription(value: string, maxLength: number) {
+  if (value.length <= maxLength) return value;
+  const truncated = value.slice(0, maxLength);
+  const lastSpace = truncated.lastIndexOf(" ");
+  if (lastSpace === -1) return `${truncated}…`;
+  return `${truncated.slice(0, lastSpace)}…`;
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}): Promise<Metadata> {
+  const project = getProjectBySlug(params.slug);
+
+  if (!project) {
+    return {
+      title: "Project not found",
+      description: "This project could not be found.",
+    };
+  }
+
+  const siteUrl = resolveSiteUrl();
+  const canonicalUrl = `${siteUrl}/projects/${project.slug}`;
+  const ogImageUrl = `${siteUrl}/og/projects/${project.slug}`;
+  const ownerName = siteConfig.owner ?? "Mohamed Ouijjane";
+  const title = `${project.title} | ${ownerName}`;
+  const description = truncateDescription(project.summary, 170);
+
+  return {
+    metadataBase: new URL(siteUrl),
+    title,
+    description,
+    alternates: {
+      canonical: canonicalUrl,
+    },
+    openGraph: {
+      type: "article",
+      url: canonicalUrl,
+      title,
+      description,
+      siteName: siteConfig.name,
+      images: [
+        {
+          url: ogImageUrl,
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [ogImageUrl],
+    },
+  };
+}
+
 export default async function ProjectDetailPage({ params }: Props) {
-  const { slug } = await params;
+  const { slug } = params;
   const project = getProjectBySlug(slug);
 
   if (!project) notFound();
+
+  const siteUrl = resolveSiteUrl();
+  const canonicalUrl = `${siteUrl}/projects/${project.slug}`;
 
   const projectJsonLd = {
     "@context": "https://schema.org",
@@ -25,7 +106,7 @@ export default async function ProjectDetailPage({ params }: Props) {
     name: project.title,
     description: project.summary,
     programmingLanguage: project.stack ?? [],
-    url: `https://your-domain.com/projects/${project.slug}`,
+    url: canonicalUrl,
   };
 
   return (

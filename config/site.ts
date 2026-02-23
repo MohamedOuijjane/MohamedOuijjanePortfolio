@@ -3,6 +3,8 @@
 export const siteConfig = {
   name: "WeJan",
   title: "Software Engineer",
+  owner: "Mohamed Ouijjane",
+  url: "https://wejan.dev",
   description:
     "Software engineer building reliable, scalable web applications with modern TypeScript and cloud-first practices.",
   links: {
