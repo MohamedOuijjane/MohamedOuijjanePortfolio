@@ -125,6 +125,46 @@ body {
   outline-offset: 2px;
 }
 
+/* Hero frosted glass panel */
+.hero-glass-panel {
+  position: relative;
+  border-radius: 3.5rem;
+
+  /* Frosted white */
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(24px) saturate(1.15);
+  -webkit-backdrop-filter: blur(24px) saturate(1.15);
+
+  /* No visible outline */
+  border: 0;
+  box-shadow: none;
+
+  /* The magic: fade to transparent near edges */
+  -webkit-mask-image: radial-gradient(
+    140% 120% at 50% 50%,
+    #000 0%,
+    #000 62%,
+    rgba(0, 0, 0, 0.25) 82%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  mask-image: radial-gradient(
+    140% 120% at 50% 50%,
+    #000 0%,
+    #000 62%,
+    rgba(0, 0, 0, 0.25) 82%,
+    rgba(0, 0, 0, 0) 100%
+  );
+
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+
+  -webkit-mask-position: center;
+  mask-position: center;
+
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+}
+
 @media (prefers-reduced-motion: reduce) {
   * {
     animation: none !important;
