@@ -3,22 +3,109 @@
 import { useState } from "react";
 import { ArrowRightIcon } from "@/components/icons";
 
+type ContactFormStatus = "idle" | "success";
+
+type ContactFieldErrors = {
+  name?: string;
+  email?: string;
+  message?: string;
+};
+
+type ContactErrorResponse = {
+  ok: false;
+  message: string;
+  errors?: {
+    name?: string;
+    email?: string;
+    message?: string;
+    honeypot?: string;
+  };
+};
+
+type ContactSuccessResponse = {
+  ok: true;
+  message: string;
+};
+
 export function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [formStatus, setFormStatus] = useState<"idle" | "success" | "error">(
-    "idle",
-  );
+  const [formStatus, setFormStatus] = useState<ContactFormStatus>("idle");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [company, setCompany] = useState("");
+  const [fieldErrors, setFieldErrors] = useState<ContactFieldErrors>({});
+  const [globalError, setGlobalError] = useState<string | null>(null);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    setGlobalError(null);
+    setFieldErrors({});
     setIsSubmitting(true);
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          message,
+          company,
+        }),
+      });
 
-    // In a real app, you'd fetch /api/contact here
-    setIsSubmitting(false);
-    setFormStatus("success");
+      const data = (await response
+        .json()
+        .catch(() => null)) as ContactErrorResponse | ContactSuccessResponse | null;
+
+      if (!response.ok || !data) {
+        if (response.status === 429 && data && !("errors" in data)) {
+          setGlobalError(
+            data.message || "Too many requests. Please try again later.",
+          );
+        } else if (response.status === 400 && data && "errors" in data) {
+          const errors = data.errors ?? {};
+          const mappedFieldErrors: ContactFieldErrors = {
+            name: errors.name,
+            email: errors.email,
+            message: errors.message,
+          };
+          setFieldErrors(mappedFieldErrors);
+
+          if (errors.honeypot) {
+            setGlobalError(data.message || "Spam detected.");
+          }
+        } else if (data) {
+          setGlobalError(data.message || "Something went wrong. Please try again.");
+        } else {
+          setGlobalError("Something went wrong. Please try again.");
+        }
+
+        setIsSubmitting(false);
+        return;
+      }
+
+      const successData = data as ContactSuccessResponse;
+
+      if (successData.ok) {
+        setFormStatus("success");
+        setName("");
+        setEmail("");
+        setMessage("");
+        setCompany("");
+        setFieldErrors({});
+        setGlobalError(null);
+      } else {
+        setGlobalError(successData.message || "Something went wrong. Please try again.");
+      }
+    } catch {
+      setGlobalError("Something went wrong. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
@@ -57,7 +144,11 @@ export function Contact() {
               Thanks for reaching out. I&apos;ll get back to you soon.
             </p>
             <button
-              onClick={() => setFormStatus("idle")}
+              onClick={() => {
+                setFormStatus("idle");
+                setGlobalError(null);
+                setFieldErrors({});
+              }}
               className="mt-6 font-medium text-teal-700 hover:underline"
             >
               Send another message
@@ -65,6 +156,23 @@ export function Contact() {
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-6">
+            <input
+              type="text"
+              name="company"
+              value={company}
+              onChange={(e) => setCompany(e.target.value)}
+              className="sr-only"
+              tabIndex={-1}
+              autoComplete="off"
+              aria-hidden="true"
+            />
+
+            {globalError && (
+              <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                {globalError}
+              </div>
+            )}
+
             <div className="grid gap-6 md:grid-cols-2">
               <div className="space-y-2">
                 <label
@@ -77,10 +185,14 @@ export function Contact() {
                   type="text"
                   id="name"
                   name="name"
-                  required
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                   className="w-full rounded-lg border border-gray-300 px-4 py-3 text-sm text-gray-900 placeholder:text-gray-500 outline-none transition-all focus:border-teal-700 focus:ring-1 focus:ring-teal-700"
                   placeholder="John Doe"
                 />
+                {fieldErrors.name && (
+                  <p className="text-sm text-red-600">{fieldErrors.name}</p>
+                )}
               </div>
               <div className="space-y-2">
                 <label
@@ -93,10 +205,14 @@ export function Contact() {
                   type="email"
                   id="email"
                   name="email"
-                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   className="w-full rounded-lg border border-gray-300 px-4 py-3 text-sm text-gray-900 placeholder:text-gray-500 outline-none transition-all focus:border-teal-700 focus:ring-1 focus:ring-teal-700"
                   placeholder="john@example.com"
                 />
+                {fieldErrors.email && (
+                  <p className="text-sm text-red-600">{fieldErrors.email}</p>
+                )}
               </div>
             </div>
             <div className="space-y-2">
@@ -109,11 +225,15 @@ export function Contact() {
               <textarea
                 id="message"
                 name="message"
-                required
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
                 rows={5}
                 className="w-full resize-none rounded-lg border border-gray-300 px-4 py-3 text-sm text-gray-900 placeholder:text-gray-500 outline-none transition-all focus:border-teal-700 focus:ring-1 focus:ring-teal-700"
                 placeholder="Hello! I'd like to discuss a project..."
               />
+              {fieldErrors.message && (
+                <p className="text-sm text-red-600">{fieldErrors.message}</p>
+              )}
             </div>
             <button
               type="submit"
