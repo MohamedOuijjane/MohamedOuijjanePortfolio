@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { siteConfig } from "@/config/site";
 import { Contact } from "@/components/sections/Contact";
+import { PageShell } from "@/components/PageShell";
 
 export const metadata: Metadata = {
   title: "Contact Me | WeJan",
@@ -13,9 +14,9 @@ export const metadata: Metadata = {
 
 export default function ContactMePage() {
   return (
-    <main className="mx-auto min-h-screen max-w-5xl px-6 py-24 lg:px-8">
+    <PageShell>
       <Contact />
-    </main>
+    </PageShell>
   );
 }
 

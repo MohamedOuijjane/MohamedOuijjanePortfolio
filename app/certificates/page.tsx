@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { siteConfig } from "@/config/site";
+import { PageShell } from "@/components/PageShell";
 
 export const metadata: Metadata = {
   title: "Certificates | WeJan",
@@ -45,7 +46,7 @@ const certificates: Certificate[] = [
 
 export default function CertificatesPage() {
   return (
-    <main className="mx-auto min-h-screen max-w-5xl px-6 py-24 lg:px-8">
+    <PageShell>
       <header className="max-w-2xl">
         <h1 className="text-3xl font-semibold tracking-tight text-[#0B0F14] md:text-4xl">
           Certificates
@@ -96,7 +97,7 @@ export default function CertificatesPage() {
           </article>
         ))}
       </section>
-    </main>
+    </PageShell>
   );
 }
 
