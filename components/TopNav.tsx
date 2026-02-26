@@ -18,6 +18,10 @@ const getActiveNavKey = (pathname: string): NavKey | null => {
   return null;
 };
 
+const NavItemHover = () => (
+  <span className="absolute inset-0 -z-10 scale-95 rounded-full bg-black/90 opacity-0 transition-all duration-200 ease-out group-hover:scale-100 group-hover:opacity-100" />
+);
+
 export function TopNav() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isProjectsOpen, setIsProjectsOpen] = useState(false);
@@ -25,6 +29,7 @@ export function TopNav() {
   const [atTop, setAtTop] = useState(true);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
   const projectsMenuRef = useRef<HTMLDivElement | null>(null);
+  const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const pathname = usePathname();
   const router = useRouter();
 
@@ -85,7 +90,7 @@ export function TopNav() {
   }, []);
 
   const desktopLinkBaseClass =
-    "relative font-mono text-sm font-medium transition-colors duration-200 hover:text-[#0B0F14] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2FAE8A] focus-visible:ring-offset-2";
+    "group relative px-4 py-2 font-mono text-sm font-medium transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2FAE8A] focus-visible:ring-offset-2 hover:text-white focus-visible:text-white";
 
   const mobileLinkBaseClass =
     "block rounded-lg px-4 py-3 font-mono text-sm font-medium transition-colors duration-200 hover:bg-[#E6E8EC] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2FAE8A]";
@@ -116,6 +121,17 @@ export function TopNav() {
     setIsProjectsMobileOpen(false);
   };
 
+  const openProjectsDropdown = () => {
+    if (dropdownTimeoutRef.current) clearTimeout(dropdownTimeoutRef.current);
+    setIsProjectsOpen(true);
+  };
+
+  const closeProjectsDropdown = () => {
+    dropdownTimeoutRef.current = setTimeout(() => {
+      setIsProjectsOpen(false);
+    }, 150); // Small delay to allow moving cursor from trigger to dropdown
+  };
+
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-out ${
@@ -125,10 +141,10 @@ export function TopNav() {
       }`}
     >
       <div
-        className={`mx-auto transition-all duration-300 ease-out overflow-hidden ${
+        className={`mx-auto transition-all duration-300 ease-out ${
           atTop
-            ? "max-w-full w-full mt-0 shadow-none border-transparent bg-transparent backdrop-blur-none"
-            : "pointer-events-auto mt-2 max-w-[1200px] w-[95%] rounded-full border border-black/10 bg-white/95 supports-[backdrop-filter]:bg-white/70 backdrop-blur-xl backdrop-saturate-150 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_4px_6px_-2px_rgba(0,0,0,0.05)]"
+            ? "max-w-full w-full mt-0 shadow-none border-transparent bg-transparent backdrop-blur-none overflow-visible"
+            : "pointer-events-auto mt-2 max-w-[1200px] w-[95%] rounded-full border border-black/10 bg-white/95 supports-[backdrop-filter]:bg-white/70 backdrop-blur-xl backdrop-saturate-150 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_4px_6px_-2px_rgba(0,0,0,0.05)] overflow-visible"
         }`}
       >
         <nav
@@ -146,25 +162,33 @@ export function TopNav() {
                 onClick={handleHomeClick}
                 className={`${desktopLinkBaseClass} ${
                   activeNavKey === "home"
-                    ? "text-[#0B0F14] after:absolute after:-bottom-1 after:left-0 after:h-0.5 after:w-full after:bg-[#2FAE8A]"
+                    ? "text-[#0B0F14]"
                     : "text-[#0B0F14]/70"
                 }`}
               >
-                Home
+                <NavItemHover />
+                <span className="relative z-10">Home</span>
               </Link>
             </li>
 
             <li
               ref={projectsMenuRef}
               className="relative"
-              onMouseEnter={() => setIsProjectsOpen(true)}
-              onMouseLeave={() => setIsProjectsOpen(false)}
+              onMouseEnter={openProjectsDropdown}
+              onMouseLeave={closeProjectsDropdown}
+              onFocus={openProjectsDropdown}
+              onBlur={(e) => {
+                // Only close if focus is moving outside the entire dropdown group
+                if (!e.currentTarget.contains(e.relatedTarget)) {
+                  setIsProjectsOpen(false);
+                }
+              }}
             >
               <button
                 type="button"
                 className={`${desktopLinkBaseClass} ${
                   activeNavKey === "projects"
-                    ? "text-[#0B0F14] after:absolute after:-bottom-1 after:left-0 after:h-0.5 after:w-full after:bg-[#2FAE8A]"
+                    ? "text-[#0B0F14]"
                     : "text-[#0B0F14]/70"
                 }`}
                 aria-haspopup="menu"
@@ -176,10 +200,11 @@ export function TopNav() {
                   }
                 }}
               >
-                Projects
+                <NavItemHover />
+                <span className="relative z-10">Projects</span>
               </button>
               <div
-                className={`absolute left-1/2 top-full mt-3 w-48 -translate-x-1/2 rounded-xl border border-[#E6E8EC] bg-white/95 shadow-lg transition-all duration-200 ${
+                className={`absolute left-1/2 top-full mt-3 w-48 -translate-x-1/2 rounded-xl border border-[#E6E8EC] bg-white/95 shadow-lg transition-all duration-200 z-[60] ${
                   prefersReducedMotion
                     ? isProjectsOpen
                       ? "pointer-events-auto opacity-100"
@@ -191,33 +216,35 @@ export function TopNav() {
                 role="menu"
                 aria-label="Projects submenu"
               >
-                <ul className="py-2">
+                <ul className="py-2 px-2">
                   <li>
                     <Link
                       href="/projects"
                       role="menuitem"
-                      className={`block px-4 py-2.5 text-sm font-mono hover:bg-[#E6E8EC] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2FAE8A] ${
+                      className={`${desktopLinkBaseClass} block w-full text-left ${
                         pathname.startsWith("/projects")
                           ? "text-[#0B0F14]"
                           : "text-[#0B0F14]/80"
                       }`}
                       onClick={() => setIsProjectsOpen(false)}
                     >
-                      Projects
+                      <NavItemHover />
+                      <span className="relative z-10">Projects</span>
                     </Link>
                   </li>
-                  <li>
+                  <li className="mt-1">
                     <Link
                       href="/certificates"
                       role="menuitem"
-                      className={`block px-4 py-2.5 text-sm font-mono hover:bg-[#E6E8EC] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2FAE8A] ${
+                      className={`${desktopLinkBaseClass} block w-full text-left ${
                         pathname === "/certificates"
                           ? "text-[#0B0F14]"
                           : "text-[#0B0F14]/80"
                       }`}
                       onClick={() => setIsProjectsOpen(false)}
                     >
-                      Certificates
+                      <NavItemHover />
+                      <span className="relative z-10">Certificates</span>
                     </Link>
                   </li>
                 </ul>
@@ -229,11 +256,12 @@ export function TopNav() {
                 href="/about"
                 className={`${desktopLinkBaseClass} ${
                   activeNavKey === "about"
-                    ? "text-[#0B0F14] after:absolute after:-bottom-1 after:left-0 after:h-0.5 after:w-full after:bg-[#2FAE8A]"
+                    ? "text-[#0B0F14]"
                     : "text-[#0B0F14]/70"
                 }`}
               >
-                About
+                <NavItemHover />
+                <span className="relative z-10">About</span>
               </Link>
             </li>
 
@@ -242,11 +270,12 @@ export function TopNav() {
                 href="/contact-me"
                 className={`${desktopLinkBaseClass} ${
                   activeNavKey === "contact"
-                    ? "text-[#0B0F14] after:absolute after:-bottom-1 after:left-0 after:h-0.5 after:w-full after:bg-[#2FAE8A]"
+                    ? "text-[#0B0F14]"
                     : "text-[#0B0F14]/70"
                 }`}
               >
-                Contact Me
+                <NavItemHover />
+                <span className="relative z-10">Contact Me</span>
               </Link>
             </li>
           </ul>
