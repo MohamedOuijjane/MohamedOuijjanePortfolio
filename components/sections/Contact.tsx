@@ -57,9 +57,10 @@ export function Contact() {
         }),
       });
 
-      const data = (await response
-        .json()
-        .catch(() => null)) as ContactErrorResponse | ContactSuccessResponse | null;
+      const data = (await response.json().catch(() => null)) as
+        | ContactErrorResponse
+        | ContactSuccessResponse
+        | null;
 
       if (!response.ok || !data) {
         if (response.status === 429 && data && !("errors" in data)) {
@@ -79,7 +80,9 @@ export function Contact() {
             setGlobalError(data.message || "Spam detected.");
           }
         } else if (data) {
-          setGlobalError(data.message || "Something went wrong. Please try again.");
+          setGlobalError(
+            data.message || "Something went wrong. Please try again.",
+          );
         } else {
           setGlobalError("Something went wrong. Please try again.");
         }
@@ -99,7 +102,9 @@ export function Contact() {
         setFieldErrors({});
         setGlobalError(null);
       } else {
-        setGlobalError(successData.message || "Something went wrong. Please try again.");
+        setGlobalError(
+          successData.message || "Something went wrong. Please try again.",
+        );
       }
     } catch {
       setGlobalError("Something went wrong. Please try again.");
