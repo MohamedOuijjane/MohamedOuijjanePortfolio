@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "@/styles/globals.css";
 import WebVitals from "@/app/_components/WebVitals";
-import { Footer } from "@/components/Footer";
 import { BackToTop } from "@/components/BackToTop";
 
 const geistSans = Geist({
@@ -53,7 +52,6 @@ export default function RootLayout({
       >
         <WebVitals />
         <main className="flex-1">{children}</main>
-        <Footer />
         <BackToTop />
       </body>
     </html>

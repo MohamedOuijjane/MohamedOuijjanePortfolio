@@ -6,6 +6,7 @@ import { PortfolioPreview } from "@/components/sections/PortfolioPreview";
 import { About } from "@/components/sections/About";
 import { Contact } from "@/components/sections/Contact";
 import { AnimatedLines } from "@/components/AnimatedLines";
+import { Footer } from "@/components/Footer";
 
 export default function Home() {
   const personJsonLd = {
@@ -38,6 +39,7 @@ export default function Home() {
         <PortfolioPreview />
         <Contact />
       </div>
+      <Footer />
     </div>
   );
 }
