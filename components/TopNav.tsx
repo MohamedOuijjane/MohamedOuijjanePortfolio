@@ -4,16 +4,17 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { Logo } from "./brand/Logo";
-import { CloseIcon, HamburgerIcon } from "./icons";
+import { CloseIcon, HamburgerIcon, MoonIcon, SunIcon } from "./icons";
 
-type NavKey = "home" | "projects" | "about" | "contact";
+type NavKey = "home" | "work" | "blogs" | "about" | "contact";
 
 const getActiveNavKey = (pathname: string): NavKey | null => {
   if (pathname === "/") return "home";
+  if (pathname === "/blogs") return "blogs";
   if (pathname === "/about") return "about";
   if (pathname === "/contact-me") return "contact";
   if (pathname.startsWith("/projects") || pathname === "/certificates") {
-    return "projects";
+    return "work";
   }
   return null;
 };
@@ -26,6 +27,8 @@ export function TopNav() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isProjectsOpen, setIsProjectsOpen] = useState(false);
   const [isProjectsMobileOpen, setIsProjectsMobileOpen] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [language, setLanguage] = useState("FR");
   const [atTop, setAtTop] = useState(true);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
   const projectsMenuRef = useRef<HTMLDivElement | null>(null);
@@ -187,7 +190,7 @@ export function TopNav() {
               <button
                 type="button"
                 className={`${desktopLinkBaseClass} ${
-                  activeNavKey === "projects"
+                  activeNavKey === "work"
                     ? "text-[#0B0F14]"
                     : "text-[#0B0F14]/70"
                 }`}
@@ -201,7 +204,7 @@ export function TopNav() {
                 }}
               >
                 <NavItemHover />
-                <span className="relative z-10">Projects</span>
+                <span className="relative z-10">Work</span>
               </button>
               <div
                 className={`absolute left-1/2 top-full mt-3 w-48 -translate-x-1/2 rounded-xl border border-[#E6E8EC] bg-white/95 shadow-lg transition-all duration-200 z-[60] ${
@@ -214,7 +217,7 @@ export function TopNav() {
                       : "pointer-events-none -translate-y-2 opacity-0 ease-out"
                 }`}
                 role="menu"
-                aria-label="Projects submenu"
+                aria-label="Work submenu"
               >
                 <ul className="py-2 px-2">
                   <li>
@@ -253,6 +256,20 @@ export function TopNav() {
 
             <li>
               <Link
+                href="/blogs"
+                className={`${desktopLinkBaseClass} ${
+                  activeNavKey === "blogs"
+                    ? "text-[#0B0F14]"
+                    : "text-[#0B0F14]/70"
+                }`}
+              >
+                <NavItemHover />
+                <span className="relative z-10">Blogs</span>
+              </Link>
+            </li>
+
+            <li>
+              <Link
                 href="/about"
                 className={`${desktopLinkBaseClass} ${
                   activeNavKey === "about"
@@ -281,8 +298,49 @@ export function TopNav() {
           </ul>
 
           <div className="flex items-center gap-4">
+            {/* Language Switcher */}
             <button
               type="button"
+              onClick={() => setLanguage((l) => (l === "FR" ? "EN" : "FR"))}
+              className="group relative flex h-10 w-10 items-center justify-center rounded-full text-[#0B0F14]/70 transition-all duration-300 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2FAE8A]"
+              aria-label="Toggle language"
+            >
+              <NavItemHover />
+              <span className="relative z-10 font-mono text-sm font-bold transition-transform duration-300 group-hover:scale-110">
+                {language}
+              </span>
+            </button>
+
+            {/* Theme Toggle Button */}
+            <button
+              type="button"
+              onClick={() => setIsDarkMode(!isDarkMode)}
+              className="group relative flex h-10 w-10 items-center justify-center rounded-full text-[#0B0F14]/70 transition-all duration-300 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2FAE8A]"
+              aria-label={
+                isDarkMode ? "Switch to light mode" : "Switch to dark mode"
+              }
+            >
+              <NavItemHover />
+              <div className="relative h-5 w-5 transition-transform duration-500 group-hover:rotate-12 group-active:scale-90">
+                {isDarkMode ? (
+                  <SunIcon className="h-5 w-5" />
+                ) : (
+                  <MoonIcon className="h-5 w-5" />
+                )}
+              </div>
+            </button>
+
+            {/* Resume Button */}
+            <a
+              href="/resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden sm:flex h-10 items-center justify-center rounded-full bg-black px-6 text-sm font-mono font-bold text-white transition-all duration-300 hover:bg-black/80 hover:shadow-lg active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2FAE8A]"
+            >
+              Resume
+            </a>
+
+            <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="flex h-10 w-10 items-center justify-center rounded-md text-[#0B0F14] transition-colors hover:bg-[#E6E8EC] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2FAE8A] lg:hidden"
               aria-expanded={isMenuOpen}
@@ -322,7 +380,7 @@ export function TopNav() {
                 <button
                   type="button"
                   className={`${mobileLinkBaseClass} flex w-full items-center justify-between ${
-                    activeNavKey === "projects" || isProjectsMobileOpen
+                    activeNavKey === "work" || isProjectsMobileOpen
                       ? "text-[#2FAE8A]"
                       : "text-[#0B0F14]"
                   }`}
@@ -330,7 +388,7 @@ export function TopNav() {
                   aria-expanded={isProjectsMobileOpen}
                   aria-controls="mobile-projects-submenu"
                 >
-                  <span>Projects</span>
+                  <span>Work</span>
                   <span
                     className={`ml-2 text-xs transition-transform duration-200 ${
                       isProjectsMobileOpen ? "rotate-180" : "rotate-0"
@@ -369,6 +427,20 @@ export function TopNav() {
                     </li>
                   </ul>
                 </div>
+              </li>
+
+              <li>
+                <Link
+                  href="/blogs"
+                  onClick={handleMobileNavClick}
+                  className={`${mobileLinkBaseClass} ${
+                    activeNavKey === "blogs"
+                      ? "bg-[#2FAE8A]/10 text-[#2FAE8A]"
+                      : "text-[#0B0F14]"
+                  }`}
+                >
+                  Blogs
+                </Link>
               </li>
 
               <li>
