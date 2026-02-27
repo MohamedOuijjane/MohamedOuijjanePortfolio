@@ -11,38 +11,7 @@
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 
-  --animate-float-slow: float-slow 20s ease-in-out infinite;
-  --animate-float-medium: float-medium 15s ease-in-out infinite;
-  --animate-float-fast: float-fast 12s ease-in-out infinite;
   --animate-grid-drift: grid-drift 26s linear infinite;
-
-  @keyframes float-slow {
-    0%,
-    100% {
-      transform: translate(0, 0);
-    }
-    50% {
-      transform: translate(50px, 30px);
-    }
-  }
-  @keyframes float-medium {
-    0%,
-    100% {
-      transform: translate(0, 0);
-    }
-    50% {
-      transform: translate(-40px, 50px);
-    }
-  }
-  @keyframes float-fast {
-    0%,
-    100% {
-      transform: translate(0, 0);
-    }
-    50% {
-      transform: translate(30px, -40px);
-    }
-  }
 
   @keyframes grid-drift {
     0% {
