@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "@/styles/globals.css";
 import WebVitals from "@/app/_components/WebVitals";
 import { BackToTop } from "@/components/BackToTop";
+import { Preloader } from "@/components/Preloader";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -50,6 +51,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col overflow-x-hidden`}
       >
+        <Preloader />
         <WebVitals />
         <main className="flex-1">{children}</main>
         <BackToTop />

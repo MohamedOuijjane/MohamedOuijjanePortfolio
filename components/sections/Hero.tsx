@@ -1,6 +1,7 @@
 "use client";
 
 import { ScrollCue } from "@/components/ScrollCue";
+import { DecryptHoverText } from "@/components/DecryptHoverText";
 
 export function Hero() {
   return (
@@ -18,7 +19,7 @@ export function Hero() {
 
             {/* Big Name */}
             <h1 className="mt-4 text-4xl font-bold tracking-tight text-black sm:text-6xl lg:text-7xl leading-[1.1]">
-              Mohamed OUIJJANE.
+              <DecryptHoverText text="Mohamed OUIJJANE." />
             </h1>
 
             {/* Role line */}

@@ -57,7 +57,7 @@ export function SocialRail() {
       </div>
 
       {/* Wider vertical line below icons */}
-      <div className="h-24 w-[2px] bg-black rounded-t-full" />
+      <div className="h-24 w-[2px] bg-neutral-300 rounded-t-full" />
     </aside>
   );
 }

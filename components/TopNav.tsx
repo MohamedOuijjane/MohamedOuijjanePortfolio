@@ -11,10 +11,12 @@ import {
   ChevronDownIcon,
   CloseIcon,
   FileTextIcon,
+  GlobeIcon,
   HamburgerIcon,
   MoonIcon,
   SunIcon,
 } from "./icons";
+import { HoverExpandPill } from "./ui/hover-expand-pill";
 
 type NavKey = "home" | "work" | "blogs" | "about" | "contact";
 
@@ -56,7 +58,7 @@ const DropdownTile = ({
   external,
   className = "",
 }: DropdownTileProps) => {
-  const containerClasses = `group relative flex flex-col justify-between rounded-xl border p-3.5 transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2FAE8A] ${
+  const containerClasses = `group relative flex flex-col justify-between rounded-xl border p-3.5 transition-colors duration-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2FAE8A] ${
     isActive
       ? "border-[#2FAE8A] bg-[#2FAE8A]/5 shadow-sm"
       : "border-[#E6E8EC] bg-white hover:bg-black hover:border-black hover:shadow-xl hover:-translate-y-1 focus-visible:bg-black"
@@ -66,7 +68,7 @@ const DropdownTile = ({
     <>
       <div className="flex items-start justify-between">
         <div
-          className={`flex h-8 w-8 items-center justify-center rounded-lg transition-all duration-300 ${
+          className={`flex h-8 w-8 items-center justify-center rounded-lg transition-colors duration-100 ${
             isActive
               ? "bg-[#2FAE8A] text-white"
               : "bg-neutral-50 text-neutral-400 group-hover:bg-white/10 group-hover:text-white"
@@ -77,7 +79,7 @@ const DropdownTile = ({
           })}
         </div>
         <ArrowUpRightIcon
-          className={`h-3.5 w-3.5 transition-all duration-300 ${
+          className={`h-3.5 w-3.5 transition-all duration-100 ${
             isActive
               ? "text-[#2FAE8A]"
               : "text-neutral-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-white"
@@ -86,14 +88,14 @@ const DropdownTile = ({
       </div>
       <div className="mt-2.5">
         <h3
-          className={`font-mono text-[13px] font-bold transition-colors duration-300 ${
+          className={`font-mono text-[13px] font-bold transition-colors duration-100 ${
             isActive ? "text-[#0B0F14]" : "text-black group-hover:text-white"
           }`}
         >
           {title}
         </h3>
         <p
-          className={`mt-1 text-[11px] leading-snug transition-colors duration-300 line-clamp-2 ${
+          className={`mt-1 text-[11px] leading-snug transition-colors duration-100 line-clamp-2 ${
             isActive
               ? "text-neutral-600"
               : "text-neutral-500 group-hover:text-white/70"
@@ -234,14 +236,17 @@ export function TopNav() {
   };
 
   const openProjectsDropdown = () => {
-    if (dropdownTimeoutRef.current) clearTimeout(dropdownTimeoutRef.current);
+    if (dropdownTimeoutRef.current) {
+      clearTimeout(dropdownTimeoutRef.current);
+      dropdownTimeoutRef.current = null;
+    }
     setIsProjectsOpen(true);
   };
 
   const closeProjectsDropdown = () => {
     dropdownTimeoutRef.current = setTimeout(() => {
       setIsProjectsOpen(false);
-    }, 150); // Small delay to allow moving cursor from trigger to dropdown
+    }, 100);
   };
 
   return (
@@ -321,7 +326,7 @@ export function TopNav() {
                 />
               </button>
               <div
-                className={`absolute left-1/2 top-full mt-3 w-[340px] -translate-x-1/2 rounded-xl border border-[#E6E8EC] bg-white/95 p-2.5 shadow-xl backdrop-blur-xl transition-all duration-300 z-[60] ${
+                className={`absolute left-1/2 top-full mt-3 w-[340px] -translate-x-1/2 rounded-xl border border-[#E6E8EC] bg-white/95 p-2.5 shadow-xl backdrop-blur-xl transition-all duration-150 z-[60] ${
                   prefersReducedMotion
                     ? isProjectsOpen
                       ? "pointer-events-auto opacity-100"
@@ -404,65 +409,57 @@ export function TopNav() {
                 }`}
               >
                 <NavItemHover />
-                <span className="relative z-10">Contact Me</span>
+                <span className="relative z-10">Contact</span>
               </Link>
             </li>
           </ul>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
             {/* Language Switcher */}
-            <button
-              type="button"
+            <HoverExpandPill
+              icon={<GlobeIcon className="h-4 w-4" />}
+              label={language === "FR" ? "Language: FR" : "Language: EN"}
               onClick={() => setLanguage((l) => (l === "FR" ? "EN" : "FR"))}
-              className="group relative flex h-10 w-10 items-center justify-center rounded-full text-[#0B0F14]/70 transition-all duration-300 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2FAE8A]"
-              aria-label="Toggle language"
-            >
-              <NavItemHover />
-              <span className="relative z-10 font-mono text-sm font-bold transition-transform duration-300 group-hover:scale-110">
-                {language}
-              </span>
-            </button>
+              ariaLabel="Toggle language"
+            />
 
             {/* Theme Toggle Button */}
-            <button
-              type="button"
+            <HoverExpandPill
+              icon={
+                isDarkMode ? (
+                  <SunIcon className="h-4 w-4" />
+                ) : (
+                  <MoonIcon className="h-4 w-4" />
+                )
+              }
+              label={isDarkMode ? "Light" : "Dark"}
               onClick={() => setIsDarkMode(!isDarkMode)}
-              className="group relative flex h-10 w-10 items-center justify-center rounded-full text-[#0B0F14]/70 transition-all duration-300 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2FAE8A]"
-              aria-label={
+              ariaLabel={
                 isDarkMode ? "Switch to light mode" : "Switch to dark mode"
               }
-            >
-              <NavItemHover />
-              <div className="relative h-5 w-5 transition-transform duration-500 group-hover:rotate-12 group-active:scale-90">
-                {isDarkMode ? (
-                  <SunIcon className="h-5 w-5" />
-                ) : (
-                  <MoonIcon className="h-5 w-5" />
-                )}
-              </div>
-            </button>
+            />
 
             {/* Resume Button */}
             <a
               href="/resume.pdf"
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden sm:flex h-10 items-center justify-center rounded-full bg-black px-6 text-sm font-mono font-bold text-white transition-all duration-300 hover:bg-black/80 hover:shadow-lg active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2FAE8A]"
+              className="hidden sm:flex h-9 items-center justify-center rounded-full bg-black px-5 text-xs font-mono font-bold text-white transition-all duration-200 hover:bg-neutral-800 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2FAE8A] focus-visible:ring-offset-2"
             >
               Resume
             </a>
 
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="flex h-10 w-10 items-center justify-center rounded-md text-[#0B0F14] transition-colors hover:bg-[#E6E8EC] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2FAE8A] lg:hidden"
+              className="flex h-9 w-9 items-center justify-center rounded-md text-[#0B0F14] transition-colors hover:bg-[#E6E8EC] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2FAE8A] lg:hidden"
               aria-expanded={isMenuOpen}
               aria-controls="mobile-menu"
               aria-label={isMenuOpen ? "Close menu" : "Open menu"}
             >
               {isMenuOpen ? (
-                <CloseIcon className="h-6 w-6" aria-hidden="true" />
+                <CloseIcon className="h-5 w-5" aria-hidden="true" />
               ) : (
-                <HamburgerIcon className="h-6 w-6" aria-hidden="true" />
+                <HamburgerIcon className="h-5 w-5" aria-hidden="true" />
               )}
             </button>
           </div>
@@ -590,7 +587,7 @@ export function TopNav() {
                       : "text-[#0B0F14]"
                   }`}
                 >
-                  Contact Me
+                  Contact
                 </Link>
               </li>
             </ul>
