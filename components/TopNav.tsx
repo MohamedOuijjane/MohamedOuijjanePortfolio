@@ -1,10 +1,20 @@
 "use client";
 
+import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
 import { Logo } from "./brand/Logo";
-import { CloseIcon, HamburgerIcon, MoonIcon, SunIcon } from "./icons";
+import {
+  ArrowUpRightIcon,
+  AwardIcon,
+  BriefcaseIcon,
+  ChevronDownIcon,
+  CloseIcon,
+  FileTextIcon,
+  HamburgerIcon,
+  MoonIcon,
+  SunIcon,
+} from "./icons";
 
 type NavKey = "home" | "work" | "blogs" | "about" | "contact";
 
@@ -22,6 +32,105 @@ const getActiveNavKey = (pathname: string): NavKey | null => {
 const NavItemHover = () => (
   <span className="absolute inset-0 -z-10 scale-95 rounded-full bg-black/90 opacity-0 transition-all duration-200 ease-out group-hover:scale-100 group-hover:opacity-100" />
 );
+
+interface DropdownTileProps {
+  href: string;
+  title: string;
+  description: string;
+  icon: React.ReactNode;
+  isActive?: boolean;
+  isFeatured?: boolean;
+  onClick?: () => void;
+  external?: boolean;
+  className?: string;
+}
+
+const DropdownTile = ({
+  href,
+  title,
+  description,
+  icon,
+  isActive,
+  isFeatured,
+  onClick,
+  external,
+  className = "",
+}: DropdownTileProps) => {
+  const containerClasses = `group relative flex flex-col justify-between rounded-xl border p-3.5 transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2FAE8A] ${
+    isActive
+      ? "border-[#2FAE8A] bg-[#2FAE8A]/5 shadow-sm"
+      : "border-[#E6E8EC] bg-white hover:bg-black hover:border-black hover:shadow-xl hover:-translate-y-1 focus-visible:bg-black"
+  } ${isFeatured ? "min-h-[85px]" : "min-h-[110px]"} ${className}`;
+
+  const content = (
+    <>
+      <div className="flex items-start justify-between">
+        <div
+          className={`flex h-8 w-8 items-center justify-center rounded-lg transition-all duration-300 ${
+            isActive
+              ? "bg-[#2FAE8A] text-white"
+              : "bg-neutral-50 text-neutral-400 group-hover:bg-white/10 group-hover:text-white"
+          }`}
+        >
+          {React.cloneElement(icon as React.ReactElement, {
+            className: "h-4 w-4",
+          })}
+        </div>
+        <ArrowUpRightIcon
+          className={`h-3.5 w-3.5 transition-all duration-300 ${
+            isActive
+              ? "text-[#2FAE8A]"
+              : "text-neutral-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-white"
+          }`}
+        />
+      </div>
+      <div className="mt-2.5">
+        <h3
+          className={`font-mono text-[13px] font-bold transition-colors duration-300 ${
+            isActive ? "text-[#0B0F14]" : "text-black group-hover:text-white"
+          }`}
+        >
+          {title}
+        </h3>
+        <p
+          className={`mt-1 text-[11px] leading-snug transition-colors duration-300 line-clamp-2 ${
+            isActive
+              ? "text-neutral-600"
+              : "text-neutral-500 group-hover:text-white/70"
+          }`}
+        >
+          {description}
+        </p>
+      </div>
+    </>
+  );
+
+  if (external) {
+    return (
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        onClick={onClick}
+        role="menuitem"
+        className={containerClasses}
+      >
+        {content}
+      </a>
+    );
+  }
+
+  return (
+    <Link
+      href={href}
+      onClick={onClick}
+      role="menuitem"
+      className={containerClasses}
+    >
+      {content}
+    </Link>
+  );
+};
 
 export function TopNav() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -93,7 +202,7 @@ export function TopNav() {
   }, []);
 
   const desktopLinkBaseClass =
-    "group relative px-4 py-2 font-mono text-sm font-medium transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2FAE8A] focus-visible:ring-offset-2 hover:text-white focus-visible:text-white";
+    "group relative flex items-center justify-center px-4 py-2 h-9 font-mono text-sm font-medium leading-none transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2FAE8A] focus-visible:ring-offset-2 hover:text-white focus-visible:text-white";
 
   const mobileLinkBaseClass =
     "block rounded-lg px-4 py-3 font-mono text-sm font-medium transition-colors duration-200 hover:bg-[#E6E8EC] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2FAE8A]";
@@ -189,7 +298,7 @@ export function TopNav() {
             >
               <button
                 type="button"
-                className={`${desktopLinkBaseClass} ${
+                className={`${desktopLinkBaseClass} gap-1 ${
                   activeNavKey === "work"
                     ? "text-[#0B0F14]"
                     : "text-[#0B0F14]/70"
@@ -205,52 +314,55 @@ export function TopNav() {
               >
                 <NavItemHover />
                 <span className="relative z-10">Work</span>
+                <ChevronDownIcon
+                  className={`relative z-10 h-3.5 w-3.5 shrink-0 transition-transform duration-300 ${
+                    isProjectsOpen ? "rotate-180" : "rotate-0"
+                  }`}
+                />
               </button>
               <div
-                className={`absolute left-1/2 top-full mt-3 w-48 -translate-x-1/2 rounded-xl border border-[#E6E8EC] bg-white/95 shadow-lg transition-all duration-200 z-[60] ${
+                className={`absolute left-1/2 top-full mt-3 w-[340px] -translate-x-1/2 rounded-xl border border-[#E6E8EC] bg-white/95 p-2.5 shadow-xl backdrop-blur-xl transition-all duration-300 z-[60] ${
                   prefersReducedMotion
                     ? isProjectsOpen
                       ? "pointer-events-auto opacity-100"
                       : "pointer-events-none opacity-0"
                     : isProjectsOpen
-                      ? "pointer-events-auto translate-y-0 opacity-100 ease-out"
-                      : "pointer-events-none -translate-y-2 opacity-0 ease-out"
+                      ? "pointer-events-auto translate-y-0 scale-100 opacity-100 ease-out"
+                      : "pointer-events-none -translate-y-2 scale-[0.98] opacity-0 ease-in"
                 }`}
                 role="menu"
                 aria-label="Work submenu"
               >
-                <ul className="py-2 px-2">
-                  <li>
-                    <Link
-                      href="/projects"
-                      role="menuitem"
-                      className={`${desktopLinkBaseClass} block w-full text-left ${
-                        pathname.startsWith("/projects")
-                          ? "text-[#0B0F14]"
-                          : "text-[#0B0F14]/80"
-                      }`}
-                      onClick={() => setIsProjectsOpen(false)}
-                    >
-                      <NavItemHover />
-                      <span className="relative z-10">Projects</span>
-                    </Link>
-                  </li>
-                  <li className="mt-1">
-                    <Link
-                      href="/certificates"
-                      role="menuitem"
-                      className={`${desktopLinkBaseClass} block w-full text-left ${
-                        pathname === "/certificates"
-                          ? "text-[#0B0F14]"
-                          : "text-[#0B0F14]/80"
-                      }`}
-                      onClick={() => setIsProjectsOpen(false)}
-                    >
-                      <NavItemHover />
-                      <span className="relative z-10">Certificates</span>
-                    </Link>
-                  </li>
-                </ul>
+                <div className="grid grid-cols-2 gap-2.5">
+                  <DropdownTile
+                    href="/projects"
+                    title="Projects"
+                    description="Selected work, case studies, and builds."
+                    icon={<BriefcaseIcon className="h-5 w-5" />}
+                    isActive={pathname.startsWith("/projects")}
+                    isFeatured
+                    className="col-span-2"
+                    onClick={() => setIsProjectsOpen(false)}
+                  />
+                  <DropdownTile
+                    href="/certificates"
+                    title="Certificates"
+                    description="Verified learning and credentials."
+                    icon={<AwardIcon className="h-5 w-5" />}
+                    isActive={pathname === "/certificates"}
+                    className="col-span-1"
+                    onClick={() => setIsProjectsOpen(false)}
+                  />
+                  <DropdownTile
+                    href="/resume.pdf"
+                    title="Resume"
+                    description="Professional experience and skills."
+                    icon={<FileTextIcon className="h-5 w-5" />}
+                    external
+                    className="col-span-1"
+                    onClick={() => setIsProjectsOpen(false)}
+                  />
+                </div>
               </div>
             </li>
 
@@ -424,6 +536,17 @@ export function TopNav() {
                       >
                         Certificates
                       </Link>
+                    </li>
+                    <li>
+                      <a
+                        href="/resume.pdf"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={handleMobileNavClick}
+                        className="block rounded-lg px-4 py-2 text-sm font-mono text-[#0B0F14]/80 hover:bg-[#E6E8EC] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2FAE8A]"
+                      >
+                        Resume
+                      </a>
                     </li>
                   </ul>
                 </div>
