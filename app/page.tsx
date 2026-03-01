@@ -7,6 +7,7 @@ import { About } from "@/components/sections/About";
 import { Contact } from "@/components/sections/Contact";
 import { AnimatedLines } from "@/components/AnimatedLines";
 import { Footer } from "@/components/Footer";
+import { MarqueeBanner } from "@/components/MarqueeBanner";
 
 export default function Home() {
   const personJsonLd = {
@@ -35,6 +36,9 @@ export default function Home() {
       <div className="mx-auto max-w-[1200px] px-6">
         <Hero />
         <About />
+      </div>
+      <MarqueeBanner />
+      <div className="mx-auto max-w-[1200px] px-6">
         <Services />
         <PortfolioPreview />
         <Contact />
