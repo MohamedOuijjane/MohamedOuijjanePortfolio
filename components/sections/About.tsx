@@ -1,8 +1,25 @@
+"use client";
+
 import Image from "next/image";
+import { useRef, useState } from "react";
+import { motion, useInView } from "framer-motion";
+import { GlassCard } from "@/components/ui/GlassCard";
+import { satoshi } from "@/lib/fonts";
+import { AnimatedUnderlineInline } from "@/components/ui/AnimatedUnderlineInline";
+import { CoreExpertiseMarquee } from "./CoreExpertiseMarquee";
+import { ScrollDrawUnderline } from "@/components/ui/ScrollDrawUnderline";
 
 export function About() {
+  const sectionRef = useRef(null);
+  const isInView = useInView(sectionRef, { once: false, amount: 0.3 });
+  const [isNameHovered, setIsNameHovered] = useState(false);
+
   return (
-    <section id="about" className="scroll-mt-24 py-20">
+    <section
+      id="about"
+      ref={sectionRef}
+      className={`scroll-mt-24 py-20 ${satoshi.variable} font-sans`}
+    >
       <div className="grid gap-12 lg:grid-cols-2 lg:gap-20">
         <div className="group relative aspect-square w-full max-w-md lg:order-2">
           <div
@@ -31,53 +48,79 @@ export function About() {
         </div>
 
         <div className="flex flex-col justify-center lg:order-1">
-          <h2 className="mb-6 text-3xl font-bold text-[#0B0F14] md:text-4xl">
-            About Me
-          </h2>
-          <div className="space-y-4 text-lg text-gray-600">
-            <p>
-              Hello! I&apos;m a passionate software engineer with a love for
-              building things that live on the internet. My interest in web
-              development started back in 2018 when I decided to try editing
-              custom Tumblr themes — turns out hacking together HTML & CSS was
-              pretty fun!
-            </p>
-            <p>
-              Fast-forward to today, and I&apos;ve had the privilege of working
-              at an advertising agency, a start-up, a huge corporation, and a
-              student-led design studio. My main focus these days is building
-              accessible, inclusive products and digital experiences for a
-              variety of clients.
-            </p>
-            <p>
-              Here are a few technologies I&apos;ve been working with recently:
-            </p>
-            <ul className="mt-4 grid grid-cols-2 gap-2 text-sm font-medium">
-              <li className="flex items-center gap-2">
-                <span className="h-1.5 w-1.5 rounded-full bg-teal-700" />{" "}
-                JavaScript (ES6+)
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="h-1.5 w-1.5 rounded-full bg-teal-700" />{" "}
-                TypeScript
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="h-1.5 w-1.5 rounded-full bg-teal-700" /> React
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="h-1.5 w-1.5 rounded-full bg-teal-700" />{" "}
-                Next.js
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="h-1.5 w-1.5 rounded-full bg-teal-700" />{" "}
-                Node.js
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="h-1.5 w-1.5 rounded-full bg-teal-700" />{" "}
-                Tailwind CSS
-              </li>
-            </ul>
-          </div>
+          <GlassCard
+            className="relative z-10 transform mt-[-37px] px-8 py-10 sm:px-12 sm:py-12 lg:w-[calc(100%+150px)] lg:-translate-x-[75px] lg:px-16"
+            fadeSize="80px"
+          >
+            <h2 className="mb-6 text-3xl font-bold text-[#0B0F14] md:text-4xl">
+              About Me
+            </h2>
+            <div className="space-y-6 text-lg text-gray-600 leading-relaxed">
+              <p>
+                I&apos;m{" "}
+                <span
+                  className="relative inline-block font-bold text-[#0B0F14] cursor-default"
+                  onMouseEnter={() => setIsNameHovered(true)}
+                  onMouseLeave={() => setIsNameHovered(false)}
+                >
+                  Mohamed Ouijjane
+                  <AnimatedUnderlineInline
+                    isVisible={isInView}
+                    isHovered={isNameHovered}
+                    className="text-teal-700/60"
+                  />
+                </span>
+                , a Full-Stack Developer dedicated to building high-performance,
+                accessible, and scalable web applications. I bridge the gap
+                between clean, intuitive user interfaces and robust,
+                maintainable backend architectures.
+              </p>
+              <p>
+                My focus lies in delivering real value through engineering
+                excellence prioritizing performance, clarity, and products that
+                are built to last. I have a deep interest in{" "}
+                <span className="font-medium text-[#0B0F14]">
+                  scalable architectures
+                </span>
+                , exploring how service-oriented designs solve complex
+                real-world challenges.
+              </p>
+
+              <div className="mt-12 space-y-6">
+                <div className="space-y-1">
+                  <h3 className="px-1 text-xl font-bold text-[#0B0F14]">
+                    Core Expertise
+                  </h3>
+                  <CoreExpertiseMarquee />
+                </div>
+
+                <p className="text-base italic text-neutral-700">
+                  Currently open to{" "}
+                  <ScrollDrawUnderline
+                    text="Internship"
+                    inView={isInView}
+                    delay={0.15}
+                    pathVariant={0}
+                  />
+                  ,{" "}
+                  <ScrollDrawUnderline
+                    text="Junior roles"
+                    inView={isInView}
+                    delay={0.35}
+                    pathVariant={1}
+                  />
+                  , and{" "}
+                  <ScrollDrawUnderline
+                    text="Freelance collaborations"
+                    inView={isInView}
+                    delay={0.55}
+                    pathVariant={2}
+                  />
+                  .
+                </p>
+              </div>
+            </div>
+          </GlassCard>
         </div>
       </div>
     </section>

@@ -1,3 +1,5 @@
+import { GlassCard } from "@/components/ui/GlassCard";
+
 export function Services() {
   const services = [
     {
@@ -64,32 +66,34 @@ export function Services() {
 
   return (
     <section id="services" className="scroll-mt-24 py-20">
-      <div className="mb-12">
-        <h2 className="text-3xl font-bold text-[#0B0F14] md:text-4xl">
-          What I Do
-        </h2>
-        <p className="mt-4 max-w-2xl text-lg text-gray-600">
-          I help businesses and individuals bring their ideas to life with
-          high-quality technical solutions.
-        </p>
-      </div>
+      <GlassCard className="px-8 py-10 sm:px-12 sm:py-12 lg:px-16" fadeSize="80px">
+        <div className="mb-12">
+          <h2 className="text-3xl font-bold text-[#0B0F14] md:text-4xl">
+            What I Do
+          </h2>
+          <p className="mt-4 max-w-2xl text-lg text-gray-600">
+            I help businesses and individuals bring their ideas to life with
+            high-quality technical solutions.
+          </p>
+        </div>
 
-      <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-        {services.map((service) => (
-          <div
-            key={service.title}
-            className="rounded-2xl border border-gray-100 bg-white p-8 shadow-sm transition-all hover:border-teal-700/20 hover:shadow-md"
-          >
-            <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-lg bg-teal-700/10">
-              {service.icon}
+        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+          {services.map((service) => (
+            <div
+              key={service.title}
+              className="rounded-2xl border border-gray-100 bg-white/50 p-8 shadow-sm transition-all hover:border-teal-700/20 hover:shadow-md backdrop-blur-sm"
+            >
+              <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-lg bg-teal-700/10">
+                {service.icon}
+              </div>
+              <h3 className="mb-3 text-xl font-bold text-[#0B0F14]">
+                {service.title}
+              </h3>
+              <p className="text-gray-600">{service.description}</p>
             </div>
-            <h3 className="mb-3 text-xl font-bold text-[#0B0F14]">
-              {service.title}
-            </h3>
-            <p className="text-gray-600">{service.description}</p>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      </GlassCard>
     </section>
   );
 }

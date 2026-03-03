@@ -9,11 +9,15 @@ const RANDOM_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 interface CursorDecryptLabelProps {
   text: string;
   children: React.ReactNode;
+  enableScrollCorrection?: boolean;
+  sideOffset?: number;
 }
 
 export function CursorDecryptLabel({
   text,
   children,
+  enableScrollCorrection = false,
+  sideOffset = 14,
 }: CursorDecryptLabelProps) {
   const [isHovered, setIsHovered] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
@@ -84,14 +88,14 @@ export function CursorDecryptLabel({
 
   const handlePointerEnter = (e: React.PointerEvent) => {
     // Immediate position set to prevent jump from (0,0)
-    // Apply correction of ~4cm (152px) if scrolled
-    const correctionX = isScrolled ? -152 : 0;
+    // Apply correction of ~4cm (152px) if scrolled AND correction is enabled (for logo)
+    const correctionX = enableScrollCorrection && isScrolled ? -152 : 0;
     setMousePos({ x: e.clientX + correctionX, y: e.clientY });
     setIsHovered(true);
   };
 
   const handlePointerMove = (e: React.PointerEvent) => {
-    const correctionX = isScrolled ? -152 : 0;
+    const correctionX = enableScrollCorrection && isScrolled ? -152 : 0;
     setMousePos({ x: e.clientX + correctionX, y: e.clientY });
   };
 
@@ -131,7 +135,7 @@ export function CursorDecryptLabel({
                   }
                 : {
                     position: "fixed",
-                    top: mousePos.y + 14,
+                    top: mousePos.y + sideOffset,
                     left: mousePos.x + 12,
                     pointerEvents: "none",
                   }

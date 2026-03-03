@@ -277,7 +277,10 @@ export function TopNav() {
           }`}
           aria-label="Main navigation"
         >
-          <CursorDecryptLabel text="Who is WeJan?">
+          <CursorDecryptLabel
+            text="Who is WeJan?"
+            enableScrollCorrection={true}
+          >
             <div className="translate-y-[3px]">
               <Logo />
             </div>

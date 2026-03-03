@@ -81,6 +81,15 @@ body {
   font-family: var(--font-sans);
 }
 
+/* Ensure UI elements inherit the global font */
+button,
+input,
+optgroup,
+select,
+textarea {
+  font-family: inherit;
+}
+
 .portfolio-bg {
   isolation: isolate;
   overflow: hidden;

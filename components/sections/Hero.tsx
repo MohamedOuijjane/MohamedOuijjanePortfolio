@@ -2,9 +2,9 @@
 
 import { ScrollCue } from "@/components/ScrollCue";
 import { DecryptHoverText } from "@/components/DecryptHoverText";
-import { HeroCardLines } from "@/components/ui/HeroCardLines";
 import { satoshi } from "@/lib/fonts";
 import { GetInTouchButton } from "@/components/ui/get-in-touch-button";
+import { GlassCard } from "@/components/ui/GlassCard";
 
 export function Hero() {
   return (
@@ -13,9 +13,8 @@ export function Hero() {
       className="relative flex min-h-[calc(100vh-80px)] flex-col items-center justify-center py-16 sm:py-20"
     >
       <div className="relative z-10 flex w-full justify-center px-4 sm:px-6 lg:px-8">
-        <div className="hero-glass-panel relative overflow-hidden transform mt-[-32px] w-[calc(100%+65px)] translate-x-[18px] translate-y-[24px] max-w-[1200px] min-h-[55vh] sm:mt-[-48px] sm:w-[calc(100%+131px)] sm:translate-x-[37px] sm:translate-y-[40px] sm:min-h-[60vh] lg:mt-[-75px] lg:w-[calc(100%+262px)] lg:translate-x-[75px] lg:translate-y-[75px] lg:min-h-[70vh] flex flex-col justify-center px-10 sm:px-16 lg:px-24">
-          <HeroCardLines className="absolute inset-0 z-0 pointer-events-none" />
-          <div className="relative z-10 max-w-3xl transform translate-x-[38px]">
+        <GlassCard className="transform mt-[-32px] w-[calc(100%+65px)] translate-x-[18px] translate-y-[24px] max-w-[1200px] min-h-[55vh] sm:mt-[-48px] sm:w-[calc(100%+131px)] sm:translate-x-[37px] sm:translate-y-[40px] sm:min-h-[60vh] lg:mt-[-75px] lg:w-[calc(100%+262px)] lg:translate-x-[75px] lg:translate-y-[75px] lg:min-h-[70vh] flex flex-col justify-center px-10 sm:px-16 lg:px-24">
+          <div className="max-w-3xl transform translate-x-[38px]">
             {/* Big Name */}
             <h1
               className={`${satoshi.className} text-4xl font-black tracking-[-0.03em] text-black sm:text-6xl lg:text-7xl leading-[1.05] [font-feature-settings:normal] [font-variation-settings:normal]`}
@@ -30,8 +29,9 @@ export function Hero() {
 
             {/* Supporting sentence */}
             <p className="mt-4 max-w-xl text-base leading-relaxed text-neutral-600 sm:text-lg lg:text-xl">
-              I build clean, reliable web experiences with a focus on
-              performance and product quality.
+              Passionate about creating intuitive and engaging user experiences.
+              Specialize in transforming ideas into beautifully crafted
+              products.
             </p>
 
             {/* CTA Button */}
@@ -39,7 +39,7 @@ export function Hero() {
               <GetInTouchButton href="#contact" label="Get in touch" />
             </div>
           </div>
-        </div>
+        </GlassCard>
       </div>
       <ScrollCue />
     </section>
