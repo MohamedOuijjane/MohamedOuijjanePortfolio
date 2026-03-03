@@ -37,9 +37,11 @@ export function HoverExpandPill({
       className={cn(
         "relative flex items-center justify-center rounded-full transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2FAE8A] focus-visible:ring-offset-2",
         "h-9 min-w-[36px] px-2",
-        active ? "bg-black text-white" : "bg-neutral-100 text-[#0B0F14]/70 hover:bg-black hover:text-white",
+        active
+          ? "bg-black text-white"
+          : "bg-neutral-100 text-[#0B0F14]/70 hover:bg-black hover:text-white",
         isActive && !active && "bg-[#2FAE8A]/10 text-[#2FAE8A]",
-        className
+        className,
       )}
       aria-label={ariaLabel}
     >
@@ -54,7 +56,7 @@ export function HoverExpandPill({
               animate={{ width: "auto", opacity: 1 }}
               exit={{ width: 0, opacity: 0 }}
               transition={{ duration: 0.18, ease: "easeOut" }}
-              className="font-mono text-xs font-bold tracking-tight"
+              className="font-sans text-xs font-bold tracking-tight"
             >
               {label}
             </motion.span>

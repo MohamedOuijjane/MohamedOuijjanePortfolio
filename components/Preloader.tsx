@@ -1,107 +1,70 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { AnimatedLines } from "./AnimatedLines";
 
-interface PreloaderProps {
-  durationMs?: number;
-}
-
-export function Preloader({ durationMs = 3500 }: PreloaderProps) {
-  const [progress, setProgress] = useState(0);
-  const [isComplete, setIsComplete] = useState(false);
+export function Preloader() {
   const [shouldExit, setShouldExit] = useState(false);
-  const startTimeRef = useRef<number | null>(null);
-  const animationFrameRef = useRef<number | null>(null);
+  const [typedText, setTypedText] = useState("");
+  const HELLO_STRING = "<Hello World! />";
+  const HELLO_DURATION = 1500; // 1.5s for typing
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (mediaQuery.matches) {
+      setTypedText(HELLO_STRING);
+      setTimeout(() => setShouldExit(true), 500);
+      return;
+    }
 
-    // If reduced motion is on, skip the long wait
-    const effectiveDuration = mediaQuery.matches ? 500 : durationMs;
-
-    const updateProgress = (timestamp: number) => {
-      if (!startTimeRef.current) startTimeRef.current = timestamp;
-      const elapsed = timestamp - startTimeRef.current;
-      const currentProgress = Math.min(
-        (elapsed / effectiveDuration) * 100,
-        100,
-      );
-
-      setProgress(currentProgress);
-
-      if (currentProgress < 100) {
-        animationFrameRef.current = requestAnimationFrame(updateProgress);
+    // Start typing immediately
+    let charIndex = 0;
+    const typeInterval = setInterval(() => {
+      if (charIndex <= HELLO_STRING.length) {
+        setTypedText(HELLO_STRING.slice(0, charIndex));
+        charIndex++;
       } else {
-        setIsComplete(true);
-        // Show "Hello World" for a moment before exiting
-        setTimeout(
-          () => {
-            setShouldExit(true);
-          },
-          mediaQuery.matches ? 200 : 1200,
-        );
+        clearInterval(typeInterval);
+        // Wait a bit after typing is done before exiting
+        setTimeout(() => setShouldExit(true), 600);
       }
-    };
+    }, HELLO_DURATION / HELLO_STRING.length);
 
-    animationFrameRef.current = requestAnimationFrame(updateProgress);
-
-    return () => {
-      if (animationFrameRef.current)
-        cancelAnimationFrame(animationFrameRef.current);
-    };
-  }, [durationMs]);
+    return () => clearInterval(typeInterval);
+  }, []);
 
   return (
     <AnimatePresence>
       {!shouldExit && (
         <motion.div
-          initial={{ opacity: 1 }}
+          initial={{ y: 0 }}
           exit={{
-            opacity: 0,
-            scale: 0.98,
-            transition: { duration: 0.6, ease: [0.43, 0.13, 0.23, 0.96] },
+            y: "-100%",
+            transition: { 
+              duration: 0.8, 
+              ease: [0.85, 0, 0.15, 1], // Stronger ease for "opening" feel
+            },
           }}
-          className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-white pointer-events-auto select-none"
+          className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-black pointer-events-auto select-none"
         >
-          {/* Exact Background Match */}
-          <AnimatedLines />
+          {/* Dark variant of background lines */}
+          <AnimatedLines variant="dark" />
 
-          <div className="relative z-10 flex flex-col items-center w-full max-w-[280px] sm:max-w-sm">
-            <div className="h-12 flex items-center justify-center overflow-hidden">
-              <AnimatePresence mode="wait">
-                {!isComplete ? (
-                  <motion.span
-                    key="percentage"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    className="font-mono text-2xl font-bold text-[#0B0F14]"
-                  >
-                    {Math.round(progress)}%
-                  </motion.span>
-                ) : (
-                  <motion.span
-                    key="hello"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="font-mono text-xl sm:text-2xl font-bold text-[#0B0F14]"
-                  >
-                    {"<Hello World! />"}
-                  </motion.span>
-                )}
-              </AnimatePresence>
-            </div>
-
-            {/* Progress Line */}
-            <div className="mt-4 h-[2px] w-full bg-neutral-100 rounded-full overflow-hidden">
-              <motion.div
-                className="h-full bg-black"
-                initial={{ width: 0 }}
-                animate={{ width: `${progress}%` }}
-                transition={{ ease: "linear" }}
-              />
+          <div className="relative z-10 flex flex-col items-center w-full px-6">
+            <div className="h-20 flex items-center justify-center overflow-hidden">
+              <motion.span
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="font-sans text-3xl sm:text-5xl lg:text-6xl font-black text-white"
+              >
+                {typedText}
+                <motion.span
+                  animate={{ opacity: [1, 0] }}
+                  transition={{ duration: 0.5, repeat: Infinity }}
+                  className="inline-block w-[3px] h-[1em] bg-white ml-2 align-middle"
+                />
+              </motion.span>
             </div>
           </div>
         </motion.div>

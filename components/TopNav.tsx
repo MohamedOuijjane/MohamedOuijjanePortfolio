@@ -3,13 +3,16 @@
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
 import { Logo } from "./brand/Logo";
+import { CursorDecryptLabel } from "./ui/CursorDecryptLabel";
 import {
   ArrowUpRightIcon,
   AwardIcon,
   BriefcaseIcon,
   ChevronDownIcon,
   CloseIcon,
+  DownloadIcon,
   FileTextIcon,
   GlobeIcon,
   HamburgerIcon,
@@ -88,7 +91,7 @@ const DropdownTile = ({
       </div>
       <div className="mt-2.5">
         <h3
-          className={`font-mono text-[13px] font-bold transition-colors duration-100 ${
+          className={`font-sans text-[13px] font-bold transition-colors duration-100 ${
             isActive ? "text-[#0B0F14]" : "text-black group-hover:text-white"
           }`}
         >
@@ -142,10 +145,14 @@ export function TopNav() {
   const [language, setLanguage] = useState("FR");
   const [atTop, setAtTop] = useState(true);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const [isResumeHovered, setIsResumeHovered] = useState(false);
+  const [isResumeFocused, setIsResumeFocused] = useState(false);
   const projectsMenuRef = useRef<HTMLDivElement | null>(null);
   const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const pathname = usePathname();
   const router = useRouter();
+
+  const isResumeExpanded = isResumeHovered || isResumeFocused;
 
   const activeNavKey = getActiveNavKey(pathname);
 
@@ -204,10 +211,10 @@ export function TopNav() {
   }, []);
 
   const desktopLinkBaseClass =
-    "group relative flex items-center justify-center px-4 py-2 h-9 font-mono text-sm font-medium leading-none transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2FAE8A] focus-visible:ring-offset-2 hover:text-white focus-visible:text-white";
+    "group relative flex items-center justify-center px-4 py-2 h-9 font-sans text-sm font-medium leading-none transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2FAE8A] focus-visible:ring-offset-2 hover:text-white focus-visible:text-white";
 
   const mobileLinkBaseClass =
-    "block rounded-lg px-4 py-3 font-mono text-sm font-medium transition-colors duration-200 hover:bg-[#E6E8EC] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2FAE8A]";
+    "block rounded-lg px-4 py-3 font-sans text-sm font-medium transition-colors duration-200 hover:bg-[#E6E8EC] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2FAE8A]";
 
   const handleHomeClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
@@ -270,7 +277,11 @@ export function TopNav() {
           }`}
           aria-label="Main navigation"
         >
-          <Logo />
+          <CursorDecryptLabel text="Who is WeJan?">
+            <div className="translate-y-[3px]">
+              <Logo />
+            </div>
+          </CursorDecryptLabel>
 
           <ul className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-9 lg:flex">
             <li>
@@ -440,14 +451,50 @@ export function TopNav() {
             />
 
             {/* Resume Button */}
-            <a
+            <motion.a
               href="/resume.pdf"
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden sm:flex h-9 items-center justify-center rounded-full bg-black px-5 text-xs font-mono font-bold text-white transition-all duration-200 hover:bg-neutral-800 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2FAE8A] focus-visible:ring-offset-2"
+              aria-label="Download resume"
+              onPointerEnter={() => setIsResumeHovered(true)}
+              onPointerLeave={() => setIsResumeHovered(false)}
+              onFocus={() => setIsResumeFocused(true)}
+              onBlur={() => setIsResumeFocused(false)}
+              animate={{
+                width: isResumeExpanded ? "110px" : "88px",
+              }}
+              transition={{
+                duration: 0.25,
+                ease: [0.23, 1, 0.32, 1],
+              }}
+              className="hidden sm:flex h-9 items-center justify-center rounded-full bg-black text-xs font-sans font-bold text-white transition-all duration-200 hover:bg-neutral-800 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2FAE8A] focus-visible:ring-offset-2 overflow-hidden relative"
             >
-              Resume
-            </a>
+              <AnimatePresence mode="wait">
+                {!isResumeExpanded ? (
+                  <motion.div
+                    key="resume"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.2 }}
+                    className="flex items-center gap-1.5"
+                  >
+                    <DownloadIcon className="h-3 w-3" />
+                    <span>Resume</span>
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key="download"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    Download
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.a>
 
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -520,7 +567,7 @@ export function TopNav() {
                       <Link
                         href="/projects"
                         onClick={handleMobileNavClick}
-                        className="block rounded-lg px-4 py-2 text-sm font-mono text-[#0B0F14]/80 hover:bg-[#E6E8EC] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2FAE8A]"
+                        className="block rounded-lg px-4 py-2 text-sm font-sans text-[#0B0F14]/80 hover:bg-[#E6E8EC] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2FAE8A]"
                       >
                         Projects
                       </Link>
@@ -529,7 +576,7 @@ export function TopNav() {
                       <Link
                         href="/certificates"
                         onClick={handleMobileNavClick}
-                        className="block rounded-lg px-4 py-2 text-sm font-mono text-[#0B0F14]/80 hover:bg-[#E6E8EC] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2FAE8A]"
+                        className="block rounded-lg px-4 py-2 text-sm font-sans text-[#0B0F14]/80 hover:bg-[#E6E8EC] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2FAE8A]"
                       >
                         Certificates
                       </Link>
@@ -540,7 +587,7 @@ export function TopNav() {
                         target="_blank"
                         rel="noopener noreferrer"
                         onClick={handleMobileNavClick}
-                        className="block rounded-lg px-4 py-2 text-sm font-mono text-[#0B0F14]/80 hover:bg-[#E6E8EC] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2FAE8A]"
+                        className="block rounded-lg px-4 py-2 text-sm font-sans text-[#0B0F14]/80 hover:bg-[#E6E8EC] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2FAE8A]"
                       >
                         Resume
                       </a>

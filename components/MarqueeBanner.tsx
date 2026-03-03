@@ -27,7 +27,7 @@ export function MarqueeBanner() {
           {[...Array(2)].map((_, i) => (
             <span
               key={i}
-              className="flex shrink-0 items-center px-4 text-sm font-mono font-bold tracking-wider text-white uppercase sm:text-base"
+              className="flex shrink-0 items-center px-4 text-sm font-sans font-bold tracking-wider text-white uppercase sm:text-base"
             >
               {content} •&nbsp;
             </span>
