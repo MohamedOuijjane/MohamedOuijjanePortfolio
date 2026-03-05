@@ -24,24 +24,29 @@ export function CursorDecryptLabel({
   const [mousePos, setMousePos] = useState<{ x: number; y: number } | null>(
     null,
   );
-  const [isScrolled, setIsScrolled] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return window.scrollY > 20;
+  });
   const [displayText, setDisplayText] = useState("");
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  });
   const containerRef = useRef<HTMLDivElement>(null);
+  const decryptCleanupRef = useRef<(() => void) | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
     };
 
-    handleScroll(); // Check initial state
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setPrefersReducedMotion(mediaQuery.matches);
     const handler = (e: MediaQueryListEvent) =>
       setPrefersReducedMotion(e.matches);
     mediaQuery.addEventListener("change", handler);
@@ -79,12 +84,18 @@ export function CursorDecryptLabel({
     return () => clearInterval(interval);
   }, [text, prefersReducedMotion]);
 
-  useEffect(() => {
-    if (isHovered || isFocused) {
-      const cleanup = startDecrypt();
-      return cleanup;
+  const stopDecrypt = useCallback(() => {
+    if (decryptCleanupRef.current) {
+      decryptCleanupRef.current();
+      decryptCleanupRef.current = null;
     }
-  }, [isHovered, isFocused, startDecrypt]);
+  }, []);
+
+  const triggerDecrypt = useCallback(() => {
+    stopDecrypt();
+    const cleanup = startDecrypt();
+    decryptCleanupRef.current = typeof cleanup === "function" ? cleanup : null;
+  }, [startDecrypt, stopDecrypt]);
 
   const handlePointerEnter = (e: React.PointerEvent) => {
     // Immediate position set to prevent jump from (0,0)
@@ -92,6 +103,7 @@ export function CursorDecryptLabel({
     const correctionX = enableScrollCorrection && isScrolled ? -152 : 0;
     setMousePos({ x: e.clientX + correctionX, y: e.clientY });
     setIsHovered(true);
+    triggerDecrypt();
   };
 
   const handlePointerMove = (e: React.PointerEvent) => {
@@ -102,6 +114,8 @@ export function CursorDecryptLabel({
   const handlePointerLeave = () => {
     setIsHovered(false);
     setMousePos(null);
+    stopDecrypt();
+    setDisplayText("");
   };
 
   const isVisible = isHovered || isFocused;
@@ -112,8 +126,15 @@ export function CursorDecryptLabel({
       onPointerEnter={handlePointerEnter}
       onPointerMove={handlePointerMove}
       onPointerLeave={handlePointerLeave}
-      onFocus={() => setIsFocused(true)}
-      onBlur={() => setIsFocused(false)}
+      onFocus={() => {
+        setIsFocused(true);
+        triggerDecrypt();
+      }}
+      onBlur={() => {
+        setIsFocused(false);
+        stopDecrypt();
+        setDisplayText("");
+      }}
       className="relative inline-block"
     >
       {children}

@@ -4,12 +4,15 @@ import Image from "next/image";
 import Link from "next/link";
 import { GitHubIcon, LinkedInIcon, GmailIcon } from "./icons";
 import { GlassCard } from "./ui/GlassCard";
+import { satoshi } from "@/lib/fonts";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="relative z-10 w-full pt-16">
+    <footer
+      className={`relative z-10 w-full pt-16 ${satoshi.variable} font-sans`}
+    >
       <GlassCard className="px-6 py-12 sm:px-12 lg:px-16" fadeSize="0px">
         <div className="mx-auto max-w-[1200px]">
           <div className="grid grid-cols-1 gap-12 md:grid-cols-3 lg:gap-24">

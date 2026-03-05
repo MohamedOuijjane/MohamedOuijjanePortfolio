@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useRef, useState } from "react";
-import { motion, useInView } from "framer-motion";
+import { useInView } from "framer-motion";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { satoshi } from "@/lib/fonts";
 import { AnimatedUnderlineInline } from "@/components/ui/AnimatedUnderlineInline";
@@ -52,7 +52,7 @@ export function About() {
             className="relative z-10 transform mt-[-37px] px-8 py-10 sm:px-12 sm:py-12 lg:w-[calc(100%+150px)] lg:-translate-x-[75px] lg:px-16"
             fadeSize="80px"
           >
-            <h2 className="mb-6 text-3xl font-bold text-[#0B0F14] md:text-4xl">
+            <h2 className="mb-6 font-sans text-3xl font-bold text-[#0B0F14] md:text-4xl">
               About Me
             </h2>
             <div className="space-y-6 text-lg text-gray-600 leading-relaxed">
@@ -88,7 +88,7 @@ export function About() {
 
               <div className="mt-12 space-y-6">
                 <div className="space-y-1">
-                  <h3 className="px-1 text-xl font-bold text-[#0B0F14]">
+                  <h3 className="px-1 font-sans text-xl font-bold text-[#0B0F14]">
                     Core Expertise
                   </h3>
                   <CoreExpertiseMarquee />

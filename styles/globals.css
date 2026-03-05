@@ -13,7 +13,7 @@
     BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial,
     "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
     "Segoe UI Symbol", "Noto Color Emoji";
-  --font-mono: var(--font-geist-mono);
+  --font-mono: var(--font-sans);
 
   --animate-grid-drift-down: grid-drift-down 20s linear infinite;
   --animate-noise-shimmer: noise-shimmer 0.2s steps(4) infinite;
@@ -81,13 +81,45 @@ body {
   font-family: var(--font-sans);
 }
 
-/* Ensure UI elements inherit the global font */
+* {
+  font-family: inherit;
+}
+
 button,
 input,
 optgroup,
 select,
 textarea {
   font-family: inherit;
+}
+
+code,
+pre,
+kbd,
+samp {
+  font-family: inherit;
+}
+
+:where(
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  a,
+  li,
+  span,
+  small,
+  strong,
+  em,
+  blockquote,
+  figcaption,
+  button,
+  label
+) {
+  font-family: var(--font-sans);
 }
 
 .portfolio-bg {

@@ -2,16 +2,20 @@ import Link from "next/link";
 import { ProjectCard } from "@/components/projects/ProjectCard";
 import { projects } from "@/data/projects";
 import { ArrowRightIcon } from "@/components/icons";
+import { satoshi } from "@/lib/fonts";
 
 export function PortfolioPreview() {
   // Only show featured projects, limit to 3
   const featuredProjects = projects.filter((p) => p.featured).slice(0, 3);
 
   return (
-    <section id="portfolio" className="scroll-mt-24 py-20">
+    <section
+      id="portfolio"
+      className={`scroll-mt-24 py-20 ${satoshi.variable} font-sans transform -translate-y-[6cm] -translate-x-[0.4cm]`}
+    >
       <div className="mb-12 flex flex-col justify-between gap-4 md:flex-row md:items-end">
         <div>
-          <h2 className="text-3xl font-bold text-[#0B0F14] md:text-4xl">
+          <h2 className="font-sans text-3xl font-bold text-[#0B0F14] md:text-4xl">
             Featured Projects
           </h2>
           <p className="mt-4 max-w-2xl text-lg text-gray-600">

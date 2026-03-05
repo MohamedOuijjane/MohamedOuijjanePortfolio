@@ -22,12 +22,14 @@ export function HeroCardLines({
 }: HeroCardLinesProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  });
   const mousePos = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setPrefersReducedMotion(mediaQuery.matches);
     const handler = (e: MediaQueryListEvent) =>
       setPrefersReducedMotion(e.matches);
     mediaQuery.addEventListener("change", handler);

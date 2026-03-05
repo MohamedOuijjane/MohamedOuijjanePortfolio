@@ -77,9 +77,12 @@ const DropdownTile = ({
               : "bg-neutral-50 text-neutral-400 group-hover:bg-white/10 group-hover:text-white"
           }`}
         >
-          {React.cloneElement(icon as React.ReactElement, {
-            className: "h-4 w-4",
-          })}
+          {React.cloneElement(
+            icon as React.ReactElement<{ className?: string }>,
+            {
+              className: "h-4 w-4",
+            },
+          )}
         </div>
         <ArrowUpRightIcon
           className={`h-3.5 w-3.5 transition-all duration-100 ${
@@ -98,7 +101,7 @@ const DropdownTile = ({
           {title}
         </h3>
         <p
-          className={`mt-1 text-[11px] leading-snug transition-colors duration-100 line-clamp-2 ${
+          className={`mt-1 font-sans text-[11px] leading-snug transition-colors duration-100 line-clamp-2 ${
             isActive
               ? "text-neutral-600"
               : "text-neutral-500 group-hover:text-white/70"
@@ -147,7 +150,7 @@ export function TopNav() {
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
   const [isResumeHovered, setIsResumeHovered] = useState(false);
   const [isResumeFocused, setIsResumeFocused] = useState(false);
-  const projectsMenuRef = useRef<HTMLDivElement | null>(null);
+  const projectsMenuRef = useRef<HTMLLIElement | null>(null);
   const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const pathname = usePathname();
   const router = useRouter();
@@ -547,7 +550,7 @@ export function TopNav() {
                   aria-expanded={isProjectsMobileOpen}
                   aria-controls="mobile-projects-submenu"
                 >
-                  <span>Work</span>
+                  <span className="font-sans">Work</span>
                   <span
                     className={`ml-2 text-xs transition-transform duration-200 ${
                       isProjectsMobileOpen ? "rotate-180" : "rotate-0"

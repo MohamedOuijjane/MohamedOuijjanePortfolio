@@ -1,4 +1,5 @@
 import { ImageResponse } from "next/og";
+import type { NextRequest } from "next/server";
 import { getProjectBySlug } from "@/data/projects";
 import { siteConfig } from "@/config/site";
 
@@ -12,10 +13,11 @@ export const size = {
 export const contentType = "image/png";
 
 export async function GET(
-  _request: Request,
-  { params }: { params: { slug: string } },
+  _request: NextRequest,
+  { params }: { params: Promise<{ slug: string }> },
 ) {
-  const project = getProjectBySlug(params.slug);
+  const { slug } = await params;
+  const project = getProjectBySlug(slug);
 
   const title = project?.title ?? "Project";
   const summary =

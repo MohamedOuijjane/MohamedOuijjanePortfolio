@@ -8,7 +8,7 @@ interface ProjectCardProps {
 
 export function ProjectCard({ project }: ProjectCardProps) {
   return (
-    <div className="group relative flex flex-col overflow-hidden rounded-xl border border-gray-200 bg-white transition-all hover:border-teal-700/50 hover:shadow-lg">
+    <div className="group font-sans relative flex flex-col overflow-hidden rounded-xl border border-gray-200 bg-white transition-all hover:border-teal-700/50 hover:shadow-lg">
       <div className="relative aspect-video w-full overflow-hidden bg-gray-100">
         {/* Placeholder for image if it fails to load or during dev */}
         <div className="absolute inset-0 flex items-center justify-center text-gray-400">
@@ -36,30 +36,30 @@ export function ProjectCard({ project }: ProjectCardProps) {
         /> */}
       </div>
 
-      <div className="flex flex-1 flex-col p-6">
+      <div className="flex flex-1 flex-col p-6 font-sans">
         <div className="mb-4 flex flex-wrap gap-2">
           {project.stack.map((tech) => (
             <span
               key={`${project.slug}-${tech}`}
-              className="rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-600"
+              className="rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-600 font-sans"
             >
               {tech}
             </span>
           ))}
         </div>
 
-        <h3 className="mb-2 text-xl font-bold text-gray-900 group-hover:text-teal-700">
+        <h3 className="mb-2 text-xl font-bold text-gray-900 group-hover:text-teal-700 font-sans">
           <Link href={`/projects/${project.slug}`}>
             <span className="absolute inset-0" />
             {project.title}
           </Link>
         </h3>
 
-        <p className="mb-6 flex-1 text-gray-600 line-clamp-3">
+        <p className="mb-6 flex-1 text-gray-600 line-clamp-3 font-sans">
           {project.summary}
         </p>
 
-        <div className="mt-auto flex items-center gap-2 text-sm font-semibold text-teal-700">
+        <div className="mt-auto flex items-center gap-2 text-sm font-semibold text-teal-700 font-sans">
           View Case Study
           <ArrowRightIcon className="h-4 w-4 transition-transform group-hover:translate-x-1" />
         </div>

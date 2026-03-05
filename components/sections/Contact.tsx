@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { ArrowRightIcon } from "@/components/icons";
+import { satoshi } from "@/lib/fonts";
 
 type ContactFormStatus = "idle" | "success";
 
@@ -114,9 +115,12 @@ export function Contact() {
   }
 
   return (
-    <section id="contact" className="scroll-mt-24 py-20 pb-32">
+    <section
+      id="contact"
+      className={`scroll-mt-24 py-20 pb-32 ${satoshi.variable} font-sans`}
+    >
       <div className="flex flex-col justify-center">
-        <h2 className="mb-6 text-3xl font-bold text-[#0B0F14] md:text-4xl">
+        <h2 className="mb-6 font-sans text-3xl font-bold text-[#0B0F14] md:text-4xl">
           Get In Touch
         </h2>
         <p className="mb-8 max-w-lg text-lg text-gray-600">

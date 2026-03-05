@@ -1,15 +1,9 @@
 import type { Metadata } from "next";
-import { Geist_Mono } from "next/font/google";
 import { satoshi } from "@/lib/fonts";
 import "@/styles/globals.css";
 import WebVitals from "@/app/_components/WebVitals";
 import { BackToTop } from "@/components/BackToTop";
 import { Preloader } from "@/components/Preloader";
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://your-domain.com"),
@@ -43,10 +37,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistMono.variable} ${satoshi.variable} font-sans antialiased min-h-screen flex flex-col overflow-x-hidden`}
-      >
+    <html lang="en" className={`${satoshi.variable} font-sans`}>
+      <body className="antialiased min-h-screen flex flex-col overflow-x-hidden">
         <Preloader />
         <WebVitals />
         <main className="flex-1">{children}</main>
