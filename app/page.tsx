@@ -35,7 +35,7 @@ export default function Home() {
       <SocialRail />
       <div className="mx-auto max-w-[1200px] px-6">
         <Hero />
-        <About />
+        <About showCoreExpertise={false} />
         <Services />
         <Skills />
         <PortfolioPreview />

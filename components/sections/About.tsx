@@ -9,7 +9,11 @@ import { AnimatedUnderlineInline } from "@/components/ui/AnimatedUnderlineInline
 import { CoreExpertiseMarquee } from "./CoreExpertiseMarquee";
 import { ScrollDrawUnderline } from "@/components/ui/ScrollDrawUnderline";
 
-export function About() {
+export function About({
+  showCoreExpertise = true,
+}: {
+  showCoreExpertise?: boolean;
+}) {
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: false, amount: 0.3 });
   const [isNameHovered, setIsNameHovered] = useState(false);
@@ -87,12 +91,14 @@ export function About() {
               </p>
 
               <div className="mt-12 space-y-6">
-                <div className="space-y-1">
-                  <h3 className="px-1 font-sans text-xl font-bold text-[#0B0F14]">
-                    Core Expertise
-                  </h3>
-                  <CoreExpertiseMarquee />
-                </div>
+                {showCoreExpertise && (
+                  <div className="space-y-1">
+                    <h3 className="px-1 font-sans text-xl font-bold text-[#0B0F14]">
+                      Core Expertise
+                    </h3>
+                    <CoreExpertiseMarquee />
+                  </div>
+                )}
 
                 <p className="text-base italic text-neutral-700">
                   Currently open to{" "}
