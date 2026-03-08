@@ -3,14 +3,19 @@ import Link from "next/link";
 
 interface LogoProps {
   className?: string;
+  onClick?: (event: React.MouseEvent<HTMLAnchorElement>) => void;
 }
 
-export function Logo({ className = "" }: LogoProps) {
+export function Logo({ className = "", onClick }: LogoProps) {
   return (
-    <Link href="/" className={`inline-flex items-center ${className}`}>
+    <Link
+      href="/"
+      className={`inline-flex items-center ${className}`}
+      onClick={onClick}
+    >
       <div className="relative">
         <Image
-          src="/brand/wejan.png"
+          src="/brand/Wejan.webp"
           alt="Mohamed Ouijjane logo"
           width={120}
           height={32}

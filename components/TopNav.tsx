@@ -198,6 +198,22 @@ export function TopNav() {
         return () => clearTimeout(timeout);
       }
     }
+
+    if (pathname === "/" && window.location.hash === "#about") {
+      const element = document.getElementById("about");
+      if (element) {
+        const timeout = setTimeout(() => {
+          const reduced = window.matchMedia(
+            "(prefers-reduced-motion: reduce)",
+          ).matches;
+          element.scrollIntoView({
+            behavior: reduced ? "auto" : "smooth",
+            block: "start",
+          });
+        }, 100);
+        return () => clearTimeout(timeout);
+      }
+    }
   }, [pathname]);
 
   useEffect(() => {
@@ -257,6 +273,27 @@ export function TopNav() {
       }
     } else {
       router.push("/#home");
+    }
+  };
+
+  const handleAboutClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    setIsMenuOpen(false);
+    setIsProjectsMobileOpen(false);
+
+    if (pathname === "/") {
+      const element = document.getElementById("about");
+      if (element) {
+        const reduced =
+          typeof window !== "undefined" &&
+          window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        element.scrollIntoView({
+          behavior: reduced ? "auto" : "smooth",
+          block: "start",
+        });
+      }
+    } else {
+      router.push("/#about");
     }
   };
 
@@ -326,7 +363,7 @@ export function TopNav() {
             enableScrollCorrection={true}
           >
             <div className="translate-y-[3px]">
-              <Logo />
+              <Logo onClick={handleAboutClick} />
             </div>
           </CursorDecryptLabel>
 
@@ -445,7 +482,8 @@ export function TopNav() {
 
             <li>
               <Link
-                href="/about"
+                href="/#about"
+                onClick={handleAboutClick}
                 className={`${desktopLinkBaseClass} ${
                   activeNavKey === "about"
                     ? "text-[#0B0F14]"
@@ -508,6 +546,7 @@ export function TopNav() {
               onPointerLeave={() => setIsResumeHovered(false)}
               onFocus={() => setIsResumeFocused(true)}
               onBlur={() => setIsResumeFocused(false)}
+              initial={false}
               animate={{
                 width: isResumeExpanded ? "110px" : "88px",
               }}
@@ -517,7 +556,7 @@ export function TopNav() {
               }}
               className="hidden sm:flex h-9 items-center justify-center rounded-full bg-black text-xs font-sans font-bold text-white transition-all duration-200 hover:bg-neutral-800 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2FAE8A] focus-visible:ring-offset-2 overflow-hidden relative"
             >
-              <AnimatePresence mode="wait">
+              <AnimatePresence mode="wait" initial={false}>
                 {!isResumeExpanded ? (
                   <motion.div
                     key="resume"
@@ -660,8 +699,8 @@ export function TopNav() {
 
               <li>
                 <Link
-                  href="/about"
-                  onClick={handleMobileNavClick}
+                  href="/#about"
+                  onClick={handleAboutClick}
                   className={`${mobileLinkBaseClass} ${
                     activeNavKey === "about"
                       ? "bg-[#2FAE8A]/10 text-[#2FAE8A]"

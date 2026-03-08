@@ -26,7 +26,7 @@ const copagMdmImages = [
   "/images/projects/mdm/mdm-3.webp",
 ];
 
-const portfolioImages = ["/images/projects/portfolio/portfolio-cover.png"];
+const portfolioImages = ["/images/projects/portfolio/portfolio_image.webp"];
 
 export function ProjectHeroCarousel({ slug }: { slug?: string }) {
   let images = cpuGridImages;

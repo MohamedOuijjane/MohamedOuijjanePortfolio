@@ -324,7 +324,7 @@ export const projects: Project[] = [
     ],
     role: "Designer & Developer",
     impact: "Showcasing projects with a premium modern UI.",
-    cover: "/images/projects/portfolio/portfolio-cover.png",
+    cover: "/images/projects/portfolio/portfolio_image.webp",
     links: {
       repo: "https://github.com/example/portfolio",
       demo: "https://portfolio.example.com",

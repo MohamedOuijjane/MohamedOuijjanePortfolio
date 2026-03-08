@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 import { GitHubIcon, LinkedInIcon, GmailIcon } from "./icons";
 import { GlassCard } from "./ui/GlassCard";
 import { satoshi } from "@/lib/fonts";
@@ -9,9 +10,34 @@ import { satoshi } from "@/lib/fonts";
 export function Footer() {
   const currentYear = new Date().getFullYear();
 
+  const pathname = usePathname();
+  const router = useRouter();
+
+  const handleScrollTo = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    id: string,
+    block: ScrollLogicalPosition = "start",
+  ) => {
+    e.preventDefault();
+    if (pathname === "/") {
+      const element = document.getElementById(id);
+      if (element) {
+        const reduced = window.matchMedia(
+          "(prefers-reduced-motion: reduce)",
+        ).matches;
+        element.scrollIntoView({
+          behavior: reduced ? "auto" : "smooth",
+          block,
+        });
+      }
+    } else {
+      router.push(`/#${id}`);
+    }
+  };
+
   return (
     <footer
-      className={`relative z-10 w-full pt-6 ${satoshi.variable} font-sans`}
+      className={`relative z-10 w-full pt-16 ${satoshi.variable} font-sans`}
     >
       <GlassCard className="px-6 py-12 sm:px-12 lg:px-16" fadeSize="0px">
         <div className="mx-auto max-w-[1200px]">
@@ -23,7 +49,7 @@ export function Footer() {
                 className="inline-block focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-teal-700"
               >
                 <Image
-                  src="/brand/Wejan.png"
+                  src="/brand/Wejan.webp"
                   alt="WeJan Logo"
                   width={120}
                   height={40}
@@ -31,8 +57,8 @@ export function Footer() {
                 />
               </Link>
               <p className="max-w-xs text-base leading-relaxed text-gray-600">
-                Software engineer specializing in building exceptional digital
-                experiences that are accessible, human-centered, and
+                Full-Stack Developer specializing in building exceptional
+                digital experiences that are accessible, human-centered, and
                 high-performing.
               </p>
             </div>
@@ -45,10 +71,11 @@ export function Footer() {
               <ul className="space-y-4">
                 <li>
                   <Link
-                    href="/#services"
+                    href="/"
+                    onClick={(e) => handleScrollTo(e, "home")}
                     className="text-gray-600 transition-colors hover:text-teal-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700"
                   >
-                    Services
+                    Home
                   </Link>
                 </li>
                 <li>
@@ -56,12 +83,30 @@ export function Footer() {
                     href="/projects"
                     className="text-gray-600 transition-colors hover:text-teal-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700"
                   >
-                    Portfolio
+                    Work
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/blogs"
+                    className="text-gray-600 transition-colors hover:text-teal-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700"
+                  >
+                    Blogs
                   </Link>
                 </li>
                 <li>
                   <Link
                     href="/#about"
+                    onClick={(e) => handleScrollTo(e, "about")}
+                    className="text-gray-600 transition-colors hover:text-teal-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700"
+                  >
+                    About
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/#about"
+                    onClick={(e) => handleScrollTo(e, "about")}
                     className="text-gray-600 transition-colors hover:text-teal-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700"
                   >
                     About
@@ -70,6 +115,7 @@ export function Footer() {
                 <li>
                   <Link
                     href="/#contact"
+                    onClick={(e) => handleScrollTo(e, "contact", "center")}
                     className="text-gray-600 transition-colors hover:text-teal-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700"
                   >
                     Contact
@@ -119,18 +165,24 @@ export function Footer() {
 
           {/* Bottom Bar */}
           <div className="mt-16 flex flex-col items-center justify-between gap-6 border-t border-gray-100/50 pt-8 md:flex-row">
-            <p className="text-sm text-gray-500">
-              &copy; {currentYear} Mohamed Ouijjane. All rights reserved.
-            </p>
+            <div className="flex flex-col items-center gap-1 md:items-start">
+              <p className="text-sm text-gray-500">
+                &copy; {currentYear} Mohamed Ouijjane. All rights reserved.
+              </p>
+              <p className="text-xs text-gray-400">
+                Crafted with passion, precision, and plenty of coffee.
+              </p>
+            </div>
             <div className="flex items-center gap-8">
               <Link
                 href="/projects"
                 className="text-sm text-gray-500 transition-colors hover:text-teal-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700"
               >
-                Projects
+                Work
               </Link>
               <Link
                 href="/#contact"
+                onClick={(e) => handleScrollTo(e, "contact", "center")}
                 className="text-sm text-gray-500 transition-colors hover:text-teal-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700"
               >
                 Contact

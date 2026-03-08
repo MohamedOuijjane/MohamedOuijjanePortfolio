@@ -36,7 +36,7 @@ export function About({
           />
           <div className="relative h-full w-full overflow-hidden rounded-2xl bg-gray-100 ring-1 ring-black/10 transition-all duration-150 ease-out group-hover:-translate-x-0.5 group-hover:-translate-y-0.5 group-hover:shadow-lg">
             <Image
-              src="/images/about_me_pic.jpeg"
+              src="/images/about_me_pic.webp"
               alt="Portrait of Mohamed Ouijjane"
               fill
               className="object-cover transition-all duration-150 ease-out will-change-transform will-change-opacity group-hover:opacity-0 group-hover:scale-[1.02] group-hover:-translate-x-0.5 group-hover:-translate-y-0.5"
@@ -44,7 +44,7 @@ export function About({
               priority
             />
             <Image
-              src="/images/about_me_pic_2.jpeg"
+              src="/images/about_me_pic_2.webp"
               alt=""
               aria-hidden="true"
               fill

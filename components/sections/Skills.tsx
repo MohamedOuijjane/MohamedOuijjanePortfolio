@@ -1,13 +1,11 @@
 "use client";
 
 import React, { useState, useRef } from "react";
-import { motion, AnimatePresence, useInView } from "framer-motion";
+import { motion, AnimatePresence, useInView, Variants } from "framer-motion";
 import { skillCategories } from "@/data/skills";
 import { satoshi } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 import { GlassCard } from "@/components/ui/GlassCard";
-import { CursorLogoTooltip } from "@/components/ui/CursorLogoTooltip";
-import { getTechIcon } from "@/components/ui/TechIcons";
 
 export function Skills({ variant = "home" }: { variant?: "home" | "about" }) {
   const [activeTab, setActiveTab] = useState(skillCategories[0].id);
@@ -18,7 +16,7 @@ export function Skills({ variant = "home" }: { variant?: "home" | "about" }) {
     skillCategories.find((cat) => cat.id === activeTab) || skillCategories[0];
 
   // Animation variants
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0, y: 30 },
     visible: {
       opacity: 1,
@@ -27,7 +25,7 @@ export function Skills({ variant = "home" }: { variant?: "home" | "about" }) {
     },
   };
 
-  const contentVariants = {
+  const contentVariants: Variants = {
     hidden: { opacity: 0, x: 8 },
     visible: {
       opacity: 1,
@@ -206,14 +204,12 @@ export function Skills({ variant = "home" }: { variant?: "home" | "about" }) {
                       <div className="flex flex-wrap gap-2">
                         {(activeCategory.skills || activeCategory.tech).map(
                           (item) => (
-                            <CursorLogoTooltip
+                            <div
                               key={item}
-                              label={item}
-                              logo={getTechIcon(item)}
                               className="inline-flex items-center rounded-md bg-gray-100 px-3 py-1.5 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-200 cursor-default"
                             >
                               {item}
-                            </CursorLogoTooltip>
+                            </div>
                           ),
                         )}
                       </div>

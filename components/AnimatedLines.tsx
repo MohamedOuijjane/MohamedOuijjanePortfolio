@@ -25,15 +25,6 @@ export const AnimatedLines = ({ variant = "light" }: AnimatedLinesProps) => {
           backgroundPosition: "0 0",
         }}
       />
-
-      {/* Canvas-based Noise Background */}
-      <Noise
-        patternSize={360}
-        patternScaleX={2}
-        patternScaleY={2}
-        patternRefreshInterval={2}
-        patternAlpha={isDark ? 25 : 11}
-      />
     </div>
   );
 };
