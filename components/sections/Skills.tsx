@@ -51,7 +51,7 @@ export function Skills({ variant = "home" }: { variant?: "home" | "about" }) {
         "scroll-mt-24",
         isHome
           ? "py-20 transform -translate-y-[7cm] -translate-x-[0.9cm]"
-          : "pb-20 pt-8",
+          : "pb-20 pt-8 transform -translate-y-[6cm] mb-[-8cm]",
         satoshi.variable,
         "font-sans",
       )}
@@ -72,10 +72,10 @@ export function Skills({ variant = "home" }: { variant?: "home" | "about" }) {
           className="mx-auto max-w-5xl"
         >
           <div className="mb-12">
-            <h2 className="text-3xl font-bold text-[#0B0F14] md:text-4xl">
+            <h2 className="text-4xl font-bold tracking-tight text-[#0B0F14] md:text-5xl">
               Skills & Expertise
             </h2>
-            <p className="mt-4 max-w-2xl text-lg text-gray-600">
+            <p className="mt-6 max-w-2xl text-xl text-gray-600 leading-relaxed">
               A comprehensive overview of my technical stack and professional
               capabilities across various domains of software engineering.
             </p>

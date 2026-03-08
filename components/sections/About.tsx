@@ -11,8 +11,10 @@ import { ScrollDrawUnderline } from "@/components/ui/ScrollDrawUnderline";
 
 export function About({
   showCoreExpertise = true,
+  showHeading = true,
 }: {
   showCoreExpertise?: boolean;
+  showHeading?: boolean;
 }) {
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: false, amount: 0.3 });
@@ -22,7 +24,9 @@ export function About({
     <section
       id="about"
       ref={sectionRef}
-      className={`scroll-mt-24 py-20 ${satoshi.variable} font-sans`}
+      className={`scroll-mt-24 ${showHeading ? "py-20" : "py-0"} ${
+        satoshi.variable
+      } font-sans`}
     >
       <div className="grid gap-12 lg:grid-cols-2 lg:gap-20">
         <div className="group relative aspect-square w-full max-w-md lg:order-2">
@@ -53,12 +57,16 @@ export function About({
 
         <div className="flex flex-col justify-center lg:order-1">
           <GlassCard
-            className="relative z-10 transform mt-[-37px] px-8 py-10 sm:px-12 sm:py-12 lg:w-[calc(100%+150px)] lg:-translate-x-[75px] lg:px-16"
+            className={`relative z-10 transform px-8 py-10 sm:px-12 sm:py-12 lg:w-[calc(100%+150px)] lg:-translate-x-[75px] lg:px-16 ${
+              showHeading ? "mt-[-37px]" : "mt-[-75px]"
+            }`}
             fadeSize="80px"
           >
-            <h2 className="mb-6 font-sans text-3xl font-bold text-[#0B0F14] md:text-4xl">
-              About Me
-            </h2>
+            {showHeading && (
+              <h2 className="mb-6 font-sans text-3xl font-bold text-[#0B0F14] md:text-4xl">
+                About Me
+              </h2>
+            )}
             <div className="space-y-6 text-lg text-gray-600 leading-relaxed">
               <p>
                 I&apos;m{" "}

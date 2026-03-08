@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 
-const images = [
+const cpuGridImages = [
   "/images/projects/cpu-grid-traffic/cpu-grid-traffic-1.webp",
   "/images/projects/cpu-grid-traffic/cpu-grid-traffic-2.webp",
   "/images/projects/cpu-grid-traffic/cpu-grid-traffic-3.webp",
@@ -12,7 +12,28 @@ const images = [
   "/images/projects/cpu-grid-traffic/cpu-grid-traffic-5.webp",
 ];
 
-export function ProjectHeroCarousel() {
+const certifyEaseImages = [
+  "/images/projects/certify-ease/certifyease-1.webp",
+  "/images/projects/certify-ease/certifyease-2.webp",
+  "/images/projects/certify-ease/certifyease-3.webp",
+  "/images/projects/certify-ease/certifyease-4.webp",
+  "/images/projects/certify-ease/certifyease-5.webp",
+];
+
+const copagMdmImages = [
+  "/images/projects/mdm/mdm-1.webp",
+  "/images/projects/mdm/mdm-2.webp",
+  "/images/projects/mdm/mdm-3.webp",
+];
+
+const portfolioImages = ["/images/projects/portfolio/portfolio-cover.png"];
+
+export function ProjectHeroCarousel({ slug }: { slug?: string }) {
+  let images = cpuGridImages;
+  if (slug === "certifyease-language-exam-platform") images = certifyEaseImages;
+  if (slug === "copag-mdm") images = copagMdmImages;
+  if (slug === "portfolio-website") images = portfolioImages;
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
 
@@ -65,7 +86,7 @@ export function ProjectHeroCarousel() {
               />
             </svg>
           </div>
-          
+
           <Image
             src={images[currentIndex]}
             alt={`Project screenshot ${currentIndex + 1}`}
@@ -124,13 +145,13 @@ export function ProjectHeroCarousel() {
 
 function ChevronLeft({ className }: { className?: string }) {
   return (
-    <svg 
-      className={className} 
-      viewBox="0 0 24 24" 
-      fill="none" 
-      stroke="currentColor" 
-      strokeWidth="2" 
-      strokeLinecap="round" 
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
       strokeLinejoin="round"
     >
       <polyline points="15 18 9 12 15 6" />
@@ -140,13 +161,13 @@ function ChevronLeft({ className }: { className?: string }) {
 
 function ChevronRight({ className }: { className?: string }) {
   return (
-    <svg 
-      className={className} 
-      viewBox="0 0 24 24" 
-      fill="none" 
-      stroke="currentColor" 
-      strokeWidth="2" 
-      strokeLinecap="round" 
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
       strokeLinejoin="round"
     >
       <polyline points="9 18 15 12 9 6" />

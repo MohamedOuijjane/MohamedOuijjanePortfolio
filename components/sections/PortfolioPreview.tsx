@@ -12,11 +12,11 @@ export function PortfolioPreview() {
   return (
     <section
       id="portfolio"
-      className={`scroll-mt-24 py-20 ${satoshi.variable} font-sans transform -translate-y-[6cm] -translate-x-[0.4cm]`}
+      className={`scroll-mt-24 py-20 ${satoshi.variable} font-sans transform -translate-y-[12cm] -translate-x-[0.4cm]`}
     >
       <GlassCard className="relative z-10 px-8 py-[3cm] sm:px-12 lg:px-16 w-[calc(100%+6cm)] -ml-[3cm]">
         <div className="mb-12 flex flex-col justify-between gap-4 md:flex-row md:items-end">
-          <div className="transform translate-x-[1cm]">
+          <div className="transform translate-x-[1.5cm]">
             <h2 className="font-sans text-3xl font-bold text-[#0B0F14] md:text-4xl">
               Engineering Highlights
             </h2>
@@ -34,7 +34,7 @@ export function PortfolioPreview() {
           </Link>
         </div>
 
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 mx-auto max-w-[95%] lg:max-w-[96%] xl:max-w-[92%] pl-1 pr-0.5">
           {featuredProjects.map((project) => (
             <ProjectCard key={project.slug} project={project} />
           ))}

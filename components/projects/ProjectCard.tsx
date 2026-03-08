@@ -16,10 +16,12 @@ interface ProjectCardProps {
 export function ProjectCard({ project }: ProjectCardProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Special handling for CPU Grid and COPAG MDM projects
+  // Special handling for CPU Grid, COPAG MDM, and CertifyEase projects
   const isCpuGrid = project.slug === "cpu-grid-traffic";
   const isCopagMdm = project.slug === "copag-mdm";
-  const isPremiumCard = isCpuGrid || isCopagMdm;
+  const isCertifyEase = project.slug === "certifyease-language-exam-platform";
+  const isPortfolio = project.slug === "portfolio-website";
+  const isPremiumCard = isCpuGrid || isCopagMdm || isCertifyEase || isPortfolio;
 
   // Function to handle card click - prevents link navigation if clicked on card body
   const handleCardClick = (e: React.MouseEvent) => {
@@ -53,11 +55,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
           /* Premium Image for Featured Projects */
           <>
             <Image
-              src={
-                isCpuGrid
-                  ? "/images/projects/cpu-grid-traffic/cpu-grid-traffic-1.webp"
-                  : project.cover
-              }
+              src={project.cover}
               alt={project.title}
               fill
               className="object-cover transition-transform duration-700 group-hover:scale-105"
@@ -108,16 +106,16 @@ export function ProjectCard({ project }: ProjectCardProps) {
           ))}
         </div>
 
-        <h3 className="mb-2 text-xl font-bold text-gray-900 group-hover:text-teal-700 font-sans">
+        <h3 className="mb-2 text-xl font-bold text-gray-900 font-sans">
           {project.title}
         </h3>
 
-        <p className="mb-6 flex-1 text-gray-600 line-clamp-3 font-sans">
+        <p className="mb-2 flex-1 text-gray-600 line-clamp-5 font-sans">
           {project.summary}
         </p>
 
         {isPremiumCard ? (
-          <div className="mt-auto flex items-center justify-end gap-3 pt-4 border-t border-gray-100/50">
+          <div className="mt-auto flex items-center justify-end gap-3 pt-2 border-t border-gray-100/50">
             {/* Folder: Project Details */}
             <Link
               href={`/projects/${project.slug}`}

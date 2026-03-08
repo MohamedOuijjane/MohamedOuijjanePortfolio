@@ -27,6 +27,7 @@ export type Project = {
   results?: string[];
   limitations?: string[];
   futureImprovements?: string[];
+  gallery?: string[];
 };
 
 export const projects: Project[] = [
@@ -59,7 +60,7 @@ export const projects: Project[] = [
     ],
     role: "System design + backend orchestration + frontend integration",
     impact: "Parallel workers reduced simulation time significantly.",
-    cover: "/projects/cpu-grid-cover.jpg",
+    cover: "/images/projects/cpu-grid-traffic/cpu-grid-traffic-1.webp",
     links: {
       demo: "https://example.com/demo",
       repo: "https://github.com/example/cpu-grid",
@@ -126,7 +127,7 @@ export const projects: Project[] = [
   },
   {
     slug: "copag-mdm",
-    title: "COPAG MDM — Master Data Management",
+    title: "COPAG MDM - Master Data Management",
     subtitle:
       "An enterprise Master Data Management system automating validation workflows and synchronizing data across business units.",
     summary:
@@ -156,7 +157,12 @@ export const projects: Project[] = [
     ],
     role: "Full-stack Developer (Internship)",
     impact: "Reduced target data setup time to <5 minutes.",
-    cover: "/projects/copag-mdm/dashboard.png",
+    cover: "/images/projects/mdm/mdm-1.webp",
+    gallery: [
+      "/images/projects/mdm/mdm-1.webp",
+      "/images/projects/mdm/mdm-2.webp",
+      "/images/projects/mdm/mdm-3.webp",
+    ],
     links: {
       demo: "#", // Private enterprise system
       repo: "#", // Private enterprise system
@@ -172,15 +178,6 @@ export const projects: Project[] = [
       "Prior to this system, master data requests at COPAG were handled manually, leading to slow turnaround times and a heavy dependency on direct IT intervention. The lack of a centralized validation workflow resulted in inconsistent data quality and delays in synchronizing new records across various business systems.",
     solution:
       "The solution is a configurable, generic MDM web application that allows administrators to define dynamic data models and validation rules. It features a canvas-based entry system for flexible parameter input, robust approval workflows, and automated synchronization tasks that update target databases immediately upon validation.",
-    howItWorks: [
-      "Admin configures models, canvases, and parameters for a given master-data process.",
-      "Authorized users create or update canvas lines and fill in the required parameters.",
-      "The system supports validation or de-validation of one or more parameters.",
-      "Entries can be reviewed by status and tracked through the application.",
-      "Administrators approve or cancel canvas lines when needed.",
-      "Users can consult the history of data entry and validation actions.",
-      "After validation/approval, data can be synchronized automatically to target systems.",
-    ],
     features: [
       "Dynamic, configurable data models and input canvases",
       "Parameter validation and de-validation workflows",
@@ -210,18 +207,151 @@ export const projects: Project[] = [
     featured: true,
   },
   {
-    slug: "portfolio-next",
-    title: "Portfolio Website",
-    summary: "Personal website built with modern frontend stack.",
-    stack: ["Next.js", "TypeScript", "Tailwind"],
-    role: "Design + implementation",
-    impact: "Fast loading and clean developer-focused presentation.",
-    cover: "/projects/portfolio-cover.jpg",
+    slug: "certifyease-language-exam-platform",
+    title: "CertifyEase - Language Exam Registration Platform",
+    subtitle:
+      "A comprehensive web platform for managing language exam registrations, payments, and convocation generation.",
+    summary:
+      "A full-stack web application that simplifies language exam management by centralizing candidate registration, payment tracking, and automated PDF convocation generation.",
+    fullDescription:
+      "CertifyEase is a centralized web platform designed to streamline the management of language certification exams. It replaces fragmented manual processes with a unified system where candidates can easily browse sessions, register, and track their status, while administrators manage exam schedules, validate payments, and generate official convocations automatically.",
+    stack: ["PHP", "CodeIgniter 4", "MySQL"],
+    expandedStack: [
+      "PHP 8",
+      "CodeIgniter 4",
+      "MySQL",
+      "Bootstrap 5",
+      "JavaScript",
+      "Chart.js",
+      "Dompdf",
+      "MVC",
+    ],
+    techStackDetailed: [
+      "PHP 8",
+      "CodeIgniter 4",
+      "MySQL",
+      "Bootstrap 5",
+      "HTML5 / CSS3",
+      "JavaScript / Ajax",
+      "Chart.js",
+      "Dompdf",
+    ],
+    role: "Full-stack Developer",
+    impact: "Automated registration and document generation.",
+    cover: "/images/projects/certify-ease/certifyease-1.webp",
+    gallery: [
+      "/images/projects/certify-ease/certifyease-1.webp",
+      "/images/projects/certify-ease/certifyease-2.webp",
+      "/images/projects/certify-ease/certifyease-3.webp",
+      "/images/projects/certify-ease/certifyease-4.webp",
+      "/images/projects/certify-ease/certifyease-5.webp",
+    ],
+    links: {
+      demo: "#",
+      repo: "#",
+    },
+    metrics: [
+      { label: "Automation", value: "PDF Generation" },
+      { label: "Efficiency", value: "Centralized DB" },
+      { label: "User Experience", value: "Self-service" },
+    ],
+    architecture:
+      "MVC architecture using CodeIgniter 4 framework with a MySQL relational database. The frontend is built with Bootstrap 5 and jQuery/Ajax for dynamic interactions, while Dompdf handles server-side document generation.",
+    problem:
+      "Managing language exams manually involves scattered data across spreadsheets, emails, and paper forms. This leads to errors in candidate registration, difficulties in tracking payment status, and a time-consuming manual process for creating and sending individual exam convocations.",
+    solution:
+      "CertifyEase provides a dual-interface solution. For candidates, it offers a self-service portal to browse exam sessions, register, and download documents. For administrators, it provides a powerful dashboard to manage exam logistics, validate candidate data, track financial status, and generate bulk PDF documents instantly.",
+    howItWorks: [
+      "Candidate browses available exam sessions filtered by language level.",
+      "Candidate starts pre-registration and creates a secure account.",
+      "Candidate completes profile and submits registration for a specific session.",
+      "System records payment status (pending/validated).",
+      "Administrator reviews registrations and validates payments.",
+      "System automatically generates PDF convocation for validated candidates.",
+      "Administrator monitors overall exam statistics via the dashboard.",
+    ],
+    features: [
+      "User registration, authentication, and profile management",
+      "Exam session browsing with level-based filtering",
+      "Online pre-registration flow",
+      "Payment status tracking and validation",
+      "Automated PDF convocation generation using Dompdf",
+      "Admin dashboard for managing exams, candidates, and payments",
+      "Interactive statistics charts using Chart.js",
+    ],
+    challenges: [
+      "Structuring a complete registration workflow across client and admin roles",
+      "Managing complex state transitions for registration and payment status",
+      "Generating dynamic, printable PDF convocations with precise formatting",
+      "Presenting clear analytics and real-time data visualization",
+      "Ensuring a responsive and intuitive interface for diverse user groups",
+    ],
+    results: [
+      "Centralized the entire exam management lifecycle into one platform",
+      "Eliminated manual errors in candidate data entry",
+      "Automated the generation of official exam documents",
+      "Provided real-time visibility into registration numbers and revenue",
+    ],
+    lessons: [
+      "MVC frameworks like CodeIgniter significantly speed up secure development",
+      "Automating document generation saves massive amounts of administrative time",
+    ],
+    featured: true,
+  },
+  {
+    slug: "portfolio-website",
+    title: "WeJan - Portfolio Website",
+    subtitle: "A personal showcase of projects and skills.",
+    summary:
+      "A modern personal portfolio built with Next.js and Tailwind CSS to showcase my projects, skills, and professional journey.",
+    fullDescription:
+      "This portfolio website was designed and built to serve as a central hub for my professional identity. It features a clean, responsive design that prioritizes content readability and fast performance. The site includes a dynamic project showcase, a detailed skills section, and a contact area, all wrapped in a polished, recruiter-friendly interface.",
+    stack: ["Next.js", "TypeScript", "Tailwind CSS"],
+    expandedStack: [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "Tailwind CSS",
+      "Framer Motion",
+      "Lucide Icons",
+    ],
+    techStackDetailed: [
+      "Next.js App Router",
+      "React Server Components",
+      "TypeScript",
+      "Tailwind CSS",
+      "Framer Motion",
+    ],
+    role: "Designer & Developer",
+    impact: "Showcasing projects with a premium modern UI.",
+    cover: "/images/projects/portfolio/portfolio-cover.png",
     links: {
       repo: "https://github.com/example/portfolio",
+      demo: "https://portfolio.example.com",
     },
-    architecture: "App Router, reusable sections, dynamic project pages.",
-    lessons: ["Structure content early", "Keep components small and reusable"],
+    metrics: [
+      { label: "Performance", value: "100/100" },
+      { label: "Design", value: "Minimalist" },
+      { label: "Stack", value: "Modern" },
+    ],
+    architecture:
+      "Built on Next.js App Router for optimal performance and SEO. The architecture leverages React Server Components for efficient data fetching and static generation, while client components handle interactive UI elements like the project carousel and navigation.",
+    features: [
+      "Responsive design optimized for all devices",
+      "Dynamic project case study pages",
+      "Interactive hero animations with Framer Motion",
+      "Clean, component-based architecture",
+      "Optimized image loading and font handling",
+    ],
+    results: [
+      "Created a professional online presence to showcase my work",
+      "Achieved high performance scores through static generation",
+      "Demonstrated proficiency in modern frontend technologies",
+    ],
+    lessons: [
+      "Simplicity in design often leads to better user experience",
+      "Component reusability is key for maintainable frontend code",
+    ],
     featured: true,
   },
 ];

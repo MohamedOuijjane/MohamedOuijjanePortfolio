@@ -28,11 +28,19 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
     notFound();
   }
 
+  // Special handling for premium projects
+  const isCpuGrid = project.slug === "cpu-grid-traffic";
+  const isCopagMdm = project.slug === "copag-mdm";
+  const isCertifyEase = project.slug === "certifyease-language-exam-platform";
+  const isPortfolio = project.slug === "portfolio-website";
+  const isPremiumProject =
+    isCpuGrid || isCopagMdm || isCertifyEase || isPortfolio;
+
   return (
     <PageShell>
       <article className={`${satoshi.variable} font-sans`}>
-        {/* Navigation Breadcrumb - Default for all projects EXCEPT CPU Grid & COPAG */}
-        {project.slug !== "cpu-grid-traffic" && project.slug !== "copag-mdm" && (
+        {/* Navigation Breadcrumb - Default for all projects EXCEPT Premium Ones */}
+        {!isPremiumProject && (
           <div className="mb-8 flex items-center gap-2 text-sm text-gray-500">
             <Link href="/" className="hover:text-teal-700 transition-colors">
               Home
@@ -53,14 +61,19 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
         {/* 1. HERO SECTION */}
         <section className="mb-20">
-          {project.slug === "cpu-grid-traffic" || project.slug === "copag-mdm" ? (
-            /* Special Layout for CPU Grid & COPAG MDM */
+          {isPremiumProject ? (
+            /* Special Layout for Premium Projects */
             <div className="flex flex-col gap-12">
               {/* 1. Full Width Carousel/Image at Top */}
               <div className="w-full">
-                {project.slug === "cpu-grid-traffic" ? (
-                  <ProjectHeroCarousel />
-                ) : (
+                {isCpuGrid ? (
+                  <ProjectHeroCarousel slug="cpu-grid-traffic" />
+                ) : isCertifyEase ? (
+                  <ProjectHeroCarousel slug="certifyease-language-exam-platform" />
+                ) : isCopagMdm ? (
+                  <ProjectHeroCarousel slug="copag-mdm" />
+                ) : isPortfolio ? /* Portfolio Website: No Hero Image as requested */
+                null : (
                   <div className="relative aspect-video w-full overflow-hidden rounded-2xl border border-gray-200 bg-gray-100 shadow-sm">
                     {project.cover && (
                       <Image
@@ -263,6 +276,9 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                 </div>
               </section>
             )}
+
+            {/* CertifyEase Gallery Section */}
+            {/* Gallery removed as per request */}
 
             {/* 5. ARCHITECTURE */}
             {project.architecture && (

@@ -15,22 +15,24 @@ export function ServicesSection({ variant }: { variant: ServicesVariant }) {
     <section
       id="services"
       className={`scroll-mt-24 ${
-        variant === "home" ? "py-20" : "pb-8 pt-8"
+        variant === "home"
+          ? "py-20"
+          : "pb-8 pt-8 transform -translate-y-[2.5cm]"
       } ${satoshi.variable} font-sans`}
     >
       <GlassCard
         className={`relative z-10 transform px-8 py-10 sm:px-12 sm:py-12 lg:px-16 ${
           withHomeOffset
-            ? "-translate-y-[4cm] lg:w-[calc(100%+75px)] lg:-translate-x-[75px]"
+            ? "-translate-y-[3cm] lg:w-[calc(100%+75px)] lg:-translate-x-[75px]"
             : "w-[calc(100%+4cm)] -ml-[2cm]"
         }`}
         fadeSize="80px"
       >
         <div className="mb-12">
-          <h2 className="font-sans text-3xl font-bold text-[#0B0F14] md:text-4xl">
+          <h2 className="font-sans text-4xl font-bold tracking-tight text-[#0B0F14] md:text-5xl">
             What I Do
           </h2>
-          <p className="mt-4 max-w-2xl font-sans text-lg text-gray-600">
+          <p className="mt-6 max-w-2xl font-sans text-xl text-gray-600 leading-relaxed">
             I deliver production-grade web systems with clear architecture,
             reliable APIs, and performance-first UX.
           </p>

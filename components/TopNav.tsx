@@ -27,7 +27,6 @@ const getActiveNavKey = (pathname: string): NavKey | null => {
   if (pathname === "/") return "home";
   if (pathname === "/blogs") return "blogs";
   if (pathname === "/about") return "about";
-  if (pathname === "/contact-me") return "contact";
   if (pathname.startsWith("/projects") || pathname === "/certificates") {
     return "work";
   }
@@ -418,7 +417,7 @@ export function TopNav() {
 
             <li>
               <Link
-                href="/contact-me"
+                href="/#contact"
                 className={`${desktopLinkBaseClass} ${
                   activeNavKey === "contact"
                     ? "text-[#0B0F14]"
@@ -632,7 +631,7 @@ export function TopNav() {
 
               <li>
                 <Link
-                  href="/contact-me"
+                  href="/#contact"
                   onClick={handleMobileNavClick}
                   className={`${mobileLinkBaseClass} ${
                     activeNavKey === "contact"
