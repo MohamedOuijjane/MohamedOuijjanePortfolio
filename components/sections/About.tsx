@@ -57,8 +57,10 @@ export function About({
 
         <div className="flex flex-col justify-center lg:order-1">
           <GlassCard
-            className={`relative z-10 transform px-8 py-10 sm:px-12 sm:py-12 lg:w-[calc(100%+150px)] lg:-translate-x-[75px] lg:px-16 ${
-              showHeading ? "mt-[-37px]" : "mt-[-75px]"
+            className={`relative z-10 transform px-8 py-10 sm:px-12 sm:py-12 lg:w-[calc(100%+150px+0.5cm)] lg:-translate-x-[calc(75px+0.5cm)] lg:pt-[calc(3rem+1cm)] lg:pb-[calc(3rem+2cm)] lg:pl-[calc(4rem+0.5cm)] lg:pr-16 ${
+              showHeading
+                ? "mt-[-37px] lg:mt-[calc(-37px-1cm)]"
+                : "mt-[-75px] lg:mt-[calc(-75px-1cm)]"
             }`}
             fadeSize="80px"
           >

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
+import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { satoshi } from "@/lib/fonts";
 
@@ -21,6 +22,7 @@ export function CursorDecryptLabel({
 }: CursorDecryptLabelProps) {
   const [isHovered, setIsHovered] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
+  const [isClicking, setIsClicking] = useState(false);
   const [mousePos, setMousePos] = useState<{ x: number; y: number } | null>(
     null,
   );
@@ -35,23 +37,7 @@ export function CursorDecryptLabel({
   });
   const containerRef = useRef<HTMLDivElement>(null);
   const decryptCleanupRef = useRef<(() => void) | null>(null);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const handler = (e: MediaQueryListEvent) =>
-      setPrefersReducedMotion(e.matches);
-    mediaQuery.addEventListener("change", handler);
-    return () => mediaQuery.removeEventListener("change", handler);
-  }, []);
+  const pathname = usePathname();
 
   const startDecrypt = useCallback(() => {
     if (prefersReducedMotion) {
@@ -97,7 +83,67 @@ export function CursorDecryptLabel({
     decryptCleanupRef.current = typeof cleanup === "function" ? cleanup : null;
   }, [startDecrypt, stopDecrypt]);
 
+  const closeTooltip = useCallback(() => {
+    setIsHovered(false);
+    setIsFocused(false);
+    setIsClicking(false);
+    setMousePos(null);
+    stopDecrypt();
+    setDisplayText("");
+  }, [stopDecrypt]);
+
+  // Reset all states on navigation
+  useEffect(() => {
+    closeTooltip();
+  }, [pathname, closeTooltip]);
+
+  // Handle window/page visibility changes to prevent stale tooltips
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "hidden") {
+        closeTooltip();
+      }
+    };
+
+    const handleWindowBlur = () => {
+      closeTooltip();
+    };
+
+    window.addEventListener("visibilitychange", handleVisibilityChange);
+    window.addEventListener("pagehide", handleWindowBlur);
+    window.addEventListener("blur", handleWindowBlur);
+
+    return () => {
+      window.removeEventListener("visibilitychange", handleVisibilityChange);
+      window.removeEventListener("pagehide", handleWindowBlur);
+      window.removeEventListener("blur", handleWindowBlur);
+    };
+  }, [closeTooltip]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const handler = (e: MediaQueryListEvent) =>
+      setPrefersReducedMotion(e.matches);
+    mediaQuery.addEventListener("change", handler);
+    return () => mediaQuery.removeEventListener("change", handler);
+  }, []);
+
+  const handlePointerDown = () => {
+    closeTooltip();
+    setIsClicking(true);
+  };
+
   const handlePointerEnter = (e: React.PointerEvent) => {
+    setIsClicking(false);
     // Immediate position set to prevent jump from (0,0)
     // Apply correction of ~4cm (152px) if scrolled AND correction is enabled (for logo)
     const correctionX = enableScrollCorrection && isScrolled ? -152 : 0;
@@ -112,13 +158,10 @@ export function CursorDecryptLabel({
   };
 
   const handlePointerLeave = () => {
-    setIsHovered(false);
-    setMousePos(null);
-    stopDecrypt();
-    setDisplayText("");
+    closeTooltip();
   };
 
-  const isVisible = isHovered || isFocused;
+  const isVisible = (isHovered || isFocused) && !isClicking;
 
   return (
     <div
@@ -126,39 +169,44 @@ export function CursorDecryptLabel({
       onPointerEnter={handlePointerEnter}
       onPointerMove={handlePointerMove}
       onPointerLeave={handlePointerLeave}
+      onPointerDown={handlePointerDown}
+      onClick={handlePointerDown}
       onFocus={() => {
-        setIsFocused(true);
-        triggerDecrypt();
+        // Only show tooltip on focus if NOT triggered by a mouse click
+        if (!isClicking) {
+          setIsFocused(true);
+          triggerDecrypt();
+        }
       }}
       onBlur={() => {
-        setIsFocused(false);
-        stopDecrypt();
-        setDisplayText("");
+        closeTooltip();
       }}
       className="relative inline-block"
     >
       {children}
 
       <AnimatePresence>
-        {isVisible && mousePos && (
+        {isVisible && (
           <motion.div
             // Set initial={false} when tracking cursor to prevent animation from top-left
-            initial={isFocused ? { opacity: 0, scale: 0.95 } : false}
+            initial={
+              isFocused && !isHovered ? { opacity: 0, scale: 0.95 } : false
+            }
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95, transition: { duration: 0.1 } }}
             style={
-              isFocused
+              mousePos
                 ? {
-                    position: "absolute",
-                    bottom: "100%",
-                    left: "50%",
-                    transform: "translateX(-50%) translateY(-8px)",
-                  }
-                : {
                     position: "fixed",
                     top: mousePos.y + sideOffset,
                     left: mousePos.x + 12,
                     pointerEvents: "none",
+                  }
+                : {
+                    position: "absolute",
+                    bottom: "100%",
+                    left: "50%",
+                    transform: "translateX(-50%) translateY(-8px)",
                   }
             }
             className="z-[9999] rounded-xl bg-neutral-800/70 backdrop-blur-sm px-3 py-1.5 shadow-2xl border border-white/10"

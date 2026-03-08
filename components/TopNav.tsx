@@ -180,6 +180,27 @@ export function TopNav() {
   }, []);
 
   useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    if (pathname === "/" && window.location.hash === "#contact") {
+      const element = document.getElementById("contact");
+      if (element) {
+        // Delay slightly to ensure layout is ready
+        const timeout = setTimeout(() => {
+          const reduced = window.matchMedia(
+            "(prefers-reduced-motion: reduce)",
+          ).matches;
+          element.scrollIntoView({
+            behavior: reduced ? "auto" : "smooth",
+            block: "center",
+          });
+        }, 100);
+        return () => clearTimeout(timeout);
+      }
+    }
+  }, [pathname]);
+
+  useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
         projectsMenuRef.current &&
@@ -236,6 +257,27 @@ export function TopNav() {
       }
     } else {
       router.push("/#home");
+    }
+  };
+
+  const handleContactClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    setIsMenuOpen(false);
+    setIsProjectsMobileOpen(false);
+
+    if (pathname === "/") {
+      const element = document.getElementById("contact");
+      if (element) {
+        const reduced =
+          typeof window !== "undefined" &&
+          window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        element.scrollIntoView({
+          behavior: reduced ? "auto" : "smooth",
+          block: "center",
+        });
+      }
+    } else {
+      router.push("/#contact");
     }
   };
 
@@ -418,6 +460,7 @@ export function TopNav() {
             <li>
               <Link
                 href="/#contact"
+                onClick={handleContactClick}
                 className={`${desktopLinkBaseClass} ${
                   activeNavKey === "contact"
                     ? "text-[#0B0F14]"
@@ -632,7 +675,7 @@ export function TopNav() {
               <li>
                 <Link
                   href="/#contact"
-                  onClick={handleMobileNavClick}
+                  onClick={handleContactClick}
                   className={`${mobileLinkBaseClass} ${
                     activeNavKey === "contact"
                       ? "bg-[#2FAE8A]/10 text-[#2FAE8A]"

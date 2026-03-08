@@ -119,7 +119,7 @@ export function Contact() {
   return (
     <section
       id="contact"
-      className={`scroll-mt-24 pt-20 pb-4 ${satoshi.variable} font-sans -mt-[17.5cm] -translate-x-[2cm]`}
+      className={`scroll-mt-24 pt-20 pb-4 ${satoshi.variable} font-sans -mt-[17.5cm] transform -translate-x-[2cm]`}
     >
       <GlassCard className="relative z-10 transform px-8 py-10 sm:px-12 sm:py-12 lg:px-16 lg:w-[calc(100%+5cm)] lg:-ml-[2cm] lg:-mt-[1cm] lg:pt-[calc(3rem+3cm)] lg:pb-[calc(3rem+2cm)] lg:pl-[calc(4rem+2cm)] lg:pr-[calc(4rem+3cm)]">
         <div className="flex flex-col justify-center">

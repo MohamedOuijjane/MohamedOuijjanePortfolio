@@ -11,7 +11,7 @@ export function Footer() {
 
   return (
     <footer
-      className={`relative z-10 w-full pt-4 ${satoshi.variable} font-sans`}
+      className={`relative z-10 w-full pt-6 ${satoshi.variable} font-sans`}
     >
       <GlassCard className="px-6 py-12 sm:px-12 lg:px-16" fadeSize="0px">
         <div className="mx-auto max-w-[1200px]">
