@@ -1,0 +1,163 @@
+{
+  "Metadata": {
+    "title": "Mohamed Ouijjane - Ingénieur Logiciel",
+    "description": "Portfolio de développeur full-stack axé sur les systèmes distribués, l'architecture backend et les applications web modernes."
+  },
+  "Error": {
+    "title": "Erreur d'application",
+    "description": "Une erreur inattendue s'est produite. Veuillez essayer de rafraîchir la page ou de retourner à l'accueil.",
+    "retry": "Réessayer",
+    "return_home": "Retour à l'accueil"
+  },
+  "footer": {
+    "tagline": "Développeur Full-Stack spécialisé dans la création d'expériences numériques exceptionnelles, accessibles, centrées sur l'humain et performantes.",
+    "quick_links": "Liens rapides",
+    "social": "Réseaux sociaux",
+    "rights": "Tous droits réservés.",
+    "collab": "Intéressé par une collaboration ? Construisons quelque chose de génial."
+  },
+  "hero": {
+    "role": "Développeur Full-Stack",
+    "supporting": "Passionné par la création d'expériences utilisateur intuitives et engageantes. Spécialisé dans la transformation d'idées en produits magnifiquement conçus."
+  },
+  "services": {
+    "heading": "Ce Que Je Fais",
+    "subheading": "Je livre des systèmes web de qualité production avec une architecture claire, des API fiables et une UX axée sur la performance.",
+    "see_more": "Voir plus de services",
+    "show_less": "Afficher moins"
+  },
+  "contact": {
+    "heading": "Entrez en contact",
+    "subheading": "Vous avez un projet en tête ou vous voulez simplement dire bonjour ? Je suis toujours ouvert à la discussion de nouvelles opportunités et de nouveaux défis.",
+    "direct_text": "Je suis ouvert aux opportunités, aux collaborations et aux projets intéressants. N'hésitez pas à me contacter directement ou à utiliser le formulaire.",
+    "email": "E-mail",
+    "phone": "Téléphone",
+    "location": "Localisation",
+    "location_value": "Maroc",
+    "name_label": "Nom",
+    "name_placeholder": "Votre nom",
+    "email_label": "Adresse e-mail",
+    "email_placeholder": "vous@exemple.com",
+    "company_label": "Entreprise (Optionnel)",
+    "company_placeholder": "Où travaillez-vous ?",
+    "message_label": "Comment puis-je vous aider ?",
+    "message_placeholder": "Parlez-moi de votre projet...",
+    "submit": "Envoyer le message",
+    "submitting": "Envoi en cours...",
+    "success_title": "Message Envoyé !",
+    "success_message": "Merci de m'avoir contacté ! Je vous répondrai dès que possible.",
+    "send_another": "Envoyer un autre message",
+    "error_too_many": "Trop de requêtes. Veuillez réessayer plus tard.",
+    "error_generic": "Quelque chose s'est mal passé. Veuillez réessayer.",
+    "error_spam": "Spam détecté."
+  },
+  "projects": {
+    "heading": "Projets",
+    "subheading": "Une sélection de travaux illustrant mon approche de l'ingénierie, du design et de la résolution de problèmes.",
+    "view_details": "Voir l'étude de cas",
+    "visit_site": "Démo en direct",
+    "view_code": "Dépôt GitHub",
+    "role": "Rôle",
+    "stack": "Stack",
+    "back_to_projects": "Retour aux projets",
+    "overview": "Aperçu",
+    "problem": "Le Problème",
+    "solution": "La Solution",
+    "architecture": "Architecture",
+    "how_it_works": "Comment ça marche",
+    "challenges": "Défis Techniques",
+    "tech_stack": "Technologies Utilisées",
+    "features": "Fonctionnalités Clés",
+    "limitations": "Limitations",
+    "roadmap": "Feuille de Route",
+    "no_results": "Aucun projet trouvé avec ce filtre.",
+    "clear_filters": "Effacer les filtres",
+    "step": "Étape",
+    "view_on_github": "Voir sur GitHub"
+  },
+  "portfolio_preview": {
+    "heading": "Points Forts de l'Ingénierie",
+    "subheading": "Une sélection de projets qui reflètent mon travail en ingénierie logicielle, résolution de problèmes et développement axé produit.",
+    "view_all": "Voir Tous les Projets"
+  },
+  "nav": {
+    "home": "Accueil",
+    "work": "Travail",
+    "blogs": "Blogs",
+    "about": "À propos",
+    "contact": "Contact",
+    "projects": "Projets",
+    "certificates": "Certificats",
+    "resume": "CV",
+    "projects_desc": "Travaux sélectionnés, études de cas et réalisations.",
+    "certificates_desc": "Apprentissage et titres de compétences vérifiés.",
+    "resume_desc": "Expérience professionnelle et compétences."
+  },
+  "about": {
+    "heading": "À Propos de Moi",
+    "intro_start": "Je suis",
+    "intro_name": "Mohamed Ouijjane",
+    "intro_end": ", un Développeur Full-Stack dédié à la création d'applications web performantes, accessibles et évolutives. Je fais le pont entre des interfaces utilisateur propres et intuitives et des architectures backend robustes et maintenables.",
+    "focus_start": "Mon objectif est de fournir une valeur réelle grâce à l'excellence en ingénierie, en privilégiant la performance, la clarté et des produits conçus pour durer. J'ai un profond intérêt pour les",
+    "focus_highlight": "architectures évolutives",
+    "focus_end": ", explorant comment les conceptions orientées services résolvent des défis complexes du monde réel.",
+    "expertise": "Expertise Principale",
+    "open_to": "Actuellement ouvert aux"
+  },
+  "skills": {
+    "heading": "Compétences & Expertise",
+    "subheading": "Un aperçu complet de mon bagage technique et de mes capacités professionnelles dans divers domaines de l'ingénierie logicielle.",
+    "focus": "Focus",
+    "core_skills": "Compétences Clés",
+    "core_tech": "Technologies Clés",
+    "categories": {
+      "frontend": {
+        "title": "Ingénierie Frontend",
+        "focus": "Architecture de composants · Accessibilité · Performance"
+      },
+      "backend": {
+        "title": "Ingénierie Backend",
+        "focus": "Conception d'API · Auth · Validation · Gestion d'erreurs"
+      },
+      "data": {
+        "title": "Données & Bases de données",
+        "focus": "Modélisation de données · Requêtage · Bases du warehousing"
+      },
+      "cloud": {
+        "title": "Cloud & DevOps",
+        "focus": "Déploiements · Environnements · Flux de mise en production"
+      },
+      "distributed": {
+        "title": "Systèmes Distribués",
+        "focus": "Distribution de tâches · Modèles client/worker · Bases de la tolérance aux pannes"
+      },
+      "ai": {
+        "title": "IA & Automatisation",
+        "focus": "Expérimentation · Évaluation · Automatisation pratique"
+      },
+      "tooling": {
+        "title": "Outils & Qualité",
+        "focus": "Clean code · Fiabilité · Maintenabilité"
+      },
+      "leadership": {
+        "title": "Collaboration & Leadership",
+        "focus": "Esprit orienté livraison · Responsabilité · Travail d'équipe",
+        "items": {
+          "problem_solving": "Résolution de problèmes",
+          "communication": "Communication",
+          "collaboration": "Collaboration",
+          "leadership": "Leadership (chef d'équipe)",
+          "learning": "Apprentissage rapide",
+          "agile": "Agile/Scrum (planification, itération, travail d'équipe)",
+          "design_thinking": "Design Thinking (cadrage de problème, idéation, prototypage)",
+          "ux_mindset": "Esprit UX Design (décisions centrées utilisateur, bases d'ergonomie)"
+        }
+      }
+    }
+  },
+  "common": {
+    "download": "Télécharger",
+    "get_in_touch": "Me contacter",
+    "back_to_top": "Retour en haut"
+  }
+}

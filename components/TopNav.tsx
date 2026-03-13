@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
-import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import React, { useEffect, useRef, useState, useTransition } from "react";
+import { Link, usePathname, useRouter, type Locale } from "@/i18n/routing";
+import { useLocale, useTranslations } from "next-intl";
+import { useParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Logo } from "./brand/Logo";
 import { CursorDecryptLabel } from "./ui/CursorDecryptLabel";
@@ -24,10 +25,16 @@ import { HoverExpandPill } from "./ui/hover-expand-pill";
 type NavKey = "home" | "work" | "blogs" | "about" | "contact";
 
 const getActiveNavKey = (pathname: string): NavKey | null => {
+  // next-intl's usePathname returns path without locale prefix
   if (pathname === "/") return "home";
   if (pathname === "/blogs") return "blogs";
   if (pathname === "/about") return "about";
-  if (pathname.startsWith("/projects") || pathname === "/certificates") {
+  if (
+    pathname.startsWith("/projects") ||
+    pathname.startsWith("/projets") ||
+    pathname === "/certificates" ||
+    pathname === "/certificats"
+  ) {
     return "work";
   }
   return null;
@@ -60,20 +67,18 @@ const DropdownTile = ({
   external,
   className = "",
 }: DropdownTileProps) => {
-  const containerClasses = `group relative flex flex-col justify-between rounded-xl border p-3.5 transition-colors duration-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2FAE8A] ${
+  const containerClasses = `group relative flex flex-col justify-between rounded-xl border p-3.5 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-black ${
     isActive
-      ? "border-[#2FAE8A] bg-[#2FAE8A]/5 shadow-sm"
-      : "border-[#E6E8EC] bg-white hover:bg-black hover:border-black hover:shadow-xl hover:-translate-y-1 focus-visible:bg-black"
+      ? "border-black bg-black/5 shadow-sm"
+      : "border-[#E6E8EC] bg-white hover:bg-black/5 focus-visible:bg-black/5"
   } ${isFeatured ? "min-h-[85px]" : "min-h-[110px]"} ${className}`;
 
   const content = (
     <>
       <div className="flex items-start justify-between">
         <div
-          className={`flex h-8 w-8 items-center justify-center rounded-lg transition-colors duration-100 ${
-            isActive
-              ? "bg-[#2FAE8A] text-white"
-              : "bg-neutral-50 text-neutral-400 group-hover:bg-white/10 group-hover:text-white"
+          className={`flex h-8 w-8 items-center justify-center transition-colors duration-100 ${
+            isActive ? "text-black" : "text-neutral-400 group-hover:text-black"
           }`}
         >
           {React.cloneElement(
@@ -86,15 +91,15 @@ const DropdownTile = ({
         <ArrowUpRightIcon
           className={`h-3.5 w-3.5 transition-all duration-100 ${
             isActive
-              ? "text-[#2FAE8A]"
-              : "text-neutral-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-white"
+              ? "text-black"
+              : "text-neutral-300 group-hover:text-black"
           }`}
         />
       </div>
       <div className="mt-2.5">
         <h3
           className={`font-sans text-[13px] font-bold transition-colors duration-100 ${
-            isActive ? "text-[#0B0F14]" : "text-black group-hover:text-white"
+            isActive ? "text-[#0B0F14]" : "text-black"
           }`}
         >
           {title}
@@ -103,7 +108,7 @@ const DropdownTile = ({
           className={`mt-1 font-sans text-[11px] leading-snug transition-colors duration-100 line-clamp-2 ${
             isActive
               ? "text-neutral-600"
-              : "text-neutral-500 group-hover:text-white/70"
+              : "text-neutral-500"
           }`}
         >
           {description}
@@ -144,19 +149,38 @@ export function TopNav() {
   const [isProjectsOpen, setIsProjectsOpen] = useState(false);
   const [isProjectsMobileOpen, setIsProjectsMobileOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
-  const [language, setLanguage] = useState("FR");
   const [atTop, setAtTop] = useState(true);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
   const [isResumeHovered, setIsResumeHovered] = useState(false);
   const [isResumeFocused, setIsResumeFocused] = useState(false);
+  const [isPending, startTransition] = useTransition();
+
   const projectsMenuRef = useRef<HTMLLIElement | null>(null);
   const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  const locale = useLocale();
+  const t = useTranslations("nav");
+  const tc = useTranslations("common");
   const pathname = usePathname();
   const router = useRouter();
+  const params = useParams();
 
   const isResumeExpanded = isResumeHovered || isResumeFocused;
 
   const activeNavKey = getActiveNavKey(pathname);
+
+  const toggleLanguage = () => {
+    const nextLocale = locale === "en" ? "fr" : "en";
+    startTransition(() => {
+      // router.replace from next-intl handles the locale prefix and keeps the rest of the path
+      // If we're on a project page with translated slugs, we'll need extra logic in Phase 4
+      router.replace(
+        // @ts-ignore
+        { pathname, params },
+        { locale: nextLocale },
+      );
+    });
+  };
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -379,7 +403,7 @@ export function TopNav() {
                 }`}
               >
                 <NavItemHover />
-                <span className="relative z-10">Home</span>
+                <span className="relative z-10">{t("home")}</span>
               </Link>
             </li>
 
@@ -413,7 +437,7 @@ export function TopNav() {
                 }}
               >
                 <NavItemHover />
-                <span className="relative z-10">Work</span>
+                <span className="relative z-10">{t("work")}</span>
                 <ChevronDownIcon
                   className={`relative z-10 h-3.5 w-3.5 shrink-0 transition-transform duration-300 ${
                     isProjectsOpen ? "rotate-180" : "rotate-0"
@@ -431,32 +455,38 @@ export function TopNav() {
                       : "pointer-events-none -translate-y-2 scale-[0.98] opacity-0 ease-in"
                 }`}
                 role="menu"
-                aria-label="Work submenu"
+                aria-label={`${t("work")} submenu`}
               >
                 <div className="grid grid-cols-2 gap-2.5">
                   <DropdownTile
                     href="/projects"
-                    title="Projects"
-                    description="Selected work, case studies, and builds."
+                    title={t("projects")}
+                    description={t("projects_desc")}
                     icon={<BriefcaseIcon className="h-5 w-5" />}
-                    isActive={pathname.startsWith("/projects")}
+                    isActive={
+                      pathname.startsWith("/projects") ||
+                      pathname.startsWith("/projets")
+                    }
                     isFeatured
                     className="col-span-2"
                     onClick={() => setIsProjectsOpen(false)}
                   />
                   <DropdownTile
                     href="/certificates"
-                    title="Certificates"
-                    description="Verified learning and credentials."
+                    title={t("certificates")}
+                    description={t("certificates_desc")}
                     icon={<AwardIcon className="h-5 w-5" />}
-                    isActive={pathname === "/certificates"}
+                    isActive={
+                      pathname === "/certificates" ||
+                      pathname === "/certificats"
+                    }
                     className="col-span-1"
                     onClick={() => setIsProjectsOpen(false)}
                   />
                   <DropdownTile
                     href="/resume.pdf"
-                    title="Resume"
-                    description="Professional experience and skills."
+                    title={t("resume")}
+                    description={t("resume_desc")}
                     icon={<FileTextIcon className="h-5 w-5" />}
                     external
                     className="col-span-1"
@@ -476,7 +506,7 @@ export function TopNav() {
                 }`}
               >
                 <NavItemHover />
-                <span className="relative z-10">Blogs</span>
+                <span className="relative z-10">{t("blogs")}</span>
               </Link>
             </li>
 
@@ -491,7 +521,7 @@ export function TopNav() {
                 }`}
               >
                 <NavItemHover />
-                <span className="relative z-10">About</span>
+                <span className="relative z-10">{t("about")}</span>
               </Link>
             </li>
 
@@ -506,17 +536,18 @@ export function TopNav() {
                 }`}
               >
                 <NavItemHover />
-                <span className="relative z-10">Contact</span>
+                <span className="relative z-10">{t("contact")}</span>
               </Link>
             </li>
           </ul>
 
           <div className="flex items-center gap-3">
             {/* Language Switcher */}
+            {/* Language Toggle Button */}
             <HoverExpandPill
               icon={<GlobeIcon className="h-4 w-4" />}
-              label={language === "FR" ? "Language: FR" : "Language: EN"}
-              onClick={() => setLanguage((l) => (l === "FR" ? "EN" : "FR"))}
+              label={locale === "fr" ? "FR" : "EN"}
+              onClick={toggleLanguage}
               ariaLabel="Toggle language"
             />
 
@@ -567,7 +598,7 @@ export function TopNav() {
                     className="flex items-center gap-1.5"
                   >
                     <DownloadIcon className="h-3 w-3" />
-                    <span>Resume</span>
+                    <span>{t("resume")}</span>
                   </motion.div>
                 ) : (
                   <motion.div
@@ -577,7 +608,7 @@ export function TopNav() {
                     exit={{ opacity: 0, y: -10 }}
                     transition={{ duration: 0.2 }}
                   >
-                    Download
+                    {tc("download")}
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -615,7 +646,7 @@ export function TopNav() {
                       : "text-[#0B0F14]"
                   }`}
                 >
-                  Home
+                  {t("home")}
                 </Link>
               </li>
 
@@ -631,7 +662,7 @@ export function TopNav() {
                   aria-expanded={isProjectsMobileOpen}
                   aria-controls="mobile-projects-submenu"
                 >
-                  <span className="font-sans">Work</span>
+                  <span className="font-sans">{t("work")}</span>
                   <span
                     className={`ml-2 text-xs transition-transform duration-200 ${
                       isProjectsMobileOpen ? "rotate-180" : "rotate-0"
@@ -656,7 +687,7 @@ export function TopNav() {
                         onClick={handleMobileNavClick}
                         className="block rounded-lg px-4 py-2 text-sm font-sans text-[#0B0F14]/80 hover:bg-[#E6E8EC] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2FAE8A]"
                       >
-                        Projects
+                        {t("projects")}
                       </Link>
                     </li>
                     <li>
@@ -665,7 +696,7 @@ export function TopNav() {
                         onClick={handleMobileNavClick}
                         className="block rounded-lg px-4 py-2 text-sm font-sans text-[#0B0F14]/80 hover:bg-[#E6E8EC] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2FAE8A]"
                       >
-                        Certificates
+                        {t("certificates")}
                       </Link>
                     </li>
                     <li>
@@ -676,7 +707,7 @@ export function TopNav() {
                         onClick={handleMobileNavClick}
                         className="block rounded-lg px-4 py-2 text-sm font-sans text-[#0B0F14]/80 hover:bg-[#E6E8EC] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2FAE8A]"
                       >
-                        Resume
+                        {t("resume")}
                       </a>
                     </li>
                   </ul>
@@ -693,7 +724,7 @@ export function TopNav() {
                       : "text-[#0B0F14]"
                   }`}
                 >
-                  Blogs
+                  {t("blogs")}
                 </Link>
               </li>
 
@@ -707,7 +738,7 @@ export function TopNav() {
                       : "text-[#0B0F14]"
                   }`}
                 >
-                  About
+                  {t("about")}
                 </Link>
               </li>
 
@@ -721,7 +752,7 @@ export function TopNav() {
                       : "text-[#0B0F14]"
                   }`}
                 >
-                  Contact
+                  {t("contact")}
                 </Link>
               </li>
             </ul>

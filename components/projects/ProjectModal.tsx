@@ -4,9 +4,10 @@ import { useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { createPortal } from "react-dom";
 import { Project } from "@/data/projects";
+import { useLocale, useTranslations } from "next-intl";
+import { Link } from "@/i18n/routing";
 import { X, ExternalLink, Github } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
 import { satoshi } from "@/lib/fonts";
 
 interface ProjectModalProps {
@@ -17,6 +18,12 @@ interface ProjectModalProps {
 
 export function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
+  const locale = useLocale() as "en" | "fr";
+  const t = useTranslations("projects");
+
+  const projectSlug = project.slugs[locale];
+  const projectTitle = project.title[locale];
+  const projectSummary = project.summary[locale];
 
   useEffect(() => {
     if (isOpen) {
@@ -61,7 +68,7 @@ export function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
           {/* Modal Card */}
           <motion.div
             ref={modalRef}
-            layoutId={`project-card-${project.slug}`}
+            layoutId={`project-card-${project.slugs.en}`}
             className={`relative w-full max-w-4xl overflow-hidden rounded-2xl border border-white/10 bg-white shadow-2xl ${satoshi.variable} font-sans`}
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -98,90 +105,89 @@ export function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
                   </svg>
                 </div>
                 {/* Real Image */}
-                {/* <Image
-                  src={project.cover}
-                  alt={project.title}
-                  fill
-                  className="object-cover"
-                /> */}
+                {project.cover && (
+                  <Image
+                    src={project.cover}
+                    alt={projectTitle}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, 400px"
+                  />
+                )}
               </div>
 
               {/* Content Section (Right/Bottom) */}
-              <div className="flex flex-1 flex-col p-8 pt-6 pb-6 md:p-10 md:pt-8 md:pb-6">
-                <div className="mb-6">
-                  <h2 className="mb-4 font-sans text-3xl font-bold text-gray-900 md:text-4xl">
-                    {project.title}
-                  </h2>
+              <div className="flex flex-col p-6 md:w-3/5 md:p-8 lg:p-10">
+                <div className="mb-4 flex flex-wrap gap-2">
+                  {project.stack.slice(0, 3).map((tech) => (
+                    <span
+                      key={tech}
+                      className="rounded-full bg-teal-50 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-teal-700 ring-1 ring-inset ring-teal-700/10"
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                </div>
 
-                  {/* Expanded Stack Badges */}
-                  <div className="flex flex-wrap gap-2">
-                    {(project.expandedStack || project.stack).map((tech) => (
-                      <span
-                        key={`modal-${tech}`}
-                        className="rounded-full bg-teal-50 px-3 py-1 text-sm font-medium text-teal-700 border border-teal-100"
-                      >
-                        {tech}
-                      </span>
-                    ))}
+                <h2 className="mb-4 text-2xl font-bold text-gray-900 md:text-3xl">
+                  {projectTitle}
+                </h2>
+
+                <p className="mb-8 flex-1 text-base leading-relaxed text-gray-600">
+                  {projectSummary}
+                </p>
+
+                <div className="grid grid-cols-2 gap-6 mb-8">
+                  <div>
+                    <h4 className="text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-1">
+                      {t("role")}
+                    </h4>
+                    <p className="text-sm font-medium text-gray-900">
+                      {project.role[locale]}
+                    </p>
+                  </div>
+                  <div>
+                    <h4 className="text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-1">
+                      {t("stack")}
+                    </h4>
+                    <p className="text-sm font-medium text-gray-900 line-clamp-1">
+                      {project.stack.join(", ")}
+                    </p>
                   </div>
                 </div>
 
-                <div className="space-y-6 text-lg text-gray-600 leading-relaxed">
-                  <p>{project.summary}</p>
-
-                  <div className="grid gap-6 sm:grid-cols-2">
-                    <div>
-                      <h4 className="mb-2 font-bold text-gray-900">Role</h4>
-                      <p className="text-sm">{project.role}</p>
-                    </div>
-                    <div>
-                      <h4 className="mb-2 font-bold text-gray-900">Impact</h4>
-                      <p className="text-sm">{project.impact}</p>
-                    </div>
-                  </div>
-
-                  {project.architecture && (
-                    <div>
-                      <h4 className="mb-2 font-bold text-gray-900">
-                        Architecture
-                      </h4>
-                      <p className="text-sm">{project.architecture}</p>
-                    </div>
-                  )}
-                </div>
-
-                <div className="mt-10 flex flex-wrap gap-4 pt-6 border-t border-gray-100">
-                  {project.links.demo && (
-                    <a
-                      href={project.links.demo}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 rounded-lg bg-teal-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2"
-                    >
-                      View Live Demo
-                      <ExternalLink className="h-4 w-4" />
-                    </a>
-                  )}
-
-                  {project.links.repo && (
-                    <a
-                      href={project.links.repo}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-50 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-200 focus:ring-offset-2"
-                    >
-                      <Github className="h-4 w-4" />
-                      View Source
-                    </a>
-                  )}
-
+                <div className="flex flex-wrap items-center gap-4">
                   <Link
-                    href={`/projects/${project.slug}`}
-                    className="inline-flex items-center gap-2 rounded-lg px-5 py-2.5 text-sm font-semibold text-gray-500 transition-colors hover:text-gray-900 ml-auto"
+                    href={`/projects/${projectSlug}`}
+                    className="flex items-center gap-2 rounded-xl bg-black px-6 py-3 text-sm font-bold text-white transition-all hover:bg-neutral-800 active:scale-95"
                   >
-                    Full Case Study
+                    {t("view_details")}
                     <ExternalLink className="h-4 w-4" />
                   </Link>
+                  <div className="flex items-center gap-3">
+                    {project.links.repo && (
+                      <a
+                        href={project.links.repo}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex h-11 w-11 items-center justify-center rounded-xl border border-gray-200 text-gray-600 transition-all hover:bg-gray-50 hover:text-black active:scale-95"
+                        title={t("view_code")}
+                      >
+                        <Github className="h-5 w-5" />
+                      </a>
+                    )}
+                    {project.links.demo && (
+                      <a
+                        href={project.links.demo}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex h-11 w-11 items-center justify-center rounded-xl border border-gray-200 text-gray-600 transition-all hover:bg-gray-50 hover:text-black active:scale-95"
+                        title={t("visit_site")}
+                      >
+                        <ExternalLink className="h-5 w-5" />
+                      </a>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>

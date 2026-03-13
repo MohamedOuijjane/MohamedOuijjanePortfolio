@@ -1,9 +1,6 @@
 import type { Metadata } from "next";
 import { satoshi } from "@/lib/fonts";
 import "@/styles/globals.css";
-import WebVitals from "@/app/_components/WebVitals";
-import { BackToTop } from "@/components/BackToTop";
-import { Preloader } from "@/components/Preloader";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://your-domain.com"),
@@ -36,13 +33,12 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // This layout is minimal and doesn't use next-intl hooks to avoid crashes.
+  // Locale-dependent UI should be in app/[locale]/layout.tsx.
   return (
     <html lang="en" className={`${satoshi.variable} font-sans`}>
       <body className="antialiased min-h-screen flex flex-col overflow-x-hidden">
-        <Preloader />
-        <WebVitals />
-        <main className="flex-1">{children}</main>
-        <BackToTop />
+        {children}
       </body>
     </html>
   );

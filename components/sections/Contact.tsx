@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { motion } from "framer-motion";
+import { useTranslations } from "next-intl";
 import { ArrowRightIcon } from "@/components/icons";
 import { satoshi } from "@/lib/fonts";
 import { GlassCard } from "@/components/ui/GlassCard";
@@ -31,6 +33,7 @@ type ContactSuccessResponse = {
 };
 
 export function Contact() {
+  const t = useTranslations("contact");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formStatus, setFormStatus] = useState<ContactFormStatus>("idle");
   const [name, setName] = useState("");
@@ -67,9 +70,7 @@ export function Contact() {
 
       if (!response.ok || !data) {
         if (response.status === 429 && data && !("errors" in data)) {
-          setGlobalError(
-            data.message || "Too many requests. Please try again later.",
-          );
+          setGlobalError(data.message || t("error_too_many"));
         } else if (response.status === 400 && data && "errors" in data) {
           const errors = data.errors ?? {};
           const mappedFieldErrors: ContactFieldErrors = {
@@ -80,14 +81,12 @@ export function Contact() {
           setFieldErrors(mappedFieldErrors);
 
           if (errors.honeypot) {
-            setGlobalError(data.message || "Spam detected.");
+            setGlobalError(data.message || t("error_spam"));
           }
         } else if (data) {
-          setGlobalError(
-            data.message || "Something went wrong. Please try again.",
-          );
+          setGlobalError(data.message || t("error_generic"));
         } else {
-          setGlobalError("Something went wrong. Please try again.");
+          setGlobalError(t("error_generic"));
         }
 
         setIsSubmitting(false);
@@ -122,9 +121,9 @@ export function Contact() {
       className={`scroll-mt-24 pt-20 pb-4 ${satoshi.variable} font-sans -mt-[17.5cm] transform -translate-x-[2cm]`}
     >
       <GlassCard className="relative z-10 transform px-8 py-10 sm:px-12 sm:py-12 lg:px-16 lg:w-[calc(100%+5cm)] lg:-ml-[2cm] lg:-mt-[1cm] lg:pt-[calc(3rem+3cm)] lg:pb-[calc(3rem+2cm)] lg:pl-[calc(4rem+2cm)] lg:pr-[calc(4rem+3cm)]">
-        <div className="flex flex-col justify-center">
+        <div className="flex flex-col justify-center pt-[19px]">
           <h2 className="mb-6 font-sans text-3xl font-bold text-[#0B0F14] md:text-4xl">
-            Get In Touch
+            {t("heading")}
           </h2>
         </div>
 
@@ -132,13 +131,8 @@ export function Contact() {
           {/* Left Column: Personal Information */}
           <div className="flex flex-col gap-8">
             <div>
-              <h3 className="text-2xl font-bold text-[#0B0F14] mb-4">
-                Reach out directly
-              </h3>
               <p className="text-lg text-gray-600 leading-relaxed">
-                I&apos;m open to discussing opportunities, collaborations, and
-                interesting projects. Feel free to reach out directly or use the
-                form.
+                {t("direct_text")}
               </p>
             </div>
 
@@ -160,9 +154,11 @@ export function Contact() {
                   </svg>
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-gray-500">Email</p>
+                  <p className="text-sm font-medium text-gray-500">
+                    {t("email")}
+                  </p>
                   <a
-                    href="mailto:ouijjanemohamed2024@gmail.com"
+                    href="mailto:ouijjanemohamed2024@gmail.com?subject=Contact%20from%20Portfolio"
                     className="text-base font-semibold text-[#0B0F14] hover:text-teal-700 transition-colors"
                   >
                     ouijjanemohamed2024@gmail.com
@@ -186,7 +182,9 @@ export function Contact() {
                   </svg>
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-gray-500">Phone</p>
+                  <p className="text-sm font-medium text-gray-500">
+                    {t("phone")}
+                  </p>
                   <a
                     href="tel:+212656706270"
                     className="text-base font-semibold text-[#0B0F14] hover:text-teal-700 transition-colors"
@@ -213,9 +211,11 @@ export function Contact() {
                   </svg>
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-gray-500">Location</p>
+                  <p className="text-sm font-medium text-gray-500">
+                    {t("location")}
+                  </p>
                   <p className="text-base font-semibold text-[#0B0F14]">
-                    Morocco
+                    {t("location_value")}
                   </p>
                 </div>
               </div>
@@ -250,11 +250,9 @@ export function Contact() {
                   </svg>
                 </div>
                 <h3 className="text-2xl font-bold text-[#0B0F14]">
-                  Message Sent!
+                  {t("success_title")}
                 </h3>
-                <p className="mt-2 text-gray-600">
-                  Thanks for reaching out. I&apos;ll get back to you soon.
-                </p>
+                <p className="mt-2 text-gray-600">{t("success_message")}</p>
                 <button
                   onClick={() => {
                     setFormStatus("idle");
@@ -263,7 +261,7 @@ export function Contact() {
                   }}
                   className="mt-6 font-medium text-teal-700 hover:underline"
                 >
-                  Send another message
+                  {t("send_another")}
                 </button>
               </div>
             ) : (
@@ -291,7 +289,7 @@ export function Contact() {
                       htmlFor="name"
                       className="text-sm font-medium text-gray-900"
                     >
-                      Name
+                      {t("name_label")}
                     </label>
                     <input
                       type="text"
@@ -300,7 +298,7 @@ export function Contact() {
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       className="w-full rounded-lg border border-gray-300 px-4 py-3 text-sm text-gray-900 placeholder:text-gray-500 outline-none transition-all focus:border-white focus:ring-1 focus:ring-white"
-                      placeholder="Your name"
+                      placeholder={t("name_placeholder")}
                     />
                     {fieldErrors.name && (
                       <p className="text-sm text-red-600">{fieldErrors.name}</p>
@@ -311,7 +309,7 @@ export function Contact() {
                       htmlFor="email"
                       className="text-sm font-medium text-gray-900"
                     >
-                      Email
+                      {t("email_label")}
                     </label>
                     <input
                       type="email"
@@ -320,7 +318,7 @@ export function Contact() {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       className="w-full rounded-lg border border-gray-300 px-4 py-3 text-sm text-gray-900 placeholder:text-gray-500 outline-none transition-all focus:border-white focus:ring-1 focus:ring-white"
-                      placeholder="mail@example.com"
+                      placeholder={t("email_placeholder")}
                     />
                     {fieldErrors.email && (
                       <p className="text-sm text-red-600">
@@ -334,7 +332,7 @@ export function Contact() {
                     htmlFor="message"
                     className="text-sm font-medium text-gray-900"
                   >
-                    Message
+                    {t("message_label")}
                   </label>
                   <textarea
                     id="message"
@@ -343,7 +341,7 @@ export function Contact() {
                     onChange={(e) => setMessage(e.target.value)}
                     rows={5}
                     className="w-full resize-none rounded-lg border border-gray-300 px-4 py-3 text-sm text-gray-900 placeholder:text-gray-500 outline-none transition-all focus:border-white focus:ring-1 focus:ring-white"
-                    placeholder="Hello! I'd like to discuss a project..."
+                    placeholder={t("message_placeholder")}
                   />
                   {fieldErrors.message && (
                     <p className="text-sm text-red-600">
@@ -354,10 +352,11 @@ export function Contact() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-[#0B0F14] px-8 py-4 text-base font-semibold text-white transition-all hover:bg-[#1a2030] hover:scale-[1.01] disabled:opacity-70"
+                  className="group relative flex w-full items-center justify-center overflow-hidden rounded-full bg-black px-8 py-4 text-base font-semibold text-white transition-all duration-300 hover:bg-black hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0 disabled:opacity-70 disabled:hover:translate-y-0 disabled:hover:shadow-none"
                 >
-                  {isSubmitting ? "Sending..." : "Send Message"}
-                  {!isSubmitting && <ArrowRightIcon className="h-4 w-4" />}
+                  <span className="relative">
+                    {isSubmitting ? t("submitting") : t("submit")}
+                  </span>
                 </button>
               </form>
             )}

@@ -10,7 +10,12 @@ import {
   Bot,
   type LucideIcon,
 } from "lucide-react";
-import type { ServiceCard, ServiceIconKey } from "@/data/services";
+import { useLocale } from "next-intl";
+import type {
+  ServiceCard,
+  ServiceIconKey,
+  LocalizedField,
+} from "@/data/services";
 
 const iconMap: Record<ServiceIconKey, LucideIcon> = {
   rocket: Rocket,
@@ -28,6 +33,8 @@ export function ServiceHoverList({
   items: ServiceCard[];
   className?: string;
 }) {
+  const locale = useLocale() as keyof LocalizedField;
+
   return (
     <div className={`grid gap-8 md:grid-cols-2 lg:grid-cols-3 ${className}`}>
       {items.map((item) => {
@@ -59,10 +66,12 @@ export function ServiceHoverList({
               <Icon className="mx-auto mb-4 h-7 w-7 text-neutral-500 transition-colors duration-200 [@media(hover:hover)]:group-hover:text-neutral-700 [@media(hover:hover)]:group-focus-within:text-neutral-700" />
 
               <h3 className="font-sans text-xl font-bold text-[#0B0F14]">
-                {item.title}
+                {item.title[locale]}
               </h3>
 
-              <p className="mt-3 font-sans text-gray-600">{item.description}</p>
+              <p className="mt-3 font-sans text-gray-600">
+                {item.description[locale]}
+              </p>
 
               <div
                 className={[
@@ -73,7 +82,7 @@ export function ServiceHoverList({
                 ].join(" ")}
               >
                 <p className="mt-4 font-sans text-sm font-medium text-gray-600">
-                  {item.deliverables}
+                  {item.deliverables[locale]}
                 </p>
 
                 {item.techLine ? (

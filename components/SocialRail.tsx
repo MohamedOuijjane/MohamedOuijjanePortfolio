@@ -18,17 +18,17 @@ const socialLinks: SocialLink[] = [
   },
   {
     label: "LinkedIn",
-    href: "https://linkedin.com/in/MohamedOuijjane",
+    href: "https://www.linkedin.com/in/mohamedouijjane",
     icon: LinkedInIcon,
   },
   {
     label: "WhatsApp",
-    href: "https://wa.me/212628463584",
+    href: "https://wa.me/212656706270?text=Hello%20Mohamed%2C%20I%20found%20your%20portfolio%20and%20would%20like%20to%20contact%20you.",
     icon: WhatsAppIcon,
   },
   {
     label: "Email",
-    href: "mailto:contact@wejan.dev",
+    href: "mailto:ouijjanemohamed2024@gmail.com?subject=Contact%20from%20Portfolio",
     icon: GmailIcon,
   },
 ];

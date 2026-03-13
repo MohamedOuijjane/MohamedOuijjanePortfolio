@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { ScrollCue } from "@/components/ScrollCue";
 import { DecryptHoverText } from "@/components/DecryptHoverText";
 import { satoshi } from "@/lib/fonts";
@@ -7,6 +8,9 @@ import { GetInTouchButton } from "@/components/ui/get-in-touch-button";
 import { GlassCard } from "@/components/ui/GlassCard";
 
 export function Hero() {
+  const t = useTranslations("hero");
+  const tc = useTranslations("common");
+
   return (
     <section
       id="home"
@@ -24,19 +28,17 @@ export function Hero() {
 
             {/* Role line */}
             <p className="mt-6 text-xl font-bold text-neutral-800 sm:text-2xl lg:text-3xl">
-              Full-Stack Developer
+              {t("role")}
             </p>
 
             {/* Supporting sentence */}
             <p className="mt-4 max-w-xl text-base leading-relaxed text-neutral-600 sm:text-lg lg:text-xl">
-              Passionate about creating intuitive and engaging user experiences.
-              Specialize in transforming ideas into beautifully crafted
-              products.
+              {t("supporting")}
             </p>
 
             {/* CTA Button */}
             <div className="mt-10">
-              <GetInTouchButton href="#contact" label="Get in touch" />
+              <GetInTouchButton href="#contact" label={tc("get_in_touch")} />
             </div>
           </div>
         </GlassCard>

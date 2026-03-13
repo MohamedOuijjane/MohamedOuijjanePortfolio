@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useRef, useState } from "react";
+import { useLocale, useTranslations } from "next-intl";
 import { useInView } from "framer-motion";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { satoshi } from "@/lib/fonts";
@@ -16,6 +17,8 @@ export function About({
   showCoreExpertise?: boolean;
   showHeading?: boolean;
 }) {
+  const locale = useLocale();
+  const t = useTranslations("about");
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: false, amount: 0.3 });
   const [isNameHovered, setIsNameHovered] = useState(false);
@@ -66,76 +69,72 @@ export function About({
           >
             {showHeading && (
               <h2 className="mb-6 font-sans text-3xl font-bold text-[#0B0F14] md:text-4xl">
-                About Me
+                {t("heading")}
               </h2>
             )}
             <div className="space-y-6 text-lg text-gray-600 leading-relaxed">
               <p>
-                I&apos;m{" "}
+                {t("intro_start")}{" "}
                 <span
                   className="relative inline-block font-bold text-[#0B0F14] cursor-default"
                   onMouseEnter={() => setIsNameHovered(true)}
                   onMouseLeave={() => setIsNameHovered(false)}
                 >
-                  Mohamed Ouijjane
+                  {t("intro_name")}
                   <AnimatedUnderlineInline
                     isVisible={isInView}
                     isHovered={isNameHovered}
                     className="text-teal-700/60"
                   />
                 </span>
-                , a Full-Stack Developer dedicated to building high-performance,
-                accessible, and scalable web applications. I bridge the gap
-                between clean, intuitive user interfaces and robust,
-                maintainable backend architectures.
+                {t("intro_end")}
               </p>
               <p>
-                My focus lies in delivering real value through engineering
-                excellence prioritizing performance, clarity, and products that
-                are built to last. I have a deep interest in{" "}
+                {t("focus_start")}{" "}
                 <span className="font-medium text-[#0B0F14]">
-                  scalable architectures
+                  {t("focus_highlight")}
                 </span>
-                , exploring how service-oriented designs solve complex
-                real-world challenges.
+                {t("focus_end")}
               </p>
-
-              <div className="mt-12 space-y-6">
-                {showCoreExpertise && (
-                  <div className="space-y-1">
-                    <h3 className="px-1 font-sans text-xl font-bold text-[#0B0F14]">
-                      Core Expertise
-                    </h3>
-                    <CoreExpertiseMarquee />
-                  </div>
-                )}
-
-                <p className="text-base italic text-neutral-700">
-                  Currently open to{" "}
-                  <ScrollDrawUnderline
-                    text="Internship"
-                    inView={isInView}
-                    delay={0.15}
-                    pathVariant={0}
-                  />
-                  ,{" "}
-                  <ScrollDrawUnderline
-                    text="Junior roles"
-                    inView={isInView}
-                    delay={0.35}
-                    pathVariant={1}
-                  />
-                  , and{" "}
-                  <ScrollDrawUnderline
-                    text="Freelance collaborations"
-                    inView={isInView}
-                    delay={0.55}
-                    pathVariant={2}
-                  />
-                  .
-                </p>
-              </div>
             </div>
+
+            {showCoreExpertise && (
+              <div className="space-y-1">
+                <h3 className="px-1 font-sans text-xl font-bold text-[#0B0F14]">
+                  {t("expertise")}
+                </h3>
+                <CoreExpertiseMarquee />
+              </div>
+            )}
+
+            <p className="mt-8 text-base italic text-neutral-700">
+              {t("open_to")}{" "}
+              <ScrollDrawUnderline
+                text={locale === "fr" ? "Stages" : "Internship"}
+                inView={isInView}
+                delay={0.15}
+                pathVariant={0}
+              />
+              {", "}
+              <ScrollDrawUnderline
+                text={locale === "fr" ? "Postes Junior" : "Junior roles"}
+                inView={isInView}
+                delay={0.35}
+                pathVariant={1}
+              />
+              {locale === "fr" ? ", et " : ", and "}
+              <ScrollDrawUnderline
+                text={
+                  locale === "fr"
+                    ? "Collaborations Freelance"
+                    : "Freelance collaborations"
+                }
+                inView={isInView}
+                delay={0.55}
+                pathVariant={2}
+              />
+              {"."}
+            </p>
           </GlassCard>
         </div>
       </div>

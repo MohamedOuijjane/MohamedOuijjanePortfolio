@@ -2,12 +2,14 @@
 
 import React, { useState, useRef } from "react";
 import { motion, AnimatePresence, useInView, Variants } from "framer-motion";
+import { useTranslations } from "next-intl";
 import { skillCategories } from "@/data/skills";
 import { satoshi } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 import { GlassCard } from "@/components/ui/GlassCard";
 
 export function Skills({ variant = "home" }: { variant?: "home" | "about" }) {
+  const t = useTranslations("skills");
   const [activeTab, setActiveTab] = useState(skillCategories[0].id);
   const sectionRef = useRef<HTMLElement>(null);
   const isInView = useInView(sectionRef, { once: true, amount: 0.2 });
@@ -46,7 +48,7 @@ export function Skills({ variant = "home" }: { variant?: "home" | "about" }) {
       id="skills"
       ref={sectionRef}
       className={cn(
-        "scroll-mt-24",
+        "scroll-mt-24 relative z-20",
         isHome
           ? "py-20 transform -translate-y-[7cm] -translate-x-[0.9cm]"
           : "pb-20 pt-8 transform -translate-y-[6cm] mb-[-8cm]",
@@ -56,7 +58,7 @@ export function Skills({ variant = "home" }: { variant?: "home" | "about" }) {
     >
       <GlassCard
         className={cn(
-          "relative z-10 transform px-8 py-10 sm:px-12 sm:py-12 lg:px-16",
+          "relative z-20 transform px-8 py-10 sm:px-12 sm:py-12 lg:px-16",
           isHome
             ? "lg:w-[calc(100%+75px)] lg:-translate-x-[75px]"
             : "w-[calc(100%+4cm)] -ml-[2cm]",
@@ -71,11 +73,10 @@ export function Skills({ variant = "home" }: { variant?: "home" | "about" }) {
         >
           <div className="mb-12">
             <h2 className="text-4xl font-bold tracking-tight text-[#0B0F14] md:text-5xl">
-              Skills & Expertise
+              {t("heading")}
             </h2>
             <p className="mt-6 max-w-2xl text-xl text-gray-600 leading-relaxed">
-              A comprehensive overview of my technical stack and professional
-              capabilities across various domains of software engineering.
+              {t("subheading")}
             </p>
           </div>
 
@@ -90,6 +91,7 @@ export function Skills({ variant = "home" }: { variant?: "home" | "about" }) {
               >
                 {skillCategories.map((category) => {
                   const isActive = activeTab === category.id;
+                  const categoryTitle = t(`categories.${category.id}.title`);
                   return (
                     <button
                       key={category.id}
@@ -159,7 +161,7 @@ export function Skills({ variant = "home" }: { variant?: "home" | "about" }) {
                           isActive ? "lg:translate-x-2 font-bold" : "",
                         )}
                       >
-                        {category.title}
+                        {categoryTitle}
                       </span>
                     </button>
                   );
@@ -183,13 +185,13 @@ export function Skills({ variant = "home" }: { variant?: "home" | "about" }) {
                 >
                   <div className="mb-6 border-b border-gray-100 pb-4">
                     <h3 className="text-2xl font-bold text-[#0B0F14]">
-                      {activeCategory.title}
+                      {t(`categories.${activeCategory.id}.title`)}
                     </h3>
                     <div className="mt-2 flex items-center gap-2 text-sm text-gray-600">
                       <span className="font-semibold text-teal-700">
-                        Focus:
+                        {t("focus")}:
                       </span>
-                      <span>{activeCategory.focus}</span>
+                      <span>{t(`categories.${activeCategory.id}.focus`)}</span>
                     </div>
                   </div>
 
@@ -198,25 +200,29 @@ export function Skills({ variant = "home" }: { variant?: "home" | "about" }) {
                     <div>
                       <h4 className="mb-3 text-sm font-bold uppercase tracking-wider text-gray-500">
                         {activeCategory.skills
-                          ? "Core Skills"
-                          : "Core Technologies"}
+                          ? t("core_skills")
+                          : t("core_tech")}
                       </h4>
                       <div className="flex flex-wrap gap-2">
-                        {(activeCategory.skills || activeCategory.tech).map(
-                          (item) => (
-                            <div
-                              key={item}
-                              className="inline-flex items-center rounded-md bg-gray-100 px-3 py-1.5 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-200 cursor-default"
-                            >
-                              {item}
-                            </div>
-                          ),
-                        )}
+                        {activeCategory.skills
+                          ? activeCategory.skills.map((key) => (
+                              <div
+                                key={key}
+                                className="inline-flex items-center rounded-md bg-gray-100 px-3 py-1.5 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-200 cursor-default"
+                              >
+                                {t(`categories.leadership.items.${key}`)}
+                              </div>
+                            ))
+                          : activeCategory.tech.map((item) => (
+                              <div
+                                key={item}
+                                className="inline-flex items-center rounded-md bg-gray-100 px-3 py-1.5 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-200 cursor-default"
+                              >
+                                {item}
+                              </div>
+                            ))}
                       </div>
                     </div>
-
-                    {/* Also / Next */}
-                    {/* removed */}
                   </div>
                 </motion.div>
               </AnimatePresence>

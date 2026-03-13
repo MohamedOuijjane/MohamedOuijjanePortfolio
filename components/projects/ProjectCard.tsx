@@ -1,12 +1,11 @@
 "use client";
 
-import { useState } from "react";
-import Link from "next/link";
+import { useLocale } from "next-intl";
+import { Link } from "@/i18n/routing";
 import Image from "next/image";
 import { Project } from "@/data/projects";
 import { ArrowRightIcon } from "@/components/icons";
-import { Maximize2, Github, Expand, Folder, ExternalLink } from "lucide-react";
-import { ProjectModal } from "./ProjectModal";
+import { Maximize2, ExternalLink, Github } from "lucide-react";
 import { motion } from "framer-motion";
 
 interface ProjectCardProps {
@@ -14,36 +13,30 @@ interface ProjectCardProps {
 }
 
 export function ProjectCard({ project }: ProjectCardProps) {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const locale = useLocale() as "en" | "fr";
 
   // Special handling for CPU Grid, COPAG MDM, and CertifyEase projects
-  const isCpuGrid = project.slug === "cpu-grid-traffic";
-  const isCopagMdm = project.slug === "copag-mdm";
-  const isCertifyEase = project.slug === "certifyease-language-exam-platform";
-  const isPortfolio = project.slug === "portfolio-website";
+  const isCpuGrid = project.slugs.en === "cpu-grid-traffic";
+  const isCopagMdm = project.slugs.en === "copag-mdm";
+  const isCertifyEase =
+    project.slugs.en === "certifyease-language-exam-platform";
+  const isPortfolio = project.slugs.en === "portfolio-website";
   const isPremiumCard = isCpuGrid || isCopagMdm || isCertifyEase || isPortfolio;
 
-  // Function to handle card click for non-premium cards
-  const handleCardClick = (e: React.MouseEvent) => {
-    // If clicking the actual link or buttons inside the card, don't open modal
-    if ((e.target as HTMLElement).closest("a")) return;
-
-    e.preventDefault();
-    setIsModalOpen(true);
-  };
+  const projectSlug = project.slugs[locale];
+  const projectTitle = project.title[locale];
+  const projectSummary = project.summary[locale];
 
   return (
     <>
       <motion.div
-        layoutId={`project-card-${project.slug}`}
+        layoutId={`project-card-${project.slugs.en}`}
         className="group font-sans relative flex flex-col overflow-hidden rounded-xl border border-gray-200 bg-white transition-all hover:-translate-y-1 hover:border-teal-700/50 hover:shadow-xl h-full"
-        onClick={isPremiumCard ? undefined : handleCardClick}
       >
         {/* Main Clickable Area */}
         <Link
-          href={`/projects/${project.slug}`}
+          href={`/projects/${projectSlug}`}
           className="flex flex-1 flex-col"
-          onClick={isPremiumCard ? undefined : (e) => e.preventDefault()}
         >
           <div className="relative aspect-video w-full overflow-hidden bg-gray-100">
             {!isPremiumCard && (
@@ -58,7 +51,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
               <>
                 <Image
                   src={project.cover}
-                  alt={project.title}
+                  alt={projectTitle}
                   fill
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
                 />
@@ -87,7 +80,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
                 {project.cover && (
                   <Image
                     src={project.cover}
-                    alt={project.title}
+                    alt={projectTitle}
                     fill
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
                   />
@@ -99,80 +92,52 @@ export function ProjectCard({ project }: ProjectCardProps) {
           <div className="flex flex-1 flex-col p-6 font-sans">
             <div className="mb-4 flex flex-wrap gap-2">
               {project.stack.map((tech) => (
-                <span
-                  key={`${project.slug}-${tech}`}
-                  className="rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-600 font-sans"
+                <div
+                  key={tech}
+                  className="flex h-6 items-center rounded-full bg-teal-50 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-teal-700 ring-1 ring-inset ring-teal-700/10"
                 >
                   {tech}
-                </span>
+                </div>
               ))}
             </div>
 
-            <h3 className="mb-2 text-xl font-bold text-gray-900 font-sans">
-              {project.title}
+            <h3 className="mb-2 line-clamp-1 font-sans text-xl font-bold text-black">
+              {projectTitle}
             </h3>
 
-            <p className="mb-2 flex-1 text-gray-600 line-clamp-5 font-sans">
-              {project.summary}
+            <p className="line-clamp-3 text-sm leading-relaxed text-black">
+              {projectSummary}
             </p>
           </div>
         </Link>
 
         {/* Action Area (Outside the main Link to prevent nesting) */}
         <div className="px-6 pb-6 font-sans">
-          {isPremiumCard ? (
-            <div className="flex items-center justify-end gap-3 pt-2 border-t border-gray-100/50">
-              {/* Folder: Project Details */}
-              <Link
-                href={`/projects/${project.slug}`}
-                className="relative z-20 flex h-9 w-9 items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-500 transition-all hover:bg-gray-50 hover:text-black hover:border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-500"
-                aria-label="Open project case study"
+          <div className="flex items-center justify-end gap-3 pt-2 border-t border-gray-100/50">
+            {/* GitHub: Repository */}
+            {project.links.repo && (
+              <a
+                href={project.links.repo}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="relative z-20 flex h-9 w-9 items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-500 transition-all hover:bg-gray-50 hover:text-teal-700 hover:border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-500"
+                aria-label="Open GitHub repository"
               >
-                <Folder className="h-4 w-4" />
-              </Link>
+                <Github className="h-4 w-4" />
+              </a>
+            )}
 
-              {/* External Link: Live Demo */}
-              {project.links.demo && (
-                <a
-                  href={project.links.demo}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="relative z-20 flex h-9 w-9 items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-500 transition-all hover:bg-gray-50 hover:text-black hover:border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-500"
-                  aria-label="Open live demo"
-                >
-                  <ExternalLink className="h-4 w-4" />
-                </a>
-              )}
-
-              {/* GitHub: Repository */}
-              {project.links.repo && (
-                <a
-                  href={project.links.repo}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="relative z-20 flex h-9 w-9 items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-500 transition-all hover:bg-gray-50 hover:text-teal-700 hover:border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-500"
-                  aria-label="Open GitHub repository"
-                >
-                  <Github className="h-4 w-4" />
-                </a>
-              )}
-            </div>
-          ) : (
-            <div className="flex items-center gap-2 text-sm font-semibold text-teal-700 font-sans cursor-pointer">
-              View Details
-              <Maximize2 className="h-3 w-3 transition-transform group-hover:scale-110" />
-            </div>
-          )}
+            {/* Internal Link: Project Details */}
+            <Link
+              href={`/projects/${projectSlug}`}
+              className="relative z-20 flex h-9 w-9 items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-500 transition-all hover:bg-gray-50 hover:text-black hover:border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-500"
+              aria-label="View project details"
+            >
+              <ExternalLink className="h-4 w-4" />
+            </Link>
+          </div>
         </div>
       </motion.div>
-
-      {!isPremiumCard && (
-        <ProjectModal
-          project={project}
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
-        />
-      )}
     </>
   );
 }

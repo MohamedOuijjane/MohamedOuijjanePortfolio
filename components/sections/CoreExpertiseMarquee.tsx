@@ -1,25 +1,56 @@
 import React from "react";
+import { useLocale } from "next-intl";
 
-const expertise = [
+type LocalizedField = {
+  en: string;
+  fr: string;
+};
+
+const expertise: { title: LocalizedField; description: LocalizedField }[] = [
   {
-    title: "UX-Centric Development",
-    description: "Responsive, accessible interfaces with meticulous detail.",
+    title: {
+      en: "UX-Centric Development",
+      fr: "Développement Centré UX",
+    },
+    description: {
+      en: "Responsive, accessible interfaces with meticulous detail.",
+      fr: "Interfaces réactives et accessibles avec un souci du détail méticuleux.",
+    },
   },
   {
-    title: "Performance First",
-    description: "Optimization, rigorous debugging, and clean code practices.",
+    title: {
+      en: "Performance First",
+      fr: "La Performance Avant Tout",
+    },
+    description: {
+      en: "Optimization, rigorous debugging, and clean code practices.",
+      fr: "Optimisation, débogage rigoureux et pratiques de code propres.",
+    },
   },
   {
-    title: "Scalable Systems",
-    description: "Modular front-end architecture and clean API integrations.",
+    title: {
+      en: "Scalable Systems",
+      fr: "Systèmes Évolutifs",
+    },
+    description: {
+      en: "Modular front-end architecture and clean API integrations.",
+      fr: "Architecture front-end modulaire et intégrations d'API propres.",
+    },
   },
   {
-    title: "Modern Workflows",
-    description: "Auth, dashboards, and automated deployments.",
+    title: {
+      en: "Modern Workflows",
+      fr: "Flux de Travail Modernes",
+    },
+    description: {
+      en: "Auth, dashboards, and automated deployments.",
+      fr: "Authentification, tableaux de bord et déploiements automatisés.",
+    },
   },
 ];
 
 export function CoreExpertiseMarquee() {
+  const locale = useLocale() as keyof LocalizedField;
   // Duplicate the list for seamless looping
   const duplicatedExpertise = [...expertise, ...expertise];
 
@@ -34,10 +65,10 @@ export function CoreExpertiseMarquee() {
               className="w-[280px] shrink-0 rounded-xl border border-black/5 bg-white/40 p-6 backdrop-blur-md transition-all duration-300 hover:border-teal-700/20 hover:bg-white/60 sm:w-[320px] motion-reduce:w-full"
             >
               <h4 className="mb-2 text-base font-bold text-[#0B0F14]">
-                {item.title}
+                {item.title[locale]}
               </h4>
               <p className="text-sm leading-relaxed text-gray-600">
-                {item.description}
+                {item.description[locale]}
               </p>
             </div>
           ))}

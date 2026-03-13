@@ -1,16 +1,12 @@
 export type SkillCategory = {
   id: string;
-  title: string;
-  focus: string;
   tech: string[];
-  skills?: string[]; // For soft skills tab
+  skills?: string[]; // Translation keys for leadership/soft skills
 };
 
 export const skillCategories: SkillCategory[] = [
   {
     id: "frontend",
-    title: "Frontend Engineering",
-    focus: "Component architecture · Accessibility · Performance",
     tech: [
       "React",
       "Next.js",
@@ -23,8 +19,6 @@ export const skillCategories: SkillCategory[] = [
   },
   {
     id: "backend",
-    title: "Backend Engineering",
-    focus: "API design · Auth · Validation · Error handling",
     tech: [
       "Java",
       "Spring Boot",
@@ -44,8 +38,6 @@ export const skillCategories: SkillCategory[] = [
   },
   {
     id: "data",
-    title: "Data & Databases",
-    focus: "Data modeling · Querying · Warehousing basics",
     tech: [
       "PostgreSQL",
       "MySQL",
@@ -62,8 +54,6 @@ export const skillCategories: SkillCategory[] = [
   },
   {
     id: "cloud",
-    title: "Cloud & DevOps",
-    focus: "Deployments · Environments · Release workflow",
     tech: [
       "AWS",
       "Docker",
@@ -75,37 +65,28 @@ export const skillCategories: SkillCategory[] = [
   },
   {
     id: "distributed",
-    title: "Distributed Systems",
-    focus:
-      "Task distribution · Client/worker patterns · Fault tolerance basics",
     tech: ["Distributed architecture", "Java RMI", "CORBA", "RPC", "gRPC"],
   },
   {
     id: "ai",
-    title: "AI & Automation",
-    focus: "Experimentation · Evaluation · Practical automation",
     tech: ["Machine Learning", "Python", "Flask", "Prompt design"],
   },
   {
     id: "tooling",
-    title: "Tooling & Quality",
-    focus: "Clean code · Reliability · Maintainability",
     tech: ["Testing", "Debugging", "Git", "GitHub"],
   },
   {
     id: "leadership",
-    title: "Collaboration & Leadership",
-    focus: "Delivery mindset · Ownership · Teamwork",
     tech: [], // Using skills property instead
     skills: [
-      "Problem solving",
-      "Communication",
-      "Collaboration",
-      "Leadership (team lead)",
-      "Rapid learning",
-      "Agile/Scrum (planning, iteration, teamwork)",
-      "Design Thinking (problem framing, ideation, prototyping)",
-      "UX Design mindset (user-centered decisions, usability basics)",
+      "problem_solving",
+      "communication",
+      "collaboration",
+      "leadership",
+      "learning",
+      "agile",
+      "design_thinking",
+      "ux_mindset",
     ],
   },
 ];

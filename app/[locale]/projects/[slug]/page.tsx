@@ -1,38 +1,54 @@
 import { notFound } from "next/navigation";
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
+import { getTranslations } from "next-intl/server";
 import Image from "next/image";
 import { getProjectBySlug, projects } from "@/data/projects";
 import { PageShell } from "@/components/PageShell";
-import { ArrowLeft, ExternalLink, Github, ChevronRight } from "lucide-react";
+import { ArrowLeft, Github, ChevronRight } from "lucide-react";
 import { satoshi } from "@/lib/fonts";
-import { GlassCard } from "@/components/ui/GlassCard";
 import { ProjectHeroCarousel } from "@/components/projects/ProjectHeroCarousel";
 
 interface ProjectPageProps {
   params: Promise<{
+    locale: string;
     slug: string;
   }>;
 }
 
 export async function generateStaticParams() {
-  return projects.map((project) => ({
-    slug: project.slug,
-  }));
+  const params: { locale: string; slug: string }[] = [];
+
+  projects.forEach((project) => {
+    params.push({ locale: "en", slug: project.slugs.en });
+    params.push({ locale: "en", slug: project.slugs.fr });
+    params.push({ locale: "fr", slug: project.slugs.en });
+    params.push({ locale: "fr", slug: project.slugs.fr });
+  });
+
+  return params;
 }
 
 export default async function ProjectPage({ params }: ProjectPageProps) {
-  const { slug } = await params;
+  const { locale, slug } = await params;
   const project = getProjectBySlug(slug);
 
   if (!project) {
     notFound();
   }
 
+  const lang = locale as "en" | "fr";
+  const t = await getTranslations({ locale, namespace: "projects" });
+  const tn = await getTranslations({ locale, namespace: "nav" });
+
+  const projectTitle = project.title[lang];
+  const projectSubtitle = project.subtitle?.[lang] || project.summary[lang];
+
   // Special handling for premium projects
-  const isCpuGrid = project.slug === "cpu-grid-traffic";
-  const isCopagMdm = project.slug === "copag-mdm";
-  const isCertifyEase = project.slug === "certifyease-language-exam-platform";
-  const isPortfolio = project.slug === "portfolio-website";
+  const isCpuGrid = project.slugs.en === "cpu-grid-traffic";
+  const isCopagMdm = project.slugs.en === "copag-mdm";
+  const isCertifyEase =
+    project.slugs.en === "certifyease-language-exam-platform";
+  const isPortfolio = project.slugs.en === "portfolio-website";
   const isPremiumProject =
     isCpuGrid || isCopagMdm || isCertifyEase || isPortfolio;
 
@@ -43,18 +59,18 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         {!isPremiumProject && (
           <div className="mb-8 flex items-center gap-2 text-sm text-gray-500">
             <Link href="/" className="hover:text-teal-700 transition-colors">
-              Home
+              {tn("home")}
             </Link>
             <ChevronRight className="h-4 w-4" />
             <Link
               href="/projects"
               className="hover:text-teal-700 transition-colors"
             >
-              Projects
+              {tn("projects")}
             </Link>
             <ChevronRight className="h-4 w-4" />
             <span className="font-medium text-gray-900 truncate">
-              {project.title}
+              {projectTitle}
             </span>
           </div>
         )}
@@ -66,21 +82,16 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
             <div className="flex flex-col gap-12">
               {/* 1. Full Width Carousel/Image at Top */}
               <div className="w-full">
-                {isCpuGrid ? (
-                  <ProjectHeroCarousel slug="cpu-grid-traffic" />
-                ) : isCertifyEase ? (
-                  <ProjectHeroCarousel slug="certifyease-language-exam-platform" />
-                ) : isCopagMdm ? (
-                  <ProjectHeroCarousel slug="copag-mdm" />
-                ) : isPortfolio ? /* Portfolio Website: No Hero Image as requested */
-                null : (
-                  <div className="relative aspect-video w-full overflow-hidden rounded-2xl border border-gray-200 bg-gray-100 shadow-sm">
+                {isCpuGrid || isCertifyEase || isCopagMdm || isPortfolio ? (
+                  <ProjectHeroCarousel slug={project.slugs.en} />
+                ) : (
+                  <div className="relative aspect-video w-full overflow-hidden rounded-2xl border border-gray-200 bg-transparent">
                     {project.cover && (
                       <Image
                         src={project.cover}
-                        alt={project.title}
+                        alt={projectTitle}
                         fill
-                        className="object-cover"
+                        className="object-contain"
                         sizes="(max-width: 1200px) 100vw, 1200px"
                         priority
                       />
@@ -97,27 +108,27 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                     href="/"
                     className="hover:text-teal-700 transition-colors"
                   >
-                    Home
+                    {tn("home")}
                   </Link>
                   <ChevronRight className="h-4 w-4" />
                   <Link
                     href="/projects"
                     className="hover:text-teal-700 transition-colors"
                   >
-                    Projects
+                    {tn("projects")}
                   </Link>
                   <ChevronRight className="h-4 w-4" />
                   <span className="font-medium text-gray-900 truncate">
-                    {project.title}
+                    {projectTitle}
                   </span>
                 </div>
 
-                <h1 className="text-4xl font-bold text-gray-900 md:text-5xl lg:text-6xl leading-tight">
-                  {project.title}
+                <h1 className="text-4xl font-bold text-black md:text-5xl lg:text-6xl leading-tight">
+                  {projectTitle}
                 </h1>
 
                 <p className="text-xl text-gray-600 md:text-2xl leading-relaxed max-w-3xl">
-                  {project.subtitle || project.summary}
+                  {projectSubtitle}
                 </p>
 
                 {/* Labels */}
@@ -133,27 +144,16 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                 </div>
 
                 {/* CTA Buttons */}
-                <div className="flex flex-wrap justify-center gap-4 mt-6">
-                  {project.links.demo && (
-                    <a
-                      href={project.links.demo}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 rounded-lg bg-gray-900 px-6 py-3 text-base font-semibold text-white transition-all hover:bg-gray-800 hover:shadow-lg hover:-translate-y-0.5 border border-gray-900"
-                    >
-                      Live Demo
-                      <ExternalLink className="h-5 w-5" />
-                    </a>
-                  )}
+                <div className="flex justify-center mt-6">
                   {project.links.repo && (
                     <a
                       href={project.links.repo}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-6 py-3 text-base font-semibold text-gray-700 transition-all hover:bg-gray-50 hover:text-gray-900 hover:shadow-md hover:-translate-y-0.5 hover:border-gray-300"
+                      className="inline-flex items-center gap-2 rounded-full border border-gray-200 bg-white px-8 py-3 text-base font-semibold text-gray-700 transition-all hover:bg-black hover:text-white hover:border-black hover:shadow-lg hover:-translate-y-0.5"
                     >
                       <Github className="h-5 w-5" />
-                      View Source
+                      {t("view_code")}
                     </a>
                   )}
                 </div>
@@ -164,12 +164,12 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               {/* Left Column: Text & Actions */}
               <div className="flex flex-col gap-6">
-                <h1 className="text-4xl font-bold text-gray-900 md:text-5xl lg:text-6xl leading-tight">
-                  {project.title}
+                <h1 className="text-4xl font-bold text-black md:text-5xl lg:text-6xl leading-tight">
+                  {projectTitle}
                 </h1>
 
                 <p className="max-w-3xl text-xl text-gray-600 md:text-2xl leading-relaxed">
-                  {project.subtitle || project.summary}
+                  {projectSubtitle}
                 </p>
 
                 {/* Labels */}
@@ -185,27 +185,16 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                 </div>
 
                 {/* CTA Buttons */}
-                <div className="flex flex-wrap gap-4 mt-8">
-                  {project.links.demo && (
-                    <a
-                      href={project.links.demo}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 rounded-lg bg-gray-900 px-6 py-3 text-base font-semibold text-white transition-all hover:bg-gray-800 hover:shadow-lg hover:-translate-y-0.5 border border-gray-900"
-                    >
-                      Live Demo
-                      <ExternalLink className="h-5 w-5" />
-                    </a>
-                  )}
+                <div className="flex justify-center mt-8">
                   {project.links.repo && (
                     <a
                       href={project.links.repo}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-6 py-3 text-base font-semibold text-gray-700 transition-all hover:bg-gray-50 hover:text-gray-900 hover:shadow-md hover:-translate-y-0.5 hover:border-gray-300"
+                      className="inline-flex items-center gap-2 rounded-full border border-gray-200 bg-white px-8 py-3 text-base font-semibold text-gray-700 transition-all hover:bg-black hover:text-white hover:border-black hover:shadow-lg hover:-translate-y-0.5"
                     >
                       <Github className="h-5 w-5" />
-                      View Source
+                      {t("view_code")}
                     </a>
                   )}
                 </div>
@@ -213,13 +202,13 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
               {/* Right Column: Image */}
               <div className="w-full">
-                <div className="relative aspect-video w-full overflow-hidden rounded-2xl border border-gray-200 bg-gray-100 shadow-sm">
+                <div className="relative aspect-video w-full overflow-hidden rounded-2xl border border-gray-200 bg-transparent">
                   {project.cover && (
                     <Image
                       src={project.cover}
-                      alt={project.title}
+                      alt={projectTitle}
                       fill
-                      className="object-cover"
+                      className="object-contain"
                       sizes="(max-width: 768px) 100vw, 50vw"
                       priority
                     />
@@ -231,20 +220,17 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         </section>
 
         {/* Content Grid Layout */}
-        {/* ... rest of the page ... */}
-
-        {/* Content Grid Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
           {/* Main Content Column */}
           <div className="lg:col-span-8 space-y-16">
             {/* 2. PROJECT OVERVIEW */}
             {project.fullDescription && (
               <section>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                  Overview
+                <h2 className="text-2xl font-bold text-black mb-4">
+                  {t("overview")}
                 </h2>
                 <p className="text-lg text-gray-600 leading-relaxed">
-                  {project.fullDescription}
+                  {project.fullDescription[lang]}
                 </p>
               </section>
             )}
@@ -252,12 +238,12 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
             {/* 3. THE PROBLEM */}
             {project.problem && (
               <section>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                  The Problem
+                <h2 className="text-2xl font-bold text-black mb-4">
+                  {t("problem")}
                 </h2>
                 <div className="bg-red-50/50 border-l-4 border-red-400 p-6 rounded-r-lg">
                   <p className="text-lg text-gray-700 leading-relaxed">
-                    {project.problem}
+                    {project.problem[lang]}
                   </p>
                 </div>
               </section>
@@ -266,58 +252,34 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
             {/* 4. THE SOLUTION */}
             {project.solution && (
               <section>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                  The Solution
+                <h2 className="text-2xl font-bold text-black mb-4">
+                  {t("solution")}
                 </h2>
                 <div className="bg-teal-50/50 border-l-4 border-teal-500 p-6 rounded-r-lg">
                   <p className="text-lg text-gray-700 leading-relaxed">
-                    {project.solution}
+                    {project.solution[lang]}
                   </p>
                 </div>
               </section>
             )}
 
-            {/* CertifyEase Gallery Section */}
-            {/* Gallery removed as per request */}
-
             {/* 5. ARCHITECTURE */}
             {project.architecture && (
               <section>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                  Architecture
+                <h2 className="text-2xl font-bold text-black mb-4">
+                  {t("architecture")}
                 </h2>
                 <p className="text-lg text-gray-600 leading-relaxed mb-6">
-                  {project.architecture}
+                  {project.architecture[lang]}
                 </p>
-
-                {/* Placeholder for Architecture Diagram */}
-                {/* <div className="w-full aspect-video bg-gray-100 rounded-xl border border-gray-200 flex items-center justify-center relative overflow-hidden group">
-                  <div className="absolute inset-0 bg-grid-slate-200 [mask-image:linear-gradient(0deg,white,rgba(255,255,255,0.6))] dark:bg-grid-slate-700/25" />
-                  <span className="text-gray-400 font-medium relative z-10 flex flex-col items-center gap-2">
-                    <svg
-                      className="w-12 h-12"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={1}
-                        d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"
-                      />
-                    </svg>
-                    Architecture Diagram Placeholder
-                  </span>
-                </div> */}
               </section>
             )}
 
             {/* 6. HOW IT WORKS */}
             {project.howItWorks && (
               <section>
-                <h2 className="text-2xl font-bold text-gray-900 mb-6">
-                  How It Works
+                <h2 className="text-2xl font-bold text-black mb-6">
+                  {t("how_it_works")}
                 </h2>
                 <div className="relative border-l border-gray-200 ml-3 space-y-8">
                   {project.howItWorks.map((step, index) => (
@@ -326,9 +288,9 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                         <span className="h-2 w-2 rounded-full bg-teal-600" />
                       </span>
                       <h4 className="text-lg font-medium text-gray-900 mb-1">
-                        Step {index + 1}
+                        {t("step")} {index + 1}
                       </h4>
-                      <p className="text-gray-600">{step}</p>
+                      <p className="text-gray-600">{step[lang]}</p>
                     </div>
                   ))}
                 </div>
@@ -338,8 +300,8 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
             {/* 9. CHALLENGES & ENGINEERING DECISIONS */}
             {project.challenges && (
               <section>
-                <h2 className="text-2xl font-bold text-gray-900 mb-6">
-                  Engineering Challenges
+                <h2 className="text-2xl font-bold text-black mb-6">
+                  {t("challenges")}
                 </h2>
                 <div className="grid gap-4">
                   {project.challenges.map((challenge, index) => (
@@ -350,37 +312,20 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                       <span className="flex-shrink-0 flex h-8 w-8 items-center justify-center rounded-full bg-orange-100 text-orange-600 font-bold text-sm">
                         {index + 1}
                       </span>
-                      <p className="text-gray-700 pt-1">{challenge}</p>
+                      <p className="text-gray-700 pt-1">{challenge[lang]}</p>
                     </div>
                   ))}
                 </div>
               </section>
             )}
-
-            {/* 10. RESULTS */}
-            {/* {project.results && (
-              <section>
-                <h2 className="text-2xl font-bold text-gray-900 mb-6">Key Results</h2>
-                <div className="grid sm:grid-cols-2 gap-4">
-                  {project.results.map((result, index) => (
-                    <GlassCard key={index} className="p-6 !bg-gradient-to-br !from-white !to-gray-50" fadeSize="0px">
-                      <div className="flex items-start gap-3">
-                        <div className="mt-1 h-2 w-2 rounded-full bg-green-500 flex-shrink-0" />
-                        <p className="text-gray-700 font-medium">{result}</p>
-                      </div>
-                    </GlassCard>
-                  ))}
-                </div>
-              </section>
-            )} */}
           </div>
 
           {/* Sidebar Column */}
           <div className="lg:col-span-4 space-y-10">
             {/* 7. TECH STACK */}
             <div className="bg-gray-50 rounded-2xl p-6 border border-gray-100">
-              <h3 className="text-lg font-bold text-gray-900 mb-4 uppercase tracking-wider text-sm">
-                Tech Stack
+              <h3 className="text-lg font-bold text-black mb-4 uppercase tracking-wider text-sm">
+                {t("tech_stack")}
               </h3>
               <div className="flex flex-wrap gap-2">
                 {(project.techStackDetailed || project.stack).map((tech) => (
@@ -397,8 +342,8 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
             {/* 8. KEY FEATURES */}
             {project.features && (
               <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
-                <h3 className="text-lg font-bold text-gray-900 mb-4 uppercase tracking-wider text-sm">
-                  Key Features
+                <h3 className="text-lg font-bold text-black mb-4 uppercase tracking-wider text-sm">
+                  {t("features")}
                 </h3>
                 <ul className="space-y-3">
                   {project.features.map((feature, index) => (
@@ -419,7 +364,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                           d="M5 13l4 4L19 7"
                         />
                       </svg>
-                      {feature}
+                      {feature[lang]}
                     </li>
                   ))}
                 </ul>
@@ -429,8 +374,8 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
             {/* 11. LIMITATIONS */}
             {project.limitations && (
               <div>
-                <h3 className="text-lg font-bold text-gray-900 mb-4 uppercase tracking-wider text-sm">
-                  Limitations
+                <h3 className="text-lg font-bold text-black mb-4 uppercase tracking-wider text-sm">
+                  {t("limitations")}
                 </h3>
                 <ul className="space-y-3">
                   {project.limitations.map((item, index) => (
@@ -439,7 +384,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                       className="flex items-start gap-3 text-sm text-gray-500 italic"
                     >
                       <span className="text-gray-400">•</span>
-                      {item}
+                      {item[lang]}
                     </li>
                   ))}
                 </ul>
@@ -449,8 +394,8 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
             {/* 12. FUTURE IMPROVEMENTS */}
             {project.futureImprovements && (
               <div>
-                <h3 className="text-lg font-bold text-gray-900 mb-4 uppercase tracking-wider text-sm">
-                  Future Roadmap
+                <h3 className="text-lg font-bold text-black mb-4 uppercase tracking-wider text-sm">
+                  {t("roadmap")}
                 </h3>
                 <ul className="space-y-3">
                   {project.futureImprovements.map((item, index) => (
@@ -459,7 +404,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                       className="flex items-start gap-3 text-sm text-gray-600"
                     >
                       <span className="text-teal-500">→</span>
-                      {item}
+                      {item[lang]}
                     </li>
                   ))}
                 </ul>
@@ -475,7 +420,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
             className="group inline-flex items-center gap-2 font-medium text-gray-600 hover:text-gray-900 transition-colors"
           >
             <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
-            Back to Projects
+            {t("back_to_projects")}
           </Link>
 
           {project.links.repo && (
@@ -485,7 +430,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
               rel="noopener noreferrer"
               className="group inline-flex items-center gap-2 font-medium text-gray-600 hover:text-gray-900 transition-colors"
             >
-              View on GitHub
+              {t("view_on_github")}
               <Github className="h-4 w-4" />
             </a>
           )}

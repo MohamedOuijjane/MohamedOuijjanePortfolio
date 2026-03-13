@@ -1,11 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import Link from "next/link";
-import { AlertCircle, Home, RefreshCcw } from "lucide-react";
 import { satoshi } from "@/lib/fonts";
-import { GlassCard } from "@/components/ui/GlassCard";
-import { PageShell } from "@/components/PageShell";
 
 export default function GlobalError({
   error,
@@ -15,66 +11,27 @@ export default function GlobalError({
   reset: () => void;
 }) {
   useEffect(() => {
-    // Optionally log the error to an error reporting service
     console.error("Global application error:", error);
   }, [error]);
 
   return (
-    <PageShell>
-      <div
-        className={`${satoshi.variable} font-sans flex min-h-[80vh] flex-col items-center justify-center px-6`}
+    <html lang="en">
+      <body
+        className={`${satoshi.variable} font-sans flex min-h-screen flex-col items-center justify-center bg-white p-6 text-center`}
       >
-        <GlassCard
-          className="max-w-xl w-full p-8 md:p-12 text-center"
-          fadeSize="40px"
+        <h1 className="mb-4 text-3xl font-bold text-gray-900">
+          Something went wrong
+        </h1>
+        <p className="mb-8 text-lg text-gray-600">
+          An unexpected error occurred.
+        </p>
+        <button
+          onClick={reset}
+          className="rounded-full bg-black px-8 py-3.5 text-sm font-bold text-white transition-all hover:bg-neutral-800"
         >
-          <div className="mb-6 flex justify-center">
-            <div className="rounded-full bg-red-50 p-4">
-              <AlertCircle className="h-10 w-10 text-red-600" />
-            </div>
-          </div>
-
-          <h1 className="mb-4 text-3xl font-bold text-gray-900 md:text-4xl">
-            Application error
-          </h1>
-
-          <p className="mb-8 text-lg text-gray-600 leading-relaxed">
-            An unexpected error occurred in the application. Please try
-            refreshing or returning home.
-          </p>
-
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <button
-              onClick={reset}
-              className="group flex items-center justify-center gap-2 rounded-full bg-black px-8 py-3.5 text-sm font-bold text-white transition-all hover:bg-neutral-800 active:scale-95 w-full sm:w-auto"
-            >
-              <RefreshCcw className="h-4 w-4 transition-transform group-hover:rotate-180 duration-500" />
-              Try again
-            </button>
-
-            <Link
-              href="/"
-              className="flex items-center justify-center gap-2 rounded-full border border-gray-200 bg-white px-8 py-3.5 text-sm font-bold text-gray-900 transition-all hover:bg-gray-50 active:scale-95 w-full sm:w-auto"
-            >
-              <Home className="h-4 w-4" />
-              Return Home
-            </Link>
-          </div>
-
-          {process.env.NODE_ENV === "development" && (
-            <div className="mt-8 text-left rounded-lg bg-red-50 p-4 border border-red-100 overflow-auto max-h-40">
-              <p className="text-xs font-mono text-red-800 break-all">
-                {error.message || "Unknown error"}
-              </p>
-              {error.digest && (
-                <p className="mt-2 text-[10px] text-red-500 font-mono">
-                  ID: {error.digest}
-                </p>
-              )}
-            </div>
-          )}
-        </GlassCard>
-      </div>
-    </PageShell>
+          Try again
+        </button>
+      </body>
+    </html>
   );
 }
