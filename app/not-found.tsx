@@ -5,9 +5,7 @@ export default function NotFound() {
     <div className="min-h-screen bg-white">
       <main className="mx-auto max-w-xl px-6 py-20 text-center">
         <h1 className="text-3xl font-bold text-[#0B0F14]">Project not found</h1>
-        <p className="mt-3 text-gray-600">
-          The project URL does not exist.
-        </p>
+        <p className="mt-3 text-gray-600">The project URL does not exist.</p>
         <div className="mt-6 flex flex-col gap-4">
           <Link
             href="/projects"

@@ -9,8 +9,8 @@ import { routing } from "@/i18n/routing";
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
-    default: "Mohamed Ouijjane - Software Engineer",
-    template: "%s | Mohamed Ouijjane",
+    default: "Mohamed Ouijjane",
+    template: "%s | WeJan",
   },
   description:
     "Full-stack developer portfolio focused on distributed systems, backend architecture, and modern web apps.",

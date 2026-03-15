@@ -352,7 +352,7 @@ export function Contact() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="group relative flex w-full items-center justify-center overflow-hidden rounded-full bg-black px-8 py-4 text-base font-semibold text-white transition-all duration-300 hover:bg-black hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0 disabled:opacity-70 disabled:hover:translate-y-0 disabled:hover:shadow-none"
+                  className="group relative flex w-full items-center justify-center overflow-hidden rounded-full bg-[#0B0F14] px-8 py-4 text-base font-semibold text-white transition-all duration-300 hover:bg-neutral-800 active:scale-95 disabled:opacity-70"
                 >
                   <span className="relative">
                     {isSubmitting ? t("submitting") : t("submit")}

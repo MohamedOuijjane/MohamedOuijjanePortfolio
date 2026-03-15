@@ -7,7 +7,7 @@ import { Footer } from "@/components/Footer";
 import { useTranslations } from "next-intl";
 
 export const metadata: Metadata = {
-  title: "Certificates | WeJan",
+  title: "Certifications",
   description:
     "Selected certifications and credentials that reflect my skills, tools, and ongoing learning.",
   alternates: {

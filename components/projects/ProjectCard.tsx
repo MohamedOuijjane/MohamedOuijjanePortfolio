@@ -129,7 +129,10 @@ export function ProjectCard({ project }: ProjectCardProps) {
 
             {/* Internal Link: Project Details */}
             <Link
-              href={{ pathname: "/projects/[slug]", params: { slug: projectSlug } }}
+              href={{
+                pathname: "/projects/[slug]",
+                params: { slug: projectSlug },
+              }}
               className="relative z-20 flex h-9 w-9 items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-500 transition-all hover:bg-gray-50 hover:text-black hover:border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-500"
               aria-label="View project details"
             >

@@ -6,7 +6,7 @@ import { AnimatedLines } from "@/components/AnimatedLines";
 import { Footer } from "@/components/Footer";
 
 export const metadata: Metadata = {
-  title: "Blogs | WeJan",
+  title: "Blogs",
   description:
     "Insights, tutorials, and thoughts on software engineering, architecture, and design.",
   alternates: {

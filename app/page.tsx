@@ -8,6 +8,11 @@ import { Contact } from "@/components/sections/Contact";
 import { Skills } from "@/components/sections/Skills";
 import { AnimatedLines } from "@/components/AnimatedLines";
 import { Footer } from "@/components/Footer";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Mohamed Ouijjane",
+};
 
 export default function Home() {
   const personJsonLd = {

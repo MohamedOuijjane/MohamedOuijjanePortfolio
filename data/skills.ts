@@ -65,11 +65,17 @@ export const skillCategories: SkillCategory[] = [
   },
   {
     id: "distributed",
-    tech: ["Distributed architecture", "Java RMI", "CORBA", "RPC", "gRPC"],
+    tech: ["Distributed architecture", "Java RMI", "CORBA", "RPC"],
   },
   {
     id: "ai",
-    tech: ["Machine Learning", "Python", "Flask", "Prompt design"],
+    tech: [
+      "Intelligence Artificielle (AI)",
+      "Machine Learning",
+      "Python",
+      "Flask",
+      "Prompt design",
+    ],
   },
   {
     id: "tooling",

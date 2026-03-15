@@ -1,5 +1,6 @@
 "use client";
 
+import type { Metadata } from "next";
 import { useTranslations } from "next-intl";
 import { projects } from "@/data/projects";
 import { SocialRail } from "@/components/SocialRail";
@@ -21,6 +22,10 @@ const FILTERS = [
   "Angular",
   "PHP",
 ];
+
+export const metadata: Metadata = {
+  title: "Projects",
+};
 
 export default function ProjectsPage() {
   const t = useTranslations("projects");

@@ -16,8 +16,8 @@ export async function generateMetadata({
 
   return {
     title: {
-      default: "Mohamed Ouijjane - Software Engineer",
-      template: "%s | Mohamed Ouijjane",
+      default: "Mohamed Ouijjane",
+      template: "%s | WeJan",
     },
     description:
       "Full-stack developer portfolio focused on distributed systems, backend architecture, and modern web apps.",

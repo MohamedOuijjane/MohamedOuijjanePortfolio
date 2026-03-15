@@ -158,7 +158,10 @@ export function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
 
                 <div className="flex flex-wrap items-center gap-4">
                   <Link
-                    href={{ pathname: "/projects/[slug]", params: { slug: projectSlug } }}
+                    href={{
+                      pathname: "/projects/[slug]",
+                      params: { slug: projectSlug },
+                    }}
                     className="flex items-center gap-2 rounded-xl bg-black px-6 py-3 text-sm font-bold text-white transition-all hover:bg-neutral-800 active:scale-95"
                   >
                     {t("view_details")}

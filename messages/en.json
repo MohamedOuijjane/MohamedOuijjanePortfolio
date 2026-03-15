@@ -140,13 +140,13 @@
         "focus": "Clean code · Reliability · Maintainability"
       },
       "leadership": {
-        "title": "Collaboration & Leadership",
+        "title": "Collaboration & Soft Skills",
         "focus": "Delivery mindset · Ownership · Teamwork",
         "items": {
           "problem_solving": "Problem solving",
           "communication": "Communication",
           "collaboration": "Collaboration",
-          "leadership": "Leadership (team lead)",
+          "leadership": "Teamwork",
           "learning": "Rapid learning",
           "agile": "Agile/Scrum (planning, iteration, teamwork)",
           "design_thinking": "Design Thinking (problem framing, ideation, prototyping)",
