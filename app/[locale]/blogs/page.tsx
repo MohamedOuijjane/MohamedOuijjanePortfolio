@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { siteConfig } from "@/config/site";
-import { PageShell } from "@/components/PageShell";
+import { TopNav } from "@/components/TopNav";
+import { SocialRail } from "@/components/SocialRail";
+import { AnimatedLines } from "@/components/AnimatedLines";
 import { Footer } from "@/components/Footer";
 
 export const metadata: Metadata = {
@@ -14,17 +16,20 @@ export const metadata: Metadata = {
 
 export default function BlogsPage() {
   return (
-    <>
-      <PageShell>
-        <header className="max-w-2xl">
-          <h1 className="text-3xl font-semibold tracking-tight text-[#0B0F14] md:text-4xl">
+    <div className="min-h-screen bg-white relative">
+      <AnimatedLines />
+      <TopNav />
+      <SocialRail />
+      <main className="mx-auto max-w-5xl px-6 py-24 md:py-32 relative z-10">
+        <div className="mb-12">
+          <h1 className="mb-4 text-5xl font-bold tracking-tight text-black md:text-6xl lg:text-7xl">
             Blogs
           </h1>
-          <p className="mt-4 text-base text-gray-600 md:text-lg">
-            Exploring the intersection of engineering and creativity. Coming
-            soon with deep dives into system design and frontend architecture.
+          <p className="text-xl text-gray-600 max-w-2xl leading-relaxed">
+            Exploring the intersection of engineering and creativity. Coming soon
+            with deep dives into system design and frontend architecture.
           </p>
-        </header>
+        </div>
 
         <section className="mt-12 py-20 border-t border-gray-100">
           <div className="flex flex-col items-center justify-center text-center">
@@ -40,8 +45,8 @@ export default function BlogsPage() {
             </p>
           </div>
         </section>
-      </PageShell>
+      </main>
       <Footer />
-    </>
+    </div>
   );
 }

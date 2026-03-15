@@ -17,8 +17,6 @@ import {
   FileTextIcon,
   GlobeIcon,
   HamburgerIcon,
-  MoonIcon,
-  SunIcon,
 } from "./icons";
 import { HoverExpandPill } from "./ui/hover-expand-pill";
 
@@ -90,9 +88,7 @@ const DropdownTile = ({
         </div>
         <ArrowUpRightIcon
           className={`h-3.5 w-3.5 transition-all duration-100 ${
-            isActive
-              ? "text-black"
-              : "text-neutral-300 group-hover:text-black"
+            isActive ? "text-black" : "text-neutral-300 group-hover:text-black"
           }`}
         />
       </div>
@@ -106,9 +102,7 @@ const DropdownTile = ({
         </h3>
         <p
           className={`mt-1 font-sans text-[11px] leading-snug transition-colors duration-100 line-clamp-2 ${
-            isActive
-              ? "text-neutral-600"
-              : "text-neutral-500"
+            isActive ? "text-neutral-600" : "text-neutral-500"
           }`}
         >
           {description}
@@ -134,7 +128,7 @@ const DropdownTile = ({
 
   return (
     <Link
-      href={href}
+      href={href as any}
       onClick={onClick}
       role="menuitem"
       className={containerClasses}
@@ -148,7 +142,6 @@ export function TopNav() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isProjectsOpen, setIsProjectsOpen] = useState(false);
   const [isProjectsMobileOpen, setIsProjectsMobileOpen] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(false);
   const [atTop, setAtTop] = useState(true);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
   const [isResumeHovered, setIsResumeHovered] = useState(false);
@@ -174,11 +167,7 @@ export function TopNav() {
     startTransition(() => {
       // router.replace from next-intl handles the locale prefix and keeps the rest of the path
       // If we're on a project page with translated slugs, we'll need extra logic in Phase 4
-      router.replace(
-        // @ts-ignore
-        { pathname, params },
-        { locale: nextLocale },
-      );
+      router.replace({ pathname, params } as any, { locale: nextLocale });
     });
   };
 
@@ -296,7 +285,8 @@ export function TopNav() {
         });
       }
     } else {
-      router.push("/#home");
+      router.push("/");
+      window.location.hash = "#home";
     }
   };
 
@@ -317,7 +307,8 @@ export function TopNav() {
         });
       }
     } else {
-      router.push("/#about");
+      router.push("/");
+      window.location.hash = "#about";
     }
   };
 
@@ -338,7 +329,8 @@ export function TopNav() {
         });
       }
     } else {
-      router.push("/#contact");
+      router.push("/");
+      window.location.hash = "#contact";
     }
   };
 
@@ -476,10 +468,7 @@ export function TopNav() {
                     title={t("certificates")}
                     description={t("certificates_desc")}
                     icon={<AwardIcon className="h-5 w-5" />}
-                    isActive={
-                      pathname === "/certificates" ||
-                      pathname === "/certificats"
-                    }
+                    isActive={pathname === "/certificates"}
                     className="col-span-1"
                     onClick={() => setIsProjectsOpen(false)}
                   />
@@ -512,7 +501,7 @@ export function TopNav() {
 
             <li>
               <Link
-                href="/#about"
+                href={{ pathname: "/", hash: "about" }}
                 onClick={handleAboutClick}
                 className={`${desktopLinkBaseClass} ${
                   activeNavKey === "about"
@@ -527,7 +516,7 @@ export function TopNav() {
 
             <li>
               <Link
-                href="/#contact"
+                href={{ pathname: "/", hash: "contact" }}
                 onClick={handleContactClick}
                 className={`${desktopLinkBaseClass} ${
                   activeNavKey === "contact"
@@ -549,22 +538,6 @@ export function TopNav() {
               label={locale === "fr" ? "FR" : "EN"}
               onClick={toggleLanguage}
               ariaLabel="Toggle language"
-            />
-
-            {/* Theme Toggle Button */}
-            <HoverExpandPill
-              icon={
-                isDarkMode ? (
-                  <SunIcon className="h-4 w-4" />
-                ) : (
-                  <MoonIcon className="h-4 w-4" />
-                )
-              }
-              label={isDarkMode ? "Light" : "Dark"}
-              onClick={() => setIsDarkMode(!isDarkMode)}
-              ariaLabel={
-                isDarkMode ? "Switch to light mode" : "Switch to dark mode"
-              }
             />
 
             {/* Resume Button */}
@@ -730,7 +703,7 @@ export function TopNav() {
 
               <li>
                 <Link
-                  href="/#about"
+                  href={{ pathname: "/", hash: "about" }}
                   onClick={handleAboutClick}
                   className={`${mobileLinkBaseClass} ${
                     activeNavKey === "about"
@@ -744,7 +717,7 @@ export function TopNav() {
 
               <li>
                 <Link
-                  href="/#contact"
+                  href={{ pathname: "/", hash: "contact" }}
                   onClick={handleContactClick}
                   className={`${mobileLinkBaseClass} ${
                     activeNavKey === "contact"

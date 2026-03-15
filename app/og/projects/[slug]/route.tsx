@@ -2,6 +2,7 @@ import { ImageResponse } from "next/og";
 import type { NextRequest } from "next/server";
 import { getProjectBySlug } from "@/data/projects";
 import { siteConfig } from "@/config/site";
+import { getLocalized } from "@/lib/utils";
 
 export const runtime = "edge";
 
@@ -19,10 +20,19 @@ export async function GET(
   const { slug } = await params;
   const project = getProjectBySlug(slug);
 
-  const title = project?.title ?? "Project";
-  const summary =
+  const locale = project && project.slugs.fr === slug ? "fr" : "en";
+
+  const rawTitle = project?.title ?? "Project";
+  const title =
+    typeof rawTitle === "string" ? rawTitle : getLocalized(rawTitle, locale);
+
+  const rawSummary =
     project?.summary ??
     "Selected work from the portfolio of software engineer Mohamed Ouijjane.";
+  const summary =
+    typeof rawSummary === "string"
+      ? rawSummary
+      : getLocalized(rawSummary, locale);
   const summaryText =
     summary.length > 160 ? `${summary.slice(0, 157)}…` : summary;
 

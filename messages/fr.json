@@ -159,5 +159,10 @@
     "download": "Télécharger",
     "get_in_touch": "Me contacter",
     "back_to_top": "Retour en haut"
+  },
+  "certificates": {
+    "title": "Certificats",
+    "empty_main": "Je travaille actuellement à l’obtention de certifications professionnelles. Cette section sera bientôt mise à jour avec mes dernières réalisations.",
+    "empty_note": "En attendant, n’hésitez pas à explorer mes projets ou mon blog."
   }
 }

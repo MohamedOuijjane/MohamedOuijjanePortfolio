@@ -1,9 +1,13 @@
 import type { Metadata } from "next";
 import { satoshi } from "@/lib/fonts";
 import "@/styles/globals.css";
+import { NextIntlClientProvider } from "next-intl";
+import { getMessages } from "next-intl/server";
+import { siteConfig } from "@/config/site";
+import { routing } from "@/i18n/routing";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://your-domain.com"),
+  metadataBase: new URL(siteConfig.url),
   title: {
     default: "Mohamed Ouijjane - Software Engineer",
     template: "%s | Mohamed Ouijjane",
@@ -18,27 +22,29 @@ export const metadata: Metadata = {
     shortcut: ["/favicon.ico?v=3"],
     apple: [{ url: "/images/w.png" }],
   },
-  alternates: { canonical: "/" },
+  alternates: { canonical: siteConfig.url },
   openGraph: {
     title: "WeJan | Software Engineer",
     description: "Distributed systems and full-stack engineering portfolio.",
-    url: "https://your-domain.com",
+    url: siteConfig.url,
     siteName: "WeJan Portfolio",
     type: "website",
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // This layout is minimal and doesn't use next-intl hooks to avoid crashes.
-  // Locale-dependent UI should be in app/[locale]/layout.tsx.
+  const messages = await getMessages();
+  const defaultLocale = routing.defaultLocale;
   return (
-    <html lang="en" className={`${satoshi.variable} font-sans`}>
+    <html lang={defaultLocale} className={`${satoshi.variable} font-sans`}>
       <body className="antialiased min-h-screen flex flex-col overflow-x-hidden">
-        {children}
+        <NextIntlClientProvider messages={messages} locale={defaultLocale}>
+          {children}
+        </NextIntlClientProvider>
       </body>
     </html>
   );

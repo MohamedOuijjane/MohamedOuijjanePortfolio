@@ -33,7 +33,8 @@ export function Footer() {
         });
       }
     } else {
-      router.push(`/#${id}`);
+      router.push("/");
+      window.location.hash = `#${id}`;
     }
   };
 
@@ -96,7 +97,7 @@ export function Footer() {
                 </li>
                 <li>
                   <Link
-                    href="/#about"
+                    href={{ pathname: "/", hash: "about" }}
                     onClick={(e) => handleScrollTo(e, "about")}
                     className="text-gray-600 transition-colors hover:text-teal-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700"
                   >
@@ -105,7 +106,7 @@ export function Footer() {
                 </li>
                 <li>
                   <Link
-                    href="/#contact"
+                    href={{ pathname: "/", hash: "contact" }}
                     onClick={(e) => handleScrollTo(e, "contact", "center")}
                     className="text-gray-600 transition-colors hover:text-teal-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700"
                   >
@@ -169,7 +170,7 @@ export function Footer() {
                 {tn("work")}
               </Link>
               <Link
-                href="/#contact"
+                href={{ pathname: "/", hash: "contact" }}
                 onClick={(e) => handleScrollTo(e, "contact", "center")}
                 className="text-sm text-gray-500 transition-colors hover:text-teal-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700"
               >

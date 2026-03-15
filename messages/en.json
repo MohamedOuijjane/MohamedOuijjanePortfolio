@@ -159,5 +159,10 @@
     "download": "Download",
     "get_in_touch": "Get in touch",
     "back_to_top": "Back to Top"
+  },
+  "certificates": {
+    "title": "Certificates",
+    "empty_main": "I am currently working on obtaining professional certifications. This section will be updated soon with my latest achievements.",
+    "empty_note": "In the meantime, feel free to explore my projects or blog."
   }
 }
