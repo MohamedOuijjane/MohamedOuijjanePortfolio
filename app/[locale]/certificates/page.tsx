@@ -4,19 +4,36 @@ import { TopNav } from "@/components/TopNav";
 import { SocialRail } from "@/components/SocialRail";
 import { AnimatedLines } from "@/components/AnimatedLines";
 import { Footer } from "@/components/Footer";
-import { useTranslations } from "next-intl";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 
-export const metadata: Metadata = {
-  title: "Certifications",
-  description:
-    "Selected certifications and credentials that reflect my skills, tools, and ongoing learning.",
-  alternates: {
-    canonical: new URL("/certificates", siteConfig.url).toString(),
-  },
-};
+interface CertificatesPageProps {
+  params: Promise<{ locale: string }>;
+}
 
-export default function CertificatesPage() {
-  const t = useTranslations("certificates");
+export async function generateMetadata({
+  params,
+}: CertificatesPageProps): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "certificates" });
+
+  return {
+    title: t("title"),
+    description: siteConfig.description,
+    alternates: {
+      canonical: new URL("/certificates", siteConfig.url).toString(),
+    },
+  };
+}
+
+export const dynamic = "force-static";
+
+export default async function CertificatesPage({
+  params,
+}: CertificatesPageProps) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+  const t = await getTranslations("certificates");
+
   return (
     <div className="min-h-screen bg-white relative">
       <AnimatedLines />

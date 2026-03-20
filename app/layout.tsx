@@ -1,10 +1,6 @@
 import type { Metadata } from "next";
-import { satoshi } from "@/lib/fonts";
-import "@/styles/globals.css";
-import { NextIntlClientProvider } from "next-intl";
-import { getMessages } from "next-intl/server";
 import { siteConfig } from "@/config/site";
-import { routing } from "@/i18n/routing";
+import { Analytics } from "@vercel/analytics/react";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
@@ -30,22 +26,22 @@ export const metadata: Metadata = {
     siteName: "WeJan Portfolio",
     type: "website",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "WeJan | Software Engineer",
+    description: "Distributed systems and full-stack engineering portfolio.",
+  },
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const messages = await getMessages();
-  const defaultLocale = routing.defaultLocale;
   return (
-    <html lang={defaultLocale} className={`${satoshi.variable} font-sans`}>
-      <body className="antialiased min-h-screen flex flex-col overflow-x-hidden">
-        <NextIntlClientProvider messages={messages} locale={defaultLocale}>
-          {children}
-        </NextIntlClientProvider>
-      </body>
-    </html>
+    <>
+      {children}
+      <Analytics />
+    </>
   );
 }

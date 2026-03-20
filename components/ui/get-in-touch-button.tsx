@@ -4,6 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { ArrowRightIcon } from "@/components/icons";
+import { track } from "@vercel/analytics";
 
 interface GetInTouchButtonProps {
   href?: string;
@@ -19,6 +20,7 @@ export function GetInTouchButton({
   return (
     <Link
       href={href}
+      onClick={() => track("contact_button_click", { location: href })}
       className={cn(
         "group relative flex w-fit items-center gap-3 overflow-hidden rounded-full border border-black/15 bg-white px-6 py-3.5 text-sm font-bold text-black shadow-sm transition-all duration-500 hover:text-white hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-black/30 focus-visible:ring-offset-2",
         "before:absolute before:inset-0 before:z-0 before:-translate-x-full before:rounded-full before:bg-black before:transition-transform before:duration-500 before:ease-out hover:before:translate-x-0 focus-visible:before:translate-x-0",

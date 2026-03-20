@@ -5,8 +5,10 @@ import Image from "next/image";
 import { getProjectBySlug, projects } from "@/data/projects";
 import { PageShell } from "@/components/PageShell";
 import { ArrowLeft, Github, ChevronRight } from "lucide-react";
+import RepoLinkButton from "@/components/projects/RepoLinkButton";
 import { satoshi } from "@/lib/fonts";
 import { ProjectHeroCarousel } from "@/components/projects/ProjectHeroCarousel";
+import { ProjectViewTracker } from "@/components/projects/ProjectViewTracker";
 
 interface ProjectPageProps {
   params: Promise<{
@@ -26,6 +28,49 @@ export async function generateStaticParams() {
   });
 
   return params;
+}
+
+export const dynamic = "force-static";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string; slug: string }>;
+}) {
+  const { locale, slug } = await params;
+  const project = getProjectBySlug(slug);
+  const lang = (locale as "en" | "fr") ?? "en";
+
+  const title =
+    project?.title?.[lang] ??
+    (typeof project?.title === "string" ? project.title : "Project");
+  const description =
+    project?.subtitle?.[lang] ??
+    project?.summary?.[lang] ??
+    "Project case study";
+
+  return {
+    title,
+    openGraph: {
+      title,
+      description,
+      images: [
+        {
+          url: `/og/projects/${slug}`,
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+      ],
+      type: "article",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [`/og/projects/${slug}`],
+    },
+  };
 }
 
 export default async function ProjectPage({ params }: ProjectPageProps) {
@@ -54,6 +99,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
   return (
     <PageShell>
+      <ProjectViewTracker slug={slug} title={projectTitle} />
       <article className={`${satoshi.variable} font-sans`}>
         {/* Navigation Breadcrumb - Default for all projects EXCEPT Premium Ones */}
         {!isPremiumProject && (
@@ -146,15 +192,12 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                 {/* CTA Buttons */}
                 <div className="flex justify-center mt-6">
                   {project.links.repo && (
-                    <a
+                    <RepoLinkButton
                       href={project.links.repo}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                      label={t("view_code")}
+                      ariaLabel="Open GitHub repository"
                       className="inline-flex items-center gap-2 rounded-full border border-gray-200 bg-white px-8 py-3 text-base font-semibold text-gray-700 transition-all hover:bg-black hover:text-white hover:border-black hover:shadow-lg hover:-translate-y-0.5"
-                    >
-                      <Github className="h-5 w-5" />
-                      {t("view_code")}
-                    </a>
+                    />
                   )}
                 </div>
               </div>
@@ -187,15 +230,12 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                 {/* CTA Buttons */}
                 <div className="flex justify-center mt-8">
                   {project.links.repo && (
-                    <a
+                    <RepoLinkButton
                       href={project.links.repo}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                      label={t("view_code")}
+                      ariaLabel="Open GitHub repository"
                       className="inline-flex items-center gap-2 rounded-full border border-gray-200 bg-white px-8 py-3 text-base font-semibold text-gray-700 transition-all hover:bg-black hover:text-white hover:border-black hover:shadow-lg hover:-translate-y-0.5"
-                    >
-                      <Github className="h-5 w-5" />
-                      {t("view_code")}
-                    </a>
+                    />
                   )}
                 </div>
               </div>
@@ -423,7 +463,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
             {t("back_to_projects")}
           </Link>
 
-          {project.links.repo && (
+          {project.links.repo && project.links.repo !== "#" && (
             <a
               href={project.links.repo}
               target="_blank"

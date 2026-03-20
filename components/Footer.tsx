@@ -158,9 +158,7 @@ export function Footer() {
               <p className="text-sm text-gray-500">
                 &copy; {currentYear} Mohamed Ouijjane. {t("rights")}
               </p>
-              <p className="text-xs text-gray-400">
-                Crafted with passion, precision, and plenty of coffee.
-              </p>
+              <p className="text-xs text-gray-400">{t("crafted_by")}</p>
             </div>
             <div className="flex items-center gap-8">
               <Link

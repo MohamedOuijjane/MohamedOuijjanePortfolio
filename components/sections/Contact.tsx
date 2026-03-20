@@ -7,6 +7,7 @@ import { ArrowRightIcon } from "@/components/icons";
 import { satoshi } from "@/lib/fonts";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { BorderTrail } from "@/components/ui/border-trail";
+import { track } from "@vercel/analytics";
 
 type ContactFormStatus = "idle" | "success";
 
@@ -96,6 +97,7 @@ export function Contact() {
       const successData = data as ContactSuccessResponse;
 
       if (successData.ok) {
+        track("contact_form_success");
         setFormStatus("success");
         setName("");
         setEmail("");
@@ -120,7 +122,7 @@ export function Contact() {
       id="contact"
       className={`scroll-mt-24 pt-20 pb-4 ${satoshi.variable} font-sans -mt-[17.5cm] transform -translate-x-[2cm]`}
     >
-      <GlassCard className="relative z-10 transform px-8 py-10 sm:px-12 sm:py-12 lg:px-16 lg:w-[calc(100%+5cm)] lg:-ml-[2cm] lg:-mt-[1cm] lg:pt-[calc(3rem+3cm)] lg:pb-[calc(3rem+2cm)] lg:pl-[calc(4rem+2cm)] lg:pr-[calc(4rem+3cm)]">
+      <GlassCard className="relative z-10 transform px-8 py-10 sm:px-12 sm:py-12 lg:px-16 lg:w-[calc(100%+5cm)] lg:-ml-[2cm] lg:-mt-[1cm] lg:pt-[calc(3rem+1.5cm)] lg:pb-[calc(3rem+2cm)] lg:pl-[calc(4rem+2cm)] lg:pr-[calc(4rem+3cm)]">
         <div className="flex flex-col justify-center pt-[19px]">
           <h2 className="mb-6 font-sans text-3xl font-bold text-[#0B0F14] md:text-4xl">
             {t("heading")}

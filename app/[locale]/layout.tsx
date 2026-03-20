@@ -1,10 +1,16 @@
 import { NextIntlClientProvider } from "next-intl";
-import { getMessages, getTranslations } from "next-intl/server";
+import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
+import { satoshi } from "@/lib/fonts";
+import "@/styles/globals.css";
 import WebVitals from "@/app/_components/WebVitals";
 import { BackToTop } from "@/components/BackToTop";
 import { Preloader } from "@/components/Preloader";
+
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
 
 export async function generateMetadata({
   params,
@@ -15,12 +21,8 @@ export async function generateMetadata({
   const t = await getTranslations({ locale, namespace: "Metadata" });
 
   return {
-    title: {
-      default: "Mohamed Ouijjane",
-      template: "%s | WeJan",
-    },
-    description:
-      "Full-stack developer portfolio focused on distributed systems, backend architecture, and modern web apps.",
+    title: t("title"),
+    description: t("description"),
   };
 }
 
@@ -38,16 +40,23 @@ export default async function LocaleLayout({
     notFound();
   }
 
+  // Set the server-side locale context
+  setRequestLocale(locale);
+
   // Providing all messages to the client
   // side is the easiest way to get started
   const messages = await getMessages();
 
   return (
-    <NextIntlClientProvider messages={messages} locale={locale}>
-      <Preloader />
-      <WebVitals />
-      <main className="flex-1">{children}</main>
-      <BackToTop />
-    </NextIntlClientProvider>
+    <html lang={locale} className={`${satoshi.variable} font-sans`}>
+      <body className="antialiased min-h-screen flex flex-col overflow-x-hidden">
+        <NextIntlClientProvider messages={messages} locale={locale}>
+          <Preloader />
+          <WebVitals />
+          <main className="flex-1">{children}</main>
+          <BackToTop />
+        </NextIntlClientProvider>
+      </body>
+    </html>
   );
 }

@@ -3,6 +3,7 @@
 import React from "react";
 import { GitHubIcon, GmailIcon, LinkedInIcon, WhatsAppIcon } from "./icons";
 import { CursorDecryptLabel } from "./ui/CursorDecryptLabel";
+import { track } from "@vercel/analytics";
 
 interface SocialLink {
   label: string;
@@ -49,6 +50,7 @@ export function SocialRail() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={link.label}
+                onClick={() => track(`${link.label.toLowerCase()}_click`)}
                 className="group flex h-11 w-11 items-center justify-center rounded-full text-[#0B0F14] transition-all duration-300 hover:-translate-y-1 hover:text-[#0B0F14] hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0B0F14]"
               >
                 <Icon className="h-6 w-6 transition-transform duration-300 group-hover:scale-110" />

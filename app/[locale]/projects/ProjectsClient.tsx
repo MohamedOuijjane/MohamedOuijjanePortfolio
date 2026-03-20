@@ -1,0 +1,107 @@
+"use client";
+
+import { useTranslations } from "next-intl";
+import { projects } from "@/data/projects";
+import { SocialRail } from "@/components/SocialRail";
+import { TopNav } from "@/components/TopNav";
+import { AnimatedLines } from "@/components/AnimatedLines";
+import { ProjectCard } from "@/components/projects/ProjectCard";
+import { Footer } from "@/components/Footer";
+import { motion, AnimatePresence } from "framer-motion";
+import { useMemo, useState } from "react";
+
+const FILTERS = [
+  { id: "all", value: "All" },
+  { id: "distributed", value: "Distributed Systems" },
+  { id: "enterprise", value: "Enterprise Web App" },
+  { id: "fullstack", value: "Full-Stack" },
+  { id: "frontend", value: "Frontend" },
+  { id: "nextjs", value: "Next.js" },
+  { id: "java", value: "Java" },
+  { id: "angular", value: "Angular" },
+  { id: "php", value: "PHP" },
+];
+
+export default function ProjectsClient() {
+  const t = useTranslations("projects");
+  const [activeFilter, setActiveFilter] = useState("all");
+
+  const filteredProjects = useMemo(() => {
+    return projects.filter((project) => {
+      if (activeFilter === "all") return true;
+      const filterValue =
+        FILTERS.find((f) => f.id === activeFilter)?.value || "";
+      const stack = [
+        ...(project.stack || []),
+        ...(project.expandedStack || []),
+      ];
+      return stack.some((tag) =>
+        tag.toLowerCase().includes(filterValue.toLowerCase()),
+      );
+    });
+  }, [activeFilter]);
+
+  return (
+    <div className="min-h-screen bg-white relative">
+      <AnimatedLines />
+      <TopNav />
+      <SocialRail />
+      <main className="mx-auto max-w-5xl px-6 py-24 md:py-32 relative z-10">
+        <div className="mb-12">
+          <h1 className="mb-4 text-5xl font-bold tracking-tight text-gray-900 md:text-6xl lg:text-7xl">
+            {t("heading")}
+          </h1>
+          <p className="text-xl text-gray-600 max-w-2xl leading-relaxed">
+            {t("subheading")}
+          </p>
+
+          <div className="mt-8 flex flex-wrap gap-2">
+            {FILTERS.map((filter) => (
+              <button
+                key={filter.id}
+                onClick={() => setActiveFilter(filter.id)}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+                  activeFilter === filter.id
+                    ? "bg-black text-white shadow-md transform scale-105"
+                    : "bg-gray-100 text-gray-600 hover:bg-gray-200 hover:text-gray-900"
+                }`}
+              >
+                {t(`filters.${filter.id}`)}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <motion.div layout className="grid gap-8 md:grid-cols-2">
+          <AnimatePresence mode="popLayout">
+            {filteredProjects.map((project) => (
+              <motion.div
+                key={project.slugs.en}
+                layout
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.9 }}
+                transition={{ duration: 0.3 }}
+              >
+                <ProjectCard project={project} />
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </motion.div>
+
+        {filteredProjects.length === 0 && (
+          <div className="text-center py-20">
+            <p className="text-gray-500 text-lg">{t("no_results")}</p>
+            <button
+              onClick={() => setActiveFilter("all")}
+              className="mt-4 text-teal-600 hover:text-teal-800 font-medium"
+            >
+              {t("clear_filters")}
+            </button>
+          </div>
+        )}
+      </main>
+      <Footer />
+    </div>
+  );
+}

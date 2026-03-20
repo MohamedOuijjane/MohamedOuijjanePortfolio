@@ -1,7 +1,6 @@
 import { ImageResponse } from "next/og";
 import type { NextRequest } from "next/server";
 import { getProjectBySlug } from "@/data/projects";
-import { siteConfig } from "@/config/site";
 import { getLocalized } from "@/lib/utils";
 
 export const runtime = "edge";
@@ -20,28 +19,26 @@ export async function GET(
   const { slug } = await params;
   const project = getProjectBySlug(slug);
 
-  const locale = project && project.slugs.fr === slug ? "fr" : "en";
+  if (!project) {
+    return new Response("Project not found", { status: 404 });
+  }
 
-  const rawTitle = project?.title ?? "Project";
+  // Determine locale based on slug or default to English
+  const locale = project.slugs.fr === slug ? "fr" : "en";
+
+  const rawTitle = project.title;
   const title =
     typeof rawTitle === "string" ? rawTitle : getLocalized(rawTitle, locale);
 
-  const rawSummary =
-    project?.summary ??
-    "Selected work from the portfolio of software engineer Mohamed Ouijjane.";
+  const rawSummary = project.subtitle || project.summary;
   const summary =
     typeof rawSummary === "string"
       ? rawSummary
       : getLocalized(rawSummary, locale);
   const summaryText =
-    summary.length > 160 ? `${summary.slice(0, 157)}…` : summary;
+    summary.length > 140 ? `${summary.slice(0, 137)}…` : summary;
 
-  const stackText =
-    project && project.stack.length > 0
-      ? project.stack.slice(0, 4).join(" • ")
-      : undefined;
-
-  const brand = `${siteConfig.owner} • ${siteConfig.name}`;
+  const stackText = project.stack.slice(0, 5).join(" • ");
 
   return new ImageResponse(
     <div
@@ -50,122 +47,136 @@ export async function GET(
         height: "100%",
         display: "flex",
         flexDirection: "column",
-        justifyContent: "space-between",
-        padding: "64px 72px",
-        background: "radial-gradient(circle at top left, #1f2937, #020617 55%)",
-        color: "#f9fafb",
-        fontSize: 32,
-        fontFamily:
-          "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+        padding: "80px",
+        background: "linear-gradient(135deg, #0f172a 0%, #020617 100%)",
+        color: "white",
+        fontFamily: "sans-serif",
+        position: "relative",
+        overflow: "hidden",
       }}
     >
+      {/* Background Accents */}
       <div
         style={{
           position: "absolute",
-          inset: 0,
-          backgroundImage:
-            "linear-gradient(to right, rgba(148, 163, 184, 0.12) 1px, transparent 1px), linear-gradient(to bottom, rgba(148, 163, 184, 0.12) 1px, transparent 1px)",
-          backgroundSize: "80px 80px",
-          opacity: 0.3,
+          top: "-10%",
+          right: "-10%",
+          width: "40%",
+          height: "60%",
+          background:
+            "radial-gradient(circle, rgba(20, 184, 166, 0.15) 0%, transparent 70%)",
+          borderRadius: "100%",
+        }}
+      />
+      <div
+        style={{
+          position: "absolute",
+          bottom: "-10%",
+          left: "-10%",
+          width: "40%",
+          height: "60%",
+          background:
+            "radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%)",
+          borderRadius: "100%",
         }}
       />
 
+      {/* Content */}
       <div
         style={{
-          position: "relative",
           display: "flex",
           flexDirection: "column",
-          gap: 32,
+          flex: 1,
+          justifyContent: "center",
         }}
       >
         <div
           style={{
-            display: "inline-flex",
+            display: "flex",
             alignItems: "center",
-            padding: "6px 14px",
-            borderRadius: 999,
-            backgroundColor: "rgba(15, 23, 42, 0.8)",
-            color: "#e5e7eb",
-            fontSize: 20,
+            gap: "12px",
+            marginBottom: "24px",
+            fontSize: "18px",
+            fontWeight: 600,
+            textTransform: "uppercase",
+            letterSpacing: "0.1em",
+            color: "#2dd4bf",
           }}
         >
-          Case Study
+          <span>Case Study</span>
+          <div
+            style={{ width: "40px", height: "1px", background: "#2dd4bf" }}
+          />
         </div>
+
+        <h1
+          style={{
+            fontSize: "72px",
+            fontWeight: 800,
+            lineHeight: 1.1,
+            marginBottom: "24px",
+            background: "linear-gradient(to right, #ffffff, #94a3b8)",
+            backgroundClip: "text",
+            color: "transparent",
+            maxWidth: "900px",
+          }}
+        >
+          {title}
+        </h1>
+
+        <p
+          style={{
+            fontSize: "28px",
+            lineHeight: 1.5,
+            color: "#94a3b8",
+            maxWidth: "800px",
+            marginBottom: "40px",
+          }}
+        >
+          {summaryText}
+        </p>
 
         <div
           style={{
-            maxWidth: "900px",
             display: "flex",
-            flexDirection: "column",
-            gap: 20,
+            flexWrap: "wrap",
+            gap: "12px",
+            fontSize: "20px",
+            color: "#5eead4",
+            fontWeight: 500,
           }}
         >
-          <h1
-            style={{
-              fontSize: 64,
-              lineHeight: 1.05,
-              fontWeight: 700,
-              letterSpacing: "-0.04em",
-            }}
-          >
-            {title}
-          </h1>
-          <p
-            style={{
-              fontSize: 26,
-              lineHeight: 1.4,
-              color: "#e5e7eb",
-            }}
-          >
-            {summaryText}
-          </p>
+          {stackText}
         </div>
-
-        {stackText && (
-          <div
-            style={{
-              display: "inline-flex",
-              padding: "10px 16px",
-              borderRadius: 999,
-              border: "1px solid rgba(148, 163, 184, 0.5)",
-              backgroundColor: "rgba(15, 23, 42, 0.7)",
-              color: "#cbd5f5",
-              fontSize: 20,
-            }}
-          >
-            {stackText}
-          </div>
-        )}
       </div>
 
+      {/* Footer */}
       <div
         style={{
-          position: "relative",
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          fontSize: 22,
-          color: "#9ca3af",
+          paddingTop: "40px",
+          borderTop: "1px solid rgba(255, 255, 255, 0.1)",
+          marginTop: "auto",
         }}
       >
-        <div>{brand}</div>
         <div
           style={{
             display: "flex",
             alignItems: "center",
-            gap: 12,
+            gap: "10px",
+            fontSize: "22px",
+            fontWeight: 600,
           }}
         >
-          <div
-            style={{
-              width: 10,
-              height: 10,
-              borderRadius: "999px",
-              background:
-                "radial-gradient(circle at 30% 30%, #6ee7b7, #22c55e)",
-            }}
-          />
-          <span>Software Engineering Portfolio</span>
+          <span style={{ color: "#2dd4bf" }}>wejan.dev</span>
+          <span style={{ color: "#475569" }}>•</span>
+          <span style={{ color: "#94a3b8" }}>Mohamed Ouijjane</span>
+        </div>
+
+        <div style={{ fontSize: "20px", color: "#475569" }}>
+          Software Engineer Portfolio
         </div>
       </div>
     </div>,

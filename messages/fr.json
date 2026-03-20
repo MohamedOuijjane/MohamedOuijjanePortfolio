@@ -14,7 +14,8 @@
     "quick_links": "Liens rapides",
     "social": "Réseaux sociaux",
     "rights": "Tous droits réservés.",
-    "collab": "Intéressé par une collaboration ? Construisons quelque chose de génial."
+    "collab": "Intéressé par une collaboration ? Construisons quelque chose de génial.",
+    "crafted_by": "Créé avec passion, précision et beaucoup de café."
   },
   "hero": {
     "role": "Développeur Full-Stack",
@@ -73,7 +74,18 @@
     "no_results": "Aucun projet trouvé avec ce filtre.",
     "clear_filters": "Effacer les filtres",
     "step": "Étape",
-    "view_on_github": "Voir sur GitHub"
+    "view_on_github": "Voir sur GitHub",
+    "filters": {
+      "all": "Tout",
+      "distributed": "Systèmes Distribués",
+      "enterprise": "Web App Entreprise",
+      "fullstack": "Full-Stack",
+      "frontend": "Frontend",
+      "nextjs": "Next.js",
+      "java": "Java",
+      "angular": "Angular",
+      "php": "PHP"
+    }
   },
   "portfolio_preview": {
     "heading": "Points Forts de l'Ingénierie",
@@ -164,5 +176,12 @@
     "title": "Certificats",
     "empty_main": "Je travaille actuellement à l’obtention de certifications professionnelles. Cette section sera bientôt mise à jour avec mes dernières réalisations.",
     "empty_note": "En attendant, n’hésitez pas à explorer mes projets ou mon blog."
+  },
+  "blogs": {
+    "title": "Blogs",
+    "description": "Aperçus, tutoriels et réflexions sur l'ingénierie logicielle, l'architecture et le design.",
+    "tagline": "Explorer l'intersection de l'ingénierie et de la créativité. Bientôt des plongées profondes dans la conception de systèmes et l'architecture frontend.",
+    "wip": "Travail en Cours",
+    "wip_desc": "Je suis en train d'écrire des articles intéressants. Restez à l'écoute pour les mises à jour !"
   }
 }

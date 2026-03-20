@@ -7,6 +7,7 @@ import { Project } from "@/data/projects";
 import { ArrowRightIcon } from "@/components/icons";
 import { Maximize2, ExternalLink, Github } from "lucide-react";
 import { motion } from "framer-motion";
+import { track } from "@vercel/analytics";
 
 interface ProjectCardProps {
   project: Project;
@@ -37,6 +38,12 @@ export function ProjectCard({ project }: ProjectCardProps) {
         <Link
           href={{ pathname: "/projects/[slug]", params: { slug: projectSlug } }}
           className="flex flex-1 flex-col"
+          onClick={() =>
+            track("project_card_click", {
+              slug: project.slugs.en,
+              title: project.title.en,
+            })
+          }
         >
           <div className="relative aspect-video w-full overflow-hidden bg-gray-100">
             {!isPremiumCard && (
@@ -115,7 +122,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
         <div className="px-6 pb-6 font-sans">
           <div className="flex items-center justify-end gap-3 pt-2 border-t border-gray-100/50">
             {/* GitHub: Repository */}
-            {project.links.repo && (
+            {project.links.repo && project.links.repo !== "#" && (
               <a
                 href={project.links.repo}
                 target="_blank"

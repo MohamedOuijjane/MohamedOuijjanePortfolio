@@ -14,7 +14,8 @@
     "quick_links": "Quick Links",
     "social": "Social",
     "rights": "All rights reserved.",
-    "collab": "Interested in working together? Let's build something great."
+    "collab": "Interested in working together? Let's build something great.",
+    "crafted_by": "Crafted with passion, precision, and plenty of coffee."
   },
   "hero": {
     "role": "Full-Stack Developer",
@@ -73,7 +74,18 @@
     "no_results": "No projects found matching this filter.",
     "clear_filters": "Clear filters",
     "step": "Step",
-    "view_on_github": "View on GitHub"
+    "view_on_github": "View on GitHub",
+    "filters": {
+      "all": "All",
+      "distributed": "Distributed Systems",
+      "enterprise": "Enterprise Web App",
+      "fullstack": "Full-Stack",
+      "frontend": "Frontend",
+      "nextjs": "Next.js",
+      "java": "Java",
+      "angular": "Angular",
+      "php": "PHP"
+    }
   },
   "portfolio_preview": {
     "heading": "Engineering Highlights",
@@ -164,5 +176,12 @@
     "title": "Certificates",
     "empty_main": "I am currently working on obtaining professional certifications. This section will be updated soon with my latest achievements.",
     "empty_note": "In the meantime, feel free to explore my projects or blog."
+  },
+  "blogs": {
+    "title": "Blogs",
+    "description": "Insights, tutorials, and thoughts on software engineering, architecture, and design.",
+    "tagline": "Exploring the intersection of engineering and creativity. Coming soon with deep dives into system design and frontend architecture.",
+    "wip": "Work in Progress",
+    "wip_desc": "I'm currently writing some interesting articles. Stay tuned for updates!"
   }
 }

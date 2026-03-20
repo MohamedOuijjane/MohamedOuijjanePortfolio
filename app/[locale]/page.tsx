@@ -8,8 +8,23 @@ import { Contact } from "@/components/sections/Contact";
 import { Skills } from "@/components/sections/Skills";
 import { AnimatedLines } from "@/components/AnimatedLines";
 import { Footer } from "@/components/Footer";
+import { routing } from "@/i18n/routing";
+import { setRequestLocale } from "next-intl/server";
 
-export default function Home() {
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
+
+export const dynamic = "force-static";
+
+interface HomeProps {
+  params: Promise<{ locale: string }>;
+}
+
+export default async function Home({ params }: HomeProps) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+
   const personJsonLd = {
     "@context": "https://schema.org",
     "@type": "Person",
