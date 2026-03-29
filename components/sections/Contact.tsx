@@ -1,13 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { ArrowRightIcon } from "@/components/icons";
 import { satoshi } from "@/lib/fonts";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { BorderTrail } from "@/components/ui/border-trail";
 import { track } from "@vercel/analytics";
+import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
 
 type ContactFormStatus = "idle" | "success";
 
@@ -46,24 +48,38 @@ export function Contact() {
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    if (isSubmitting) return; // Prevent double submission
+
     setGlobalError(null);
     setFieldErrors({});
     setIsSubmitting(true);
 
-    try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name,
-          email,
-          message,
-          company,
-        }),
-      });
+    const promise = fetch("/api/contact", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name,
+        email,
+        message,
+        company,
+      }),
+    });
 
+    toast.promise(promise, {
+      loading: t("submitting"),
+      success: (response) => {
+        if (!response.ok) throw new Error("Request failed");
+        return t("success_title");
+      },
+      error: (err) => {
+        return t("error_generic");
+      },
+    });
+
+    try {
+      const response = await promise;
       const data = (await response.json().catch(() => null)) as
         | ContactErrorResponse
         | ContactSuccessResponse
@@ -74,44 +90,29 @@ export function Contact() {
           setGlobalError(data.message || t("error_too_many"));
         } else if (response.status === 400 && data && "errors" in data) {
           const errors = data.errors ?? {};
-          const mappedFieldErrors: ContactFieldErrors = {
+          setFieldErrors({
             name: errors.name,
             email: errors.email,
             message: errors.message,
-          };
-          setFieldErrors(mappedFieldErrors);
-
-          if (errors.honeypot) {
-            setGlobalError(data.message || t("error_spam"));
-          }
-        } else if (data) {
-          setGlobalError(data.message || t("error_generic"));
+          });
+          if (errors.honeypot) setGlobalError(t("error_spam"));
         } else {
-          setGlobalError(t("error_generic"));
+          setGlobalError(data?.message || t("error_generic"));
         }
-
-        setIsSubmitting(false);
         return;
       }
 
-      const successData = data as ContactSuccessResponse;
-
-      if (successData.ok) {
+      if (data.ok) {
         track("contact_form_success");
         setFormStatus("success");
+        // Clear form
         setName("");
         setEmail("");
         setMessage("");
         setCompany("");
-        setFieldErrors({});
-        setGlobalError(null);
-      } else {
-        setGlobalError(
-          successData.message || "Something went wrong. Please try again.",
-        );
       }
     } catch {
-      setGlobalError("Something went wrong. Please try again.");
+      setGlobalError(t("error_generic"));
     } finally {
       setIsSubmitting(false);
     }
@@ -354,11 +355,19 @@ export function Contact() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="group relative flex w-full items-center justify-center overflow-hidden rounded-full bg-[#0B0F14] px-8 py-4 text-base font-semibold text-white transition-all duration-300 hover:bg-neutral-800 active:scale-95 disabled:opacity-70"
+                  className="group relative flex w-full items-center justify-center gap-2 overflow-hidden rounded-full bg-[#0B0F14] px-8 py-4 text-base font-semibold text-white transition-all duration-300 hover:bg-neutral-800 active:scale-95 disabled:cursor-not-allowed disabled:opacity-70"
                 >
-                  <span className="relative">
-                    {isSubmitting ? t("submitting") : t("submit")}
-                  </span>
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="h-5 w-5 animate-spin" />
+                      <span>{t("submitting")}</span>
+                    </>
+                  ) : (
+                    <>
+                      <span>{t("submit")}</span>
+                      <ArrowRightIcon className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
+                    </>
+                  )}
                 </button>
               </form>
             )}

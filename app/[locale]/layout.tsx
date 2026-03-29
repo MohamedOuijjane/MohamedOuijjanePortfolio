@@ -12,6 +12,7 @@ import WebVitals from "@/app/_components/WebVitals";
 import { BackToTop } from "@/components/BackToTop";
 import { Preloader } from "@/components/Preloader";
 import { PageFadeWrapper } from "@/components/PageFadeWrapper";
+import { Toaster } from "sonner";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -56,10 +57,15 @@ export default async function LocaleLayout({
     <html lang={locale} className={`${satoshi.variable} font-sans`}>
       <head>
         <meta name="theme-color" content="#ffffff" />
-        <style dangerouslySetInnerHTML={{ __html: `html, body { background-color: #ffffff !important; }` }} />
+        <style
+          dangerouslySetInnerHTML={{
+            __html: `html, body { background-color: #ffffff !important; }`,
+          }}
+        />
       </head>
       <body className="antialiased min-h-screen flex flex-col overflow-x-hidden">
         <NextIntlClientProvider messages={messages} locale={locale}>
+          <Toaster position="top-center" richColors />
           <Preloader />
           <WebVitals />
           <PageFadeWrapper>
