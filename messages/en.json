@@ -1,0 +1,187 @@
+{
+  "Metadata": {
+    "title": "Mohamed Ouijjane - Software Engineer",
+    "description": "Full-stack developer portfolio focused on distributed systems, backend architecture, and modern web apps."
+  },
+  "Error": {
+    "title": "Application error",
+    "description": "An unexpected error occurred in the application. Please try refreshing or returning home.",
+    "retry": "Try again",
+    "return_home": "Return Home"
+  },
+  "footer": {
+    "tagline": "Full-Stack Developer specializing in building exceptional digital experiences that are accessible, human-centered, and high-performing.",
+    "quick_links": "Quick Links",
+    "social": "Social",
+    "rights": "All rights reserved.",
+    "collab": "Interested in working together? Let's build something great.",
+    "crafted_by": "Crafted with passion, precision, and plenty of coffee."
+  },
+  "hero": {
+    "role": "Full-Stack Developer",
+    "supporting": "Passionate about creating intuitive and engaging user experiences. Specialize in transforming ideas into beautifully crafted products."
+  },
+  "services": {
+    "heading": "What I Do",
+    "subheading": "I deliver production-grade web systems with clear architecture, reliable APIs, and performance-first UX.",
+    "see_more": "See more services",
+    "show_less": "Show less"
+  },
+  "contact": {
+    "heading": "Get in touch",
+    "subheading": "Have a project in mind or just want to say hi? I'm always open to discussing new opportunities and challenges.",
+    "direct_text": "I'm open to discussing opportunities, collaborations, and interesting projects. Feel free to reach out directly or use the form.",
+    "email": "Email",
+    "phone": "Phone",
+    "location": "Location",
+    "location_value": "Morocco",
+    "name_label": "Name",
+    "name_placeholder": "Your name",
+    "email_label": "Email Address",
+    "email_placeholder": "you@example.com",
+    "company_label": "Company (Optional)",
+    "company_placeholder": "Where do you work?",
+    "message_label": "How can I help you?",
+    "message_placeholder": "Tell me about your project...",
+    "submit": "Send Message",
+    "submitting": "Sending...",
+    "success_title": "Message Sent!",
+    "success_message": "Thank you for reaching out! I'll get back to you as soon as possible.",
+    "send_another": "Send another message",
+    "error_too_many": "Too many requests. Please try again later.",
+    "error_generic": "Something went wrong. Please try again.",
+    "error_spam": "Spam detected."
+  },
+  "projects": {
+    "heading": "Projects",
+    "subheading": "A curated selection of work showcasing my approach to engineering, design, and problem-solving.",
+    "view_details": "View Case Study",
+    "visit_site": "Live Demo",
+    "view_code": "GitHub Repo",
+    "role": "Role",
+    "stack": "Stack",
+    "back_to_projects": "Back to Projects",
+    "overview": "Overview",
+    "problem": "The Problem",
+    "solution": "The Solution",
+    "architecture": "Architecture",
+    "how_it_works": "How It Works",
+    "challenges": "Engineering Challenges",
+    "tech_stack": "Tech Stack",
+    "features": "Key Features",
+    "limitations": "Limitations",
+    "roadmap": "Future Roadmap",
+    "no_results": "No projects found matching this filter.",
+    "clear_filters": "Clear filters",
+    "step": "Step",
+    "view_on_github": "View on GitHub",
+    "filters": {
+      "all": "All",
+      "distributed": "Distributed Systems",
+      "enterprise": "Enterprise Web App",
+      "fullstack": "Full-Stack",
+      "frontend": "Frontend",
+      "nextjs": "Next.js",
+      "java": "Java",
+      "angular": "Angular",
+      "php": "PHP"
+    }
+  },
+  "portfolio_preview": {
+    "heading": "Engineering Highlights",
+    "subheading": "A selection of projects that reflect my work in software engineering, problem solving, and product-focused development.",
+    "view_all": "View All Projects"
+  },
+  "nav": {
+    "home": "Home",
+    "work": "Work",
+    "blogs": "Blogs",
+    "about": "About",
+    "contact": "Contact",
+    "projects": "Projects",
+    "certificates": "Certificates",
+    "resume": "Resume",
+    "projects_desc": "Selected work, case studies, and builds.",
+    "certificates_desc": "Verified learning and credentials.",
+    "resume_desc": "Professional experience and skills."
+  },
+  "about": {
+    "heading": "About Me",
+    "intro_start": "I'm",
+    "intro_name": "Mohamed Ouijjane",
+    "intro_end": ", a Full-Stack Developer dedicated to building high-performance, accessible, and scalable web applications. I bridge the gap between clean, intuitive user interfaces and robust, maintainable backend architectures.",
+    "focus_start": "My focus lies in delivering real value through engineering excellence prioritizing performance, clarity, and products that are built to last. I have a deep interest in",
+    "focus_highlight": "scalable architectures",
+    "focus_end": ", exploring how service-oriented designs solve complex real-world challenges.",
+    "expertise": "Core Expertise",
+    "open_to": "Currently open to"
+  },
+  "skills": {
+    "heading": "Skills & Expertise",
+    "subheading": "A comprehensive overview of my technical stack and professional capabilities across various domains of software engineering.",
+    "focus": "Focus",
+    "core_skills": "Core Skills",
+    "core_tech": "Core Technologies",
+    "categories": {
+      "frontend": {
+        "title": "Frontend Engineering",
+        "focus": "Component architecture · Accessibility · Performance"
+      },
+      "backend": {
+        "title": "Backend Engineering",
+        "focus": "API design · Auth · Validation · Error handling"
+      },
+      "data": {
+        "title": "Data & Databases",
+        "focus": "Data modeling · Querying · Warehousing basics"
+      },
+      "cloud": {
+        "title": "Cloud & DevOps",
+        "focus": "Deployments · Environments · Release workflow"
+      },
+      "distributed": {
+        "title": "Distributed Systems",
+        "focus": "Task distribution · Client/worker patterns · Fault tolerance basics"
+      },
+      "ai": {
+        "title": "AI & Automation",
+        "focus": "Experimentation · Evaluation · Practical automation"
+      },
+      "tooling": {
+        "title": "Tooling & Quality",
+        "focus": "Clean code · Reliability · Maintainability"
+      },
+      "leadership": {
+        "title": "Collaboration & Soft Skills",
+        "focus": "Delivery mindset · Ownership · Teamwork",
+        "items": {
+          "problem_solving": "Problem solving",
+          "communication": "Communication",
+          "collaboration": "Collaboration",
+          "leadership": "Teamwork",
+          "learning": "Rapid learning",
+          "agile": "Agile/Scrum (planning, iteration, teamwork)",
+          "design_thinking": "Design Thinking (problem framing, ideation, prototyping)",
+          "ux_mindset": "UX Design mindset (user-centered decisions, usability basics)"
+        }
+      }
+    }
+  },
+  "common": {
+    "download": "Download",
+    "get_in_touch": "Get in touch",
+    "back_to_top": "Back to Top"
+  },
+  "certificates": {
+    "title": "Certificates",
+    "empty_main": "I am currently working on obtaining professional certifications. This section will be updated soon with my latest achievements.",
+    "empty_note": "In the meantime, feel free to explore my projects or blog."
+  },
+  "blogs": {
+    "title": "Blogs",
+    "description": "Insights, tutorials, and thoughts on software engineering, architecture, and design.",
+    "tagline": "Exploring the intersection of engineering and creativity. Coming soon with deep dives into system design and frontend architecture.",
+    "wip": "Work in Progress",
+    "wip_desc": "I'm currently writing some interesting articles. Stay tuned for updates!"
+  }
+}

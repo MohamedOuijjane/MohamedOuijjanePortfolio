@@ -1,58 +1,49 @@
-import Image from "next/image";
-import Link from "next/link";
-import { ArrowRightIcon } from "@/components/icons";
+"use client";
+
+import { useTranslations } from "next-intl";
+import { ScrollCue } from "@/components/ScrollCue";
+import { DecryptHoverText } from "@/components/DecryptHoverText";
+import { satoshi } from "@/lib/fonts";
+import { GetInTouchButton } from "@/components/ui/get-in-touch-button";
+import { GlassCard } from "@/components/ui/GlassCard";
 
 export function Hero() {
+  const t = useTranslations("hero");
+  const tc = useTranslations("common");
+
   return (
     <section
       id="home"
-      className="flex min-h-[calc(100vh-80px)] flex-col justify-center py-20 lg:py-0"
+      className={`relative flex min-h-[calc(100vh-80px)] flex-col items-center justify-center py-16 sm:py-20 ${satoshi.variable} font-sans`}
     >
-      <div className="grid gap-12 lg:grid-cols-2 lg:gap-8 items-center">
-        <div className="space-y-6">
-          <div className="inline-flex items-center rounded-full border border-[#2FAE8A]/30 bg-[#2FAE8A]/5 px-3 py-1 text-sm font-medium text-[#2FAE8A]">
-            Available for freelance work
-          </div>
-
-          <h1 className="text-5xl font-bold leading-tight tracking-tight text-[#0B0F14] md:text-6xl lg:text-7xl">
-            Building digital <br />
-            <span className="text-[#2FAE8A]">products</span> that matter.
-          </h1>
-
-          <p className="max-w-xl text-lg text-gray-600 md:text-xl">
-            I&apos;m a software engineer specializing in building (and occasionally designing) 
-            exceptional digital experiences. Currently, I&apos;m focused on building accessible, 
-            human-centered products.
-          </p>
-
-          <div className="flex flex-col gap-4 sm:flex-row pt-4">
-            <Link
-              href="#portfolio"
-              className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#0B0F14] px-8 py-4 text-base font-semibold text-white transition-all hover:bg-[#1a2030] hover:scale-[1.02]"
+      <div className="relative z-10 flex w-full justify-center px-4 sm:px-6 lg:px-8">
+        <GlassCard className="transform mt-[calc(-32px-1cm)] w-[calc(100%+65px)] translate-x-[18px] translate-y-[24px] max-w-[1200px] min-h-[calc(55vh+1cm)] sm:mt-[calc(-48px-1cm)] sm:w-[calc(100%+131px)] sm:translate-x-[37px] sm:translate-y-[40px] sm:min-h-[calc(60vh+1cm)] lg:mt-[calc(-75px-1cm)] lg:w-[calc(100%+262px)] lg:translate-x-[75px] lg:translate-y-[75px] lg:min-h-[calc(70vh+1cm)] flex flex-col justify-center px-10 sm:px-16 lg:px-24 pt-[1cm] pb-[1cm]">
+          <div className="max-w-3xl transform translate-x-[38px]">
+            {/* Big Name */}
+            <h1
+              className={`${satoshi.className} text-4xl font-black tracking-[-0.03em] text-black sm:text-6xl lg:text-7xl leading-[1.05] [font-feature-settings:normal] [font-variation-settings:normal]`}
             >
-              View My Work
-              <ArrowRightIcon className="h-4 w-4" />
-            </Link>
-            <Link
-              href="#contact"
-              className="inline-flex items-center justify-center rounded-lg border border-gray-200 px-8 py-4 text-base font-semibold text-[#0B0F14] transition-all hover:border-gray-400 hover:bg-gray-50"
-            >
-              Contact Me
-            </Link>
-          </div>
-        </div>
+              <DecryptHoverText text="Mohamed Ouijjane." />
+            </h1>
 
-        <div className="relative">
-          <Image
-            src="/images/hero.jpg"
-            alt="Screenshot of my distributed systems dashboard"
-            width={1600}
-            height={900}
-            priority
-            className="h-auto w-full rounded-2xl shadow-2xl"
-          />
-        </div>
+            {/* Role line */}
+            <p className="mt-6 text-xl font-bold text-neutral-800 sm:text-2xl lg:text-3xl">
+              {t("role")}
+            </p>
+
+            {/* Supporting sentence */}
+            <p className="mt-4 max-w-xl text-base leading-relaxed text-neutral-600 sm:text-lg lg:text-xl">
+              {t("supporting")}
+            </p>
+
+            {/* CTA Button */}
+            <div className="mt-10">
+              <GetInTouchButton href="#contact" label={tc("get_in_touch")} />
+            </div>
+          </div>
+        </GlassCard>
       </div>
+      <ScrollCue />
     </section>
   );
 }

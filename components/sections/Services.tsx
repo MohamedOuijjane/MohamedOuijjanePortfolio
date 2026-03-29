@@ -1,61 +1,87 @@
-export function Services() {
-  const services = [
-    {
-      title: "Web Development",
-      description:
-        "Building fast, responsive, and accessible websites using modern frameworks like React and Next.js.",
-      icon: (
-        <svg className="h-8 w-8 text-[#2FAE8A]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-        </svg>
-      ),
-    },
-    {
-      title: "Backend Solutions",
-      description:
-        "Designing robust APIs and database architectures that scale with your business needs.",
-      icon: (
-        <svg className="h-8 w-8 text-[#2FAE8A]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01" />
-        </svg>
-      ),
-    },
-    {
-      title: "UI/UX Design",
-      description:
-        "Creating intuitive and aesthetically pleasing interfaces that drive user engagement.",
-      icon: (
-        <svg className="h-8 w-8 text-[#2FAE8A]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
-        </svg>
-      ),
-    },
-  ];
+"use client";
+
+import { useState } from "react";
+import { useTranslations } from "next-intl";
+import { GlassCard } from "@/components/ui/GlassCard";
+import { serviceCards } from "@/data/services";
+import { ServiceHoverList } from "@/components/ui/service-hover-list";
+import { satoshi } from "@/lib/fonts";
+import { GetInTouchButton } from "@/components/ui/get-in-touch-button";
+import { motion, AnimatePresence } from "framer-motion";
+
+type ServicesVariant = "home" | "about";
+
+export function ServicesSection({ variant }: { variant: ServicesVariant }) {
+  const t = useTranslations("services");
+  const [isExpanded, setIsExpanded] = useState(false);
+  const isHome = variant === "home";
+
+  // Show 3 cards initially on home, all cards on about or if expanded
+  const cards = isHome && !isExpanded ? serviceCards.slice(0, 3) : serviceCards;
+  const withHomeOffset = isHome;
 
   return (
-    <section id="services" className="scroll-mt-24 py-20">
-      <div className="mb-12">
-        <h2 className="text-3xl font-bold text-[#0B0F14] md:text-4xl">What I Do</h2>
-        <p className="mt-4 max-w-2xl text-lg text-gray-600">
-          I help businesses and individuals bring their ideas to life with high-quality
-          technical solutions.
-        </p>
-      </div>
+    <section
+      id="services"
+      className={`scroll-mt-24 ${
+        isHome ? "py-20" : "pb-8 pt-8 transform -translate-y-[2.5cm]"
+      } ${satoshi.variable} font-sans`}
+    >
+      <GlassCard
+        className={`relative z-10 transform px-8 py-[calc(2.5rem+1cm)] sm:px-12 sm:py-[calc(3rem+1cm)] lg:px-16 ${
+          withHomeOffset
+            ? "-translate-y-[3cm] lg:w-[calc(100%+75px)] lg:-translate-x-[75px]"
+            : "w-[calc(100%+4cm)] -ml-[2cm]"
+        }`}
+        fadeSize="80px"
+      >
+        <div className="mb-12">
+          <h2 className="font-sans text-4xl font-bold tracking-tight text-[#0B0F14] md:text-5xl">
+            {t("heading")}
+          </h2>
+          <p className="mt-6 max-w-2xl font-sans text-xl text-gray-600 leading-relaxed">
+            {t("subheading")}
+          </p>
+        </div>
 
-      <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-        {services.map((service) => (
-          <div
-            key={service.title}
-            className="rounded-2xl border border-gray-100 bg-white p-8 shadow-sm transition-all hover:border-[#2FAE8A]/20 hover:shadow-md"
-          >
-            <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-lg bg-[#2FAE8A]/10">
-              {service.icon}
-            </div>
-            <h3 className="mb-3 text-xl font-bold text-[#0B0F14]">{service.title}</h3>
-            <p className="text-gray-600">{service.description}</p>
+        <div className="relative">
+          <AnimatePresence initial={false} mode="wait">
+            <motion.div
+              key={isExpanded ? "expanded" : "collapsed"}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.4, ease: "easeOut" }}
+            >
+              <ServiceHoverList items={cards} />
+            </motion.div>
+          </AnimatePresence>
+        </div>
+
+        {isHome && serviceCards.length > 3 && (
+          <div className="mt-10 flex justify-center">
+            {!isExpanded ? (
+              <button
+                onClick={() => setIsExpanded(true)}
+                className="group relative flex items-center justify-center gap-2 rounded-full bg-[#0B0F14] px-8 py-3.5 text-sm font-bold text-white transition-all hover:bg-neutral-800 active:scale-95"
+              >
+                {t("see_more")}
+              </button>
+            ) : (
+              <button
+                onClick={() => setIsExpanded(false)}
+                className="group relative flex items-center justify-center gap-2 rounded-full border border-neutral-200 bg-white px-8 py-3.5 text-sm font-bold text-[#0B0F14] transition-all hover:bg-neutral-50 active:scale-95"
+              >
+                {t("show_less")}
+              </button>
+            )}
           </div>
-        ))}
-      </div>
+        )}
+      </GlassCard>
     </section>
   );
+}
+
+export function Services() {
+  return <ServicesSection variant="home" />;
 }
