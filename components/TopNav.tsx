@@ -160,6 +160,8 @@ export function TopNav() {
 
   const isResumeExpanded = isResumeHovered || isResumeFocused;
 
+  const cvPath = locale === "fr" ? "/cv/CV_FR.pdf" : "/cv/CV_EN.pdf";
+
   const activeNavKey = getActiveNavKey(pathname);
 
   const toggleLanguage = () => {
@@ -473,7 +475,7 @@ export function TopNav() {
                     onClick={() => setIsProjectsOpen(false)}
                   />
                   <DropdownTile
-                    href="/resume.pdf"
+                    href={cvPath}
                     title={t("resume")}
                     description={t("resume_desc")}
                     icon={<FileTextIcon className="h-5 w-5" />}
@@ -542,7 +544,7 @@ export function TopNav() {
 
             {/* Resume Button */}
             <motion.a
-              href="/resume.pdf"
+              href={cvPath}
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Download resume"
@@ -674,7 +676,7 @@ export function TopNav() {
                     </li>
                     <li>
                       <a
-                        href="/resume.pdf"
+                        href={cvPath}
                         target="_blank"
                         rel="noopener noreferrer"
                         onClick={handleMobileNavClick}

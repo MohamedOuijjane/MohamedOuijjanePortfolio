@@ -1,5 +1,9 @@
 import { NextIntlClientProvider } from "next-intl";
-import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
+import {
+  getMessages,
+  getTranslations,
+  setRequestLocale,
+} from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import { satoshi } from "@/lib/fonts";
@@ -7,6 +11,7 @@ import "@/styles/globals.css";
 import WebVitals from "@/app/_components/WebVitals";
 import { BackToTop } from "@/components/BackToTop";
 import { Preloader } from "@/components/Preloader";
+import { PageFadeWrapper } from "@/components/PageFadeWrapper";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -49,11 +54,17 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale} className={`${satoshi.variable} font-sans`}>
+      <head>
+        <meta name="theme-color" content="#ffffff" />
+        <style dangerouslySetInnerHTML={{ __html: `html, body { background-color: #ffffff !important; }` }} />
+      </head>
       <body className="antialiased min-h-screen flex flex-col overflow-x-hidden">
         <NextIntlClientProvider messages={messages} locale={locale}>
           <Preloader />
           <WebVitals />
-          <main className="flex-1">{children}</main>
+          <PageFadeWrapper>
+            <main className="flex-1">{children}</main>
+          </PageFadeWrapper>
           <BackToTop />
         </NextIntlClientProvider>
       </body>
