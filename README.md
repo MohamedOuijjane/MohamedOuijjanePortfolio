@@ -14,7 +14,7 @@
 
 ## 🌐 Live Demo
 
-👉 https://wejan.vercel.app
+👉 https://mohamedouijjane.me
 
 ---
 
@@ -255,7 +255,7 @@ npm run start
 
 **Mohamed Ouijjane**
 
-* 🌐 https://wejan.vercel.app
+* 🌐 https://mohamedouijjane.me
 * 💻 https://github.com/MohamedOuijjane
 
 ---
